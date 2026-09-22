@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Alumnos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2563eb;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Gestión de Alumnos</h1>
+
+    <a href="{{ route('alumnos.create') }}" class="btn">
+        Registrar Alumno
+    </a>
+
+    @if (session('success'))
+        <p style="color: green;">
+            {{ session('success') }}
+        </p>
+    @endif
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Matrícula</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Email</th>
+                <th>Grado</th>
+                <th>Grupo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @forelse ($alumnos as $alumno)
+                <tr>
+                    <td>{{ $alumno->id }}</td>
+                    <td>{{ $alumno->idmatricula }}</td>
+                    <td>{{ $alumno->nombres }}</td>
+                    <td>{{ $alumno->apellidos }}</td>
+                    <td>{{ $alumno->email }}</td>
+                    <td>{{ $alumno->grado }}</td>
+                    <td>{{ $alumno->grupo }}</td>
+                    <td>
+                        <a href="{{ route('alumnos.edit', $alumno) }}">
+                            Editar
+                        </a>
+
+                        <form action="{{ route('alumnos.destroy', $alumno) }}"
+                              method="POST"
+                              style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit"
+                                    onclick="return confirm('¿Deseas eliminar este alumno?');">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="8">
+                        No hay alumnos registrados.
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+
+</body>
+</html>
