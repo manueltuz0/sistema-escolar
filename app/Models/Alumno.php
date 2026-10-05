@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Alumno extends Model
 {
-    use HasFactory;
+    
 
     protected $table = 'alumnos';
 
@@ -19,8 +19,27 @@ class Alumno extends Model
         'grupo_id',
     ];
 
+    /**
+     * Grupo al que pertenece el alumno.
+     */
     public function grupo()
     {
         return $this->belongsTo(Grupo::class);
+    }
+
+    /**
+     * Incidencias registradas del alumno.
+     */
+    public function incidencias()
+    {
+        return $this->hasMany(Incidencia::class);
+    }
+
+    /**
+     * Tutorías registradas del alumno.
+     */
+    public function tutorias()
+    {
+        return $this->hasMany(Tutoria::class);
     }
 }

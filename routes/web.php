@@ -7,6 +7,10 @@ use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\AsignacionMateriaController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\AulaController;
+use App\Http\Controllers\CalificacionController;
+use App\Http\Controllers\IncidenciaController;
+use App\Http\Controllers\TutoriaController;
+use App\Http\Controllers\GrupoController;
 
 use App\Models\Horario;
 use App\Models\AsignacionMateria;
@@ -17,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Página principal
+| PÁGINA PRINCIPAL
 |--------------------------------------------------------------------------
 */
 
@@ -28,38 +32,59 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Dashboard
+| DASHBOARD
 |--------------------------------------------------------------------------
 */
 
 Route::get('/dashboard', function () {
 
-    // Horarios registrados
+    /*
+    |--------------------------------------------------------------------------
+    | Horarios registrados
+    |--------------------------------------------------------------------------
+    */
+
     $horarios = Horario::with([
         'asignacionMateria.docente',
         'asignacionMateria.materia',
         'asignacionMateria.grupo',
         'aula'
     ])
-    ->orderBy('hora_inicio')
-    ->get();
+        ->orderBy('hora_inicio')
+        ->get();
 
 
-    // Asignaciones disponibles para registrar horarios
+    /*
+    |--------------------------------------------------------------------------
+    | Asignaciones disponibles
+    |--------------------------------------------------------------------------
+    */
+
     $asignaciones = AsignacionMateria::with([
         'docente',
         'materia',
         'grupo',
         'cicloEscolar'
     ])
-    ->get();
+        ->get();
 
 
-    // Aulas disponibles
+    /*
+    |--------------------------------------------------------------------------
+    | Aulas disponibles
+    |--------------------------------------------------------------------------
+    */
+
     $aulas = Aula::where('disponible', true)
         ->orderBy('nombre')
         ->get();
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Mostrar dashboard
+    |--------------------------------------------------------------------------
+    */
 
     return view('dashboard', compact(
         'horarios',
@@ -72,58 +97,83 @@ Route::get('/dashboard', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Rutas protegidas
+| RUTAS PROTEGIDAS
 |--------------------------------------------------------------------------
 */
 
 Route::middleware('auth')->group(function () {
 
+/*
+|--------------------------------------------------------------------------
+| GESTIÓN DE GRUPOS
+|--------------------------------------------------------------------------
+*/
+
+Route::resource(
+    'grupos',
+    GrupoController::class
+);
     /*
     |--------------------------------------------------------------------------
-    | Perfil
+    | PERFIL
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/profile', [ProfileController::class, 'edit'])
-        ->name('profile.edit');
+    Route::get(
+        '/profile',
+        [ProfileController::class, 'edit']
+    )->name('profile.edit');
 
-    Route::patch('/profile', [ProfileController::class, 'update'])
-        ->name('profile.update');
+    Route::patch(
+        '/profile',
+        [ProfileController::class, 'update']
+    )->name('profile.update');
 
-    Route::delete('/profile', [ProfileController::class, 'destroy'])
-        ->name('profile.destroy');
+    Route::delete(
+        '/profile',
+        [ProfileController::class, 'destroy']
+    )->name('profile.destroy');
 
 
     /*
     |--------------------------------------------------------------------------
-    | Gestión de Alumnos
+    | GESTIÓN DE ALUMNOS
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('alumnos', AlumnoController::class);
+    Route::resource(
+        'alumnos',
+        AlumnoController::class
+    );
 
 
     /*
     |--------------------------------------------------------------------------
-    | Gestión de Materias
+    | GESTIÓN DE MATERIAS
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('materias', MateriaController::class);
+    Route::resource(
+        'materias',
+        MateriaController::class
+    );
 
 
     /*
     |--------------------------------------------------------------------------
-    | Gestión de Docentes
+    | GESTIÓN DE DOCENTES
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('docentes', DocenteController::class);
+    Route::resource(
+        'docentes',
+        DocenteController::class
+    );
 
 
     /*
     |--------------------------------------------------------------------------
-    | Asignación de Materias
+    | ASIGNACIÓN DE MATERIAS
     |--------------------------------------------------------------------------
     */
 
@@ -135,27 +185,131 @@ Route::middleware('auth')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Horarios
+    | HORARIOS
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('horarios', HorarioController::class);
+    Route::resource(
+        'horarios',
+        HorarioController::class
+    );
 
 
     /*
     |--------------------------------------------------------------------------
-    | Aulas
+    | AULAS
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('aulas', AulaController::class);
+    Route::resource(
+        'aulas',
+        AulaController::class
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CALIFICACIONES
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/calificaciones',
+        [CalificacionController::class, 'index']
+    )->name('calificaciones.index');
+
+    Route::post(
+        '/calificaciones',
+        [CalificacionController::class, 'store']
+    )->name('calificaciones.store');
+
+    Route::get(
+        '/calificaciones/boleta/{alumno}',
+        [CalificacionController::class, 'boleta']
+    )->name('calificaciones.boleta');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | INCIDENCIAS Y TUTORÍAS
+    |--------------------------------------------------------------------------
+    */
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | HISTORIAL DEL ALUMNO
+    |--------------------------------------------------------------------------
+    |
+    | Aquí podremos consultar todo el seguimiento del alumno:
+    |
+    | - Datos personales
+    | - Grupo
+    | - Incidencias
+    | - Tutorías
+    | - Seguimiento de incidencias
+    |
+    | Ejemplo:
+    |
+    | /incidencias/alumno/2/historial
+    |
+    */
+
+    Route::get(
+        '/incidencias/alumno/{alumno}/historial',
+        [IncidenciaController::class, 'historial']
+    )->name('incidencias.historial');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | INCIDENCIAS
+    |--------------------------------------------------------------------------
+    |
+    | GET       /incidencias
+    | GET       /incidencias/create
+    | POST      /incidencias
+    | GET       /incidencias/{incidencia}
+    | GET       /incidencias/{incidencia}/edit
+    | PUT       /incidencias/{incidencia}
+    | PATCH     /incidencias/{incidencia}
+    | DELETE    /incidencias/{incidencia}
+    |
+    */
+
+    Route::resource(
+        'incidencias',
+        IncidenciaController::class
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | TUTORÍAS
+    |--------------------------------------------------------------------------
+    |
+    | GET       /tutorias
+    | GET       /tutorias/create
+    | POST      /tutorias
+    | GET       /tutorias/{tutoria}
+    | GET       /tutorias/{tutoria}/edit
+    | PUT       /tutorias/{tutoria}
+    | PATCH     /tutorias/{tutoria}
+    | DELETE    /tutorias/{tutoria}
+    |
+    */
+
+    Route::resource(
+        'tutorias',
+        TutoriaController::class
+    );
 
 });
 
 
 /*
 |--------------------------------------------------------------------------
-| Autenticación
+| AUTENTICACIÓN
 |--------------------------------------------------------------------------
 */
 

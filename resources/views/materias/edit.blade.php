@@ -1,9 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Editar Materia</title>
 
     <style>
@@ -15,12 +15,12 @@
         }
 
         .contenedor {
-            max-width: 600px;
+            max-width: 650px;
             margin: auto;
             background: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
         h1 {
@@ -36,7 +36,8 @@
         }
 
         input,
-        textarea {
+        textarea,
+        select {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -46,6 +47,7 @@
 
         textarea {
             resize: vertical;
+            min-height: 100px;
         }
 
         .campo-checkbox {
@@ -61,112 +63,188 @@
 
         .botones {
             margin-top: 25px;
-            display: flex;
-            gap: 10px;
         }
 
-        button,
-        .cancelar {
-            padding: 10px 18px;
+        .boton {
+            display: inline-block;
+            padding: 10px 15px;
             border: none;
             border-radius: 5px;
-            cursor: pointer;
             text-decoration: none;
+            cursor: pointer;
             font-size: 14px;
         }
 
-        button {
-            background: #2563eb;
+        .actualizar {
+            background-color: #2563eb;
             color: white;
         }
 
         .cancelar {
-            background: #6b7280;
+            background-color: #6c757d;
             color: white;
+            margin-left: 8px;
         }
 
         .errores {
-            background: #fee2e2;
-            color: #991b1b;
-            padding: 10px;
+            background-color: #f8d7da;
+            color: #842029;
+            padding: 12px;
             border-radius: 5px;
             margin-bottom: 15px;
         }
+
+        .errores ul {
+            margin: 0;
+            padding-left: 20px;
+        }
     </style>
 </head>
+
 <body>
 
 <div class="contenedor">
 
     <h1>Editar Materia</h1>
 
-    @if ($errors->any())
+    @if($errors->any())
         <div class="errores">
             <ul>
-                @foreach ($errors->all() as $error)
+                @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
         </div>
     @endif
 
-    <form action="{{ route('materias.update', $materia->id) }}" method="POST">
+    <form
+        action="{{ route('materias.update', $materia->id) }}"
+        method="POST">
+
         @csrf
         @method('PUT')
 
-        <label for="clave">Clave de la materia</label>
+
+        {{-- CLAVE --}}
+        <label for="clave">
+            Clave de la materia:
+        </label>
+
         <input
             type="text"
-            id="clave"
             name="clave"
+            id="clave"
             value="{{ old('clave', $materia->clave) }}"
+            placeholder="Ejemplo: MAT001"
             required
-        >
+            maxlength="50">
 
-        <label for="nombre">Nombre de la materia</label>
+
+        {{-- NOMBRE --}}
+        <label for="nombre">
+            Nombre de la materia:
+        </label>
+
         <input
             type="text"
-            id="nombre"
             name="nombre"
+            id="nombre"
             value="{{ old('nombre', $materia->nombre) }}"
+            placeholder="Ejemplo: Matemáticas"
             required
-        >
+            maxlength="150">
 
-        <label for="horas_semana">Horas por semana</label>
+
+        {{-- HORAS POR SEMANA --}}
+        <label for="horas_semana">
+            Horas por semana:
+        </label>
+
         <input
             type="number"
-            id="horas_semana"
             name="horas_semana"
-            min="1"
+            id="horas_semana"
             value="{{ old('horas_semana', $materia->horas_semana) }}"
-            required
-        >
+            min="1"
+            max="20"
+            required>
 
-        <label for="descripcion">Descripción</label>
+
+        {{-- DESCRIPCIÓN --}}
+        <label for="descripcion">
+            Descripción:
+        </label>
+
         <textarea
-            id="descripcion"
             name="descripcion"
-            rows="4"
-        >{{ old('descripcion', $materia->descripcion) }}</textarea>
+            id="descripcion"
+            placeholder="Descripción de la materia">{{ old('descripcion', $materia->descripcion) }}</textarea>
 
+
+        {{-- SEMESTRE --}}
+        <label for="semestre">
+            Semestre:
+        </label>
+
+        <select
+            name="semestre"
+            id="semestre"
+            required>
+
+            <option value="">
+                Selecciona el semestre
+            </option>
+
+            @for($i = 1; $i <= 6; $i++)
+
+                <option
+                    value="{{ $i }}"
+                    {{ old('semestre', $materia->semestre) == $i ? 'selected' : '' }}>
+
+                    {{ $i }}° semestre
+
+                </option>
+
+            @endfor
+
+        </select>
+
+
+        {{-- MATERIA ACTIVA --}}
         <label class="campo-checkbox">
+
             <input
                 type="checkbox"
                 name="activa"
                 value="1"
-                {{ old('activa', $materia->activa) ? 'checked' : '' }}
-            >
+                {{ old('activa', $materia->activa) ? 'checked' : '' }}>
 
             Materia activa
+
         </label>
 
-        <div class="botones">
-            <button type="submit">Actualizar materia</button>
 
-            <a href="{{ route('materias.index') }}" class="cancelar">
+        {{-- BOTONES --}}
+        <div class="botones">
+
+            <button
+                type="submit"
+                class="boton actualizar">
+
+                Actualizar Materia
+
+            </button>
+
+            <a
+                href="{{ route('materias.index') }}"
+                class="boton cancelar">
+
                 Cancelar
+
             </a>
+
         </div>
+
     </form>
 
 </div>

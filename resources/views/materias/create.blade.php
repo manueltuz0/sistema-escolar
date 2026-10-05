@@ -112,6 +112,7 @@
 
         @csrf
 
+        {{-- CLAVE --}}
         <label for="clave">
             Clave de la materia:
         </label>
@@ -126,6 +127,7 @@
             maxlength="50">
 
 
+        {{-- NOMBRE --}}
         <label for="nombre">
             Nombre de la materia:
         </label>
@@ -140,6 +142,22 @@
             maxlength="150">
 
 
+        {{-- HORAS POR SEMANA --}}
+        <label for="horas_semana">
+            Horas por semana:
+        </label>
+
+        <input
+            type="number"
+            name="horas_semana"
+            id="horas_semana"
+            value="{{ old('horas_semana', 5) }}"
+            min="1"
+            max="20"
+            required>
+
+
+        {{-- DESCRIPCIÓN --}}
         <label for="descripcion">
             Descripción:
         </label>
@@ -150,6 +168,7 @@
             placeholder="Descripción de la materia">{{ old('descripcion') }}</textarea>
 
 
+        {{-- SEMESTRE --}}
         <label for="semestre">
             Semestre:
         </label>
@@ -178,6 +197,7 @@
         </select>
 
 
+        {{-- BOTONES --}}
         <div class="botones">
 
             <button

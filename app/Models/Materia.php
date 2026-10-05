@@ -14,7 +14,15 @@ class Materia extends Model
     protected $fillable = [
         'clave',
         'nombre',
+        'horas_semana',
         'descripcion',
         'semestre',
+        'activa',
+    ];
+
+    protected $casts = [
+        'horas_semana' => 'integer',
+        'semestre' => 'integer',
+        'activa' => 'boolean',
     ];
 }

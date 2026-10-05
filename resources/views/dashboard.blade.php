@@ -130,6 +130,7 @@
             background: #9ca3af;
             cursor: not-allowed;
         }
+        
 
         @media (max-width: 640px) {
 
@@ -281,31 +282,32 @@
 
                 {{-- 4. CALIFICACIONES --}}
 
-                <div class="module-card">
+<a href="{{ route('calificaciones.index') }}"
+   class="module-card"
+   style="text-decoration: none; color: inherit; cursor: pointer;">
 
-                    <div class="module-number">
-                        4
-                    </div>
+    <div class="module-number">
+        4
+    </div>
 
-                    <h3>
-                        Captura de Calificaciones y Boletas
-                    </h3>
+    <h3>
+        Captura de Calificaciones y Boletas
+    </h3>
 
-                    <span class="module-status status-development">
-                        En desarrollo
-                    </span>
+    <span class="module-status status-available">
+        Disponible
+    </span>
 
-                    <p>
-                        Permitirá capturar calificaciones
-                        y generar boletas en línea.
-                    </p>
+    <p>
+        Permite capturar calificaciones de los alumnos,
+        consultar parciales y generar boletas.
+    </p>
 
-                    <span class="module-button disabled">
-                        Próximamente
-                    </span>
+    <span class="module-button">
+        Entrar
+    </span>
 
-                </div>
-
+</a>
 
                 {{-- 5. CENTROS DE CÓMPUTO --}}
 
@@ -337,58 +339,85 @@
 
                 {{-- 6. INCIDENCIAS --}}
 
-                <div class="module-card">
+<a href="{{ route('incidencias.index') }}"
+   class="module-card"
+   style="text-decoration: none; color: inherit; cursor: pointer;">
 
-                    <div class="module-number">
-                        6
-                    </div>
+    <div class="module-number">
+        6
+    </div>
 
-                    <h3>
-                        Incidencias y Tutorías
-                    </h3>
+    <h3>
+        Incidencias y Tutorías
+    </h3>
 
-                    <span class="module-status status-development">
-                        En desarrollo
-                    </span>
+    <span class="module-status status-development">
+        Disponible
+    </span>
 
-                    <p>
-                        Permitirá registrar incidencias,
-                        tutorías, observaciones y seguimiento.
-                    </p>
+    <p>
+        Permite registrar incidencias,
+        tutorías, observaciones y seguimiento
+        de los alumnos.
+    </p>
 
-                    <span class="module-button disabled">
-                        Próximamente
-                    </span>
+    <span class="module-button">
+        Entrar
+    </span>
 
-                </div>
+</a>
 
 
-                {{-- 7. DOCUMENTOS --}}
+                {{-- 7. GESTION DE GRUPO --}}
 
-                <div class="module-card">
+                {{-- ===================================================== --}}
+{{-- 7. GESTIÓN DE GRUPOS --}}
+{{-- ===================================================== --}}
 
-                    <div class="module-number">
-                        7
-                    </div>
+{{-- ===================================================== --}}
+{{-- 7. GESTIÓN DE GRUPOS --}}
+{{-- ===================================================== --}}
 
-                    <h3>
-                        Generación Automática de Documentos
-                    </h3>
+<div class="module-card">
 
-                    <span class="module-status status-development">
-                        En desarrollo
-                    </span>
+    <div class="module-number">
+        7
+    </div>
 
-                    <p>
-                        Generará automáticamente documentos
-                        escolares y reportes.
-                    </p>
+    <h3>
+        Gestión de Grupos
+    </h3>
 
-                    <span class="module-button disabled">
-                        Próximamente
-                    </span>
+    <span class="status available">
+        Disponible
+    </span>
 
-                </div>
+    <p>
+        Permite administrar los grupos escolares,
+        consultar sus alumnos y organizar la información
+        por grado y ciclo escolar.
+    </p>
+
+    <a
+        href="{{ route('grupos.index') }}"
+        style="
+            display: inline-block;
+            width: 100%;
+            padding: 10px 16px;
+            background: #2563eb;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 10px;
+        "
+    >
+        Administrar grupos
+    </a>
+
+</div>
 
 
                 {{-- 8. USUARIOS --}}

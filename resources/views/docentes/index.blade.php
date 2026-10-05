@@ -1,169 +1,544 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Gestión de Docentes</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
+            margin: 0;
             font-family: Arial, sans-serif;
-            margin: 30px;
-            background-color: #f4f6f9;
+            background: #f3f4f6;
+            color: #1f2937;
         }
 
-        h1 {
-            color: #333;
+        .contenedor {
+            max-width: 1450px;
+            margin: 0 auto;
+            padding: 35px;
         }
 
-        .btn {
+        /* Encabezado */
+        .encabezado {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 20px;
+        }
+
+        .titulo h1 {
+            margin: 0;
+            font-size: 32px;
+            color: #1f2937;
+        }
+
+        .titulo p {
+            margin: 7px 0 0;
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        /* Botón registrar */
+        .btn-registrar {
             display: inline-block;
-            padding: 10px 15px;
-            margin-bottom: 20px;
-            background-color: #2563eb;
+            background: #2563eb;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            padding: 12px 20px;
+            border-radius: 7px;
+            font-weight: bold;
+            transition: 0.2s;
         }
 
-        .btn:hover {
-            background-color: #1d4ed8;
+        .btn-registrar:hover {
+            background: #1d4ed8;
         }
 
-        .success {
-            background-color: #d1fae5;
-            color: #065f46;
-            padding: 12px;
+        /* Mensaje */
+        .mensaje {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            padding: 13px 16px;
+            border-radius: 7px;
             margin-bottom: 20px;
-            border-radius: 5px;
+        }
+
+        /* Tarjeta */
+        .tarjeta {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        /* Barra superior */
+        .barra {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .barra h2 {
+            margin: 0;
+            font-size: 19px;
+            color: #374151;
+        }
+
+        /* Buscador */
+        .buscador {
+            position: relative;
+            width: 350px;
+        }
+
+        .buscador input {
+            width: 100%;
+            padding: 11px 15px 11px 42px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .buscador input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+        }
+
+        .icono-busqueda {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        /* Tabla */
+        .tabla-contenedor {
+            width: 100%;
+            overflow-x: auto;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background-color: white;
         }
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
+        thead {
+            background: #2563eb;
+            color: white;
         }
 
         th {
-            background-color: #2563eb;
-            color: white;
+            padding: 14px 12px;
+            text-align: left;
+            font-size: 14px;
+            white-space: nowrap;
         }
 
-        tr:nth-child(even) {
-            background-color: #f9fafb;
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+            vertical-align: middle;
         }
 
-        .acciones a,
-        .acciones button {
-            margin-right: 5px;
-            padding: 6px 10px;
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        /* Nombre */
+        .nombre-docente {
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .correo {
+            color: #4b5563;
+        }
+
+        /* Especialidad */
+        .especialidad {
+            display: inline-block;
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Acciones */
+        .acciones {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
             border: none;
-            border-radius: 4px;
+            color: white;
             text-decoration: none;
+            padding: 7px 11px;
+            border-radius: 5px;
+            font-size: 13px;
             cursor: pointer;
+            display: inline-block;
         }
 
-        .ver {
-            background-color: #16a34a;
-            color: white;
+        .btn-ver {
+            background: #16a34a;
         }
 
-        .editar {
-            background-color: #f59e0b;
-            color: white;
+        .btn-ver:hover {
+            background: #15803d;
         }
 
-        .eliminar {
-            background-color: #dc2626;
-            color: white;
+        .btn-editar {
+            background: #f59e0b;
         }
 
-        .acciones form {
-            display: inline;
+        .btn-editar:hover {
+            background: #d97706;
+        }
+
+        .btn-eliminar {
+            background: #dc2626;
+        }
+
+        .btn-eliminar:hover {
+            background: #b91c1c;
+        }
+
+        /* Sin resultados */
+        .sin-resultados {
+            display: none;
+            text-align: center;
+            padding: 35px;
+            color: #6b7280;
+        }
+
+        /* Contador */
+        .contador {
+            padding: 14px 20px;
+            color: #6b7280;
+            font-size: 13px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* Responsive */
+        @media (max-width: 800px) {
+
+            .contenedor {
+                padding: 20px;
+            }
+
+            .encabezado {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .barra {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .buscador {
+                width: 100%;
+            }
+
+            .titulo h1 {
+                font-size: 27px;
+            }
         }
     </style>
 </head>
+
 <body>
 
-    <h1>Gestión de Docentes</h1>
+<div class="contenedor">
 
-    <a href="{{ route('docentes.create') }}" class="btn">
-        Registrar Docente
-    </a>
+    {{-- ENCABEZADO --}}
+    <div class="encabezado">
 
-    @if (session('success'))
-        <div class="success">
+        <div class="titulo">
+            <h1>Gestión de Docentes</h1>
+
+            <p>
+                Administra y consulta la información de los docentes registrados.
+            </p>
+        </div>
+
+        <a href="{{ route('docentes.create') }}" class="btn-registrar">
+            + Registrar Docente
+        </a>
+
+    </div>
+
+
+    {{-- MENSAJE DE ÉXITO --}}
+    @if(session('success'))
+
+        <div class="mensaje">
             {{ session('success') }}
         </div>
+
     @endif
 
-    @if ($docentes->count() > 0)
 
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Número de empleado</th>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                    <th>Correo</th>
-                    <th>Teléfono</th>
-                    <th>Especialidad</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
+    {{-- TARJETA PRINCIPAL --}}
+    <div class="tarjeta">
 
-            <tbody>
-                @foreach ($docentes as $docente)
+        {{-- BARRA --}}
+        <div class="barra">
+
+            <h2>Docentes registrados</h2>
+
+            <div class="buscador">
+
+                <span class="icono-busqueda">🔍</span>
+
+                <input
+                    type="text"
+                    id="buscador"
+                    placeholder="Buscar docente..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+        </div>
+
+
+        {{-- TABLA --}}
+        <div class="tabla-contenedor">
+
+            <table id="tablaDocentes">
+
+                <thead>
+
                     <tr>
-                        <td>{{ $docente->id }}</td>
-                        <td>{{ $docente->numero_empleado }}</td>
-                        <td>{{ $docente->nombres }}</td>
-                        <td>{{ $docente->apellidos }}</td>
-                        <td>{{ $docente->email }}</td>
-                        <td>{{ $docente->telefono ?? 'No registrado' }}</td>
-                        <td>{{ $docente->especialidad ?? 'No registrada' }}</td>
-
-                        <td class="acciones">
-                            <a href="{{ route('docentes.show', $docente->id) }}"
-                               class="ver">
-                                Ver
-                            </a>
-
-                            <a href="{{ route('docentes.edit', $docente->id) }}"
-                               class="editar">
-                                Editar
-                            </a>
-
-                            <form action="{{ route('docentes.destroy', $docente->id) }}"
-                                  method="POST"
-                                  onsubmit="return confirm('¿Deseas eliminar este docente?');">
-
-                                @csrf
-                                @method('DELETE')
-
-                                <button type="submit" class="eliminar">
-                                    Eliminar
-                                </button>
-                            </form>
-                        </td>
+                        <th>ID</th>
+                        <th>Número de empleado</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Teléfono</th>
+                        <th>Especialidad</th>
+                        <th>Acciones</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
 
-    @else
+                </thead>
 
-        <p>No hay docentes registrados todavía.</p>
+                <tbody>
 
-    @endif
+                    @forelse($docentes as $docente)
+
+                        <tr class="fila-docente">
+
+                            {{-- ID --}}
+                            <td>
+                                {{ $docente->id }}
+                            </td>
+
+
+                            {{-- Número de empleado --}}
+                            <td>
+                                <strong>
+                                    {{ $docente->numero_empleado }}
+                                </strong>
+                            </td>
+
+
+                            {{-- Nombre --}}
+                            <td>
+
+                                <div class="nombre-docente">
+                                    {{ $docente->nombres }}
+                                    {{ $docente->apellidos }}
+                                </div>
+
+                            </td>
+
+
+                            {{-- Correo --}}
+                            <td>
+
+                                <span class="correo">
+                                    {{ $docente->email }}
+                                </span>
+
+                            </td>
+
+
+                            {{-- Teléfono --}}
+                            <td>
+                                {{ $docente->telefono }}
+                            </td>
+
+
+                            {{-- Especialidad --}}
+                            <td>
+
+                                <span class="especialidad">
+                                    {{ $docente->especialidad }}
+                                </span>
+
+                            </td>
+
+
+                            {{-- Acciones --}}
+                            <td>
+
+                                <div class="acciones">
+
+                                    <a
+                                        href="{{ route('docentes.show', $docente->id) }}"
+                                        class="btn btn-ver"
+                                    >
+                                        Ver
+                                    </a>
+
+                                    <a
+                                        href="{{ route('docentes.edit', $docente->id) }}"
+                                        class="btn btn-editar"
+                                    >
+                                        Editar
+                                    </a>
+
+                                    <form
+                                        action="{{ route('docentes.destroy', $docente->id) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('¿Estás seguro de eliminar este docente?');"
+                                        style="display:inline;"
+                                    >
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-eliminar"
+                                        >
+                                            Eliminar
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+
+                            <td colspan="7" style="text-align:center; padding:40px;">
+
+                                No hay docentes registrados.
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+
+            {{-- SIN RESULTADOS DE BÚSQUEDA --}}
+            <div
+                id="sinResultados"
+                class="sin-resultados"
+            >
+                No se encontraron docentes con esa búsqueda.
+            </div>
+
+        </div>
+
+
+        {{-- CONTADOR --}}
+        <div class="contador">
+
+            Total de docentes:
+            <strong id="contadorDocentes">
+                {{ $docentes->count() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{{-- BUSCADOR --}}
+<script>
+
+    const buscador = document.getElementById('buscador');
+
+    const filas = document.querySelectorAll('.fila-docente');
+
+    const sinResultados = document.getElementById('sinResultados');
+
+    const contador = document.getElementById('contadorDocentes');
+
+
+    buscador.addEventListener('input', function () {
+
+        const texto = this.value.toLowerCase().trim();
+
+        let encontrados = 0;
+
+
+        filas.forEach(function (fila) {
+
+            const contenido = fila.textContent.toLowerCase();
+
+            if (contenido.includes(texto)) {
+
+                fila.style.display = '';
+                encontrados++;
+
+            } else {
+
+                fila.style.display = 'none';
+
+            }
+
+        });
+
+
+        contador.textContent = encontrados;
+
+
+        if (encontrados === 0 && texto !== '') {
+
+            sinResultados.style.display = 'block';
+
+        } else {
+
+            sinResultados.style.display = 'none';
+
+        }
+
+    });
+
+</script>
 
 </body>
 </html>

@@ -473,17 +473,24 @@
 
     <div style="display: flex; gap: 8px; align-items: center;">
 
-        <a href="{{ route('materias.create') }}"
-           class="new-button">
+       <a href="{{ route('materias.create') }}"
+   class="new-button">
 
-            + Nueva Materia
+    + Nueva Materia
 
-        </a>
+</a>
 
-        <a href="{{ route('horarios.create') }}"
-           class="new-button">
+<a href="{{ route('asignaciones_materias.create') }}"
+   class="new-button">
 
-            + Nuevo Horario
+    + Asignar Materia
+
+</a>
+
+<a href="{{ route('horarios.create') }}"
+   class="new-button">
+
+    + Nuevo Horario
 
         </a>
 
