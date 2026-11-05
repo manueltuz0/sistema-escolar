@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use HasFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Alumno extends Model
 {
-    
+    use HasFactory;
 
     protected $table = 'alumnos';
 
@@ -19,27 +19,64 @@ class Alumno extends Model
         'grupo_id',
     ];
 
-    /**
-     * Grupo al que pertenece el alumno.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | GRUPO
+    |--------------------------------------------------------------------------
+    */
+
     public function grupo()
     {
         return $this->belongsTo(Grupo::class);
     }
 
-    /**
-     * Incidencias registradas del alumno.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | INCIDENCIAS
+    |--------------------------------------------------------------------------
+    */
+
     public function incidencias()
     {
         return $this->hasMany(Incidencia::class);
     }
 
-    /**
-     * Tutorías registradas del alumno.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | TUTORÍAS INDIVIDUALES
+    |--------------------------------------------------------------------------
+    */
+
     public function tutorias()
     {
-        return $this->hasMany(Tutoria::class);
+        return $this->hasMany(Tutoria::class, 'alumno_id');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACTIVIDADES GRUPALES DE TUTORÍA
+    |--------------------------------------------------------------------------
+    */
+
+    public function actividadesTutorias()
+    {
+        return $this->belongsToMany(
+            ActividadTutoria::class,
+            'actividad_tutoria_alumno',
+            'alumno_id',
+            'actividad_tutoria_id'
+        )->withPivot('asistencia', 'observaciones')
+         ->withTimestamps();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESPONSABLES DEL ALUMNO
+    |--------------------------------------------------------------------------
+    */
+
+    public function responsables()
+    {
+        return $this->hasMany(ResponsableAlumno::class, 'alumno_id');
     }
 }

@@ -2,15 +2,11 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Incidencias y Tutorías</title>
+    <title>Incidencias</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -18,13 +14,9 @@
         body {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
-            background: #f3f4f6;
-            color: #1f2937;
+            background: #F8F4F5;
+            color: #33262B;
         }
-
-        /* =========================================================
-           CONTENEDOR PRINCIPAL
-        ========================================================= */
 
         .contenedor {
             width: 94%;
@@ -33,16 +25,14 @@
             padding: 28px 0 40px;
         }
 
-
-        /* =========================================================
-           ENCABEZADO
-        ========================================================= */
+        /* ENCABEZADO */
 
         .encabezado {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
+            gap: 15px;
         }
 
         .titulo-area {
@@ -52,36 +42,31 @@
         }
 
         .icono-titulo {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: #2563eb;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #7B1E3A;
             color: white;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
-            font-size: 18px;
+            font-size: 20px;
         }
 
         .titulo-area h1 {
             margin: 0;
-            font-size: 24px;
-            font-weight: 600;
-            color: #1f2937;
+            font-size: 25px;
+            font-weight: 700;
+            color: #33262B;
         }
 
         .titulo-area p {
-            margin: 3px 0 0;
-            font-size: 12px;
-            color: #6b7280;
+            margin: 4px 0 0;
+            font-size: 13px;
+            color: #786A70;
         }
 
-
-        /* =========================================================
-           BOTONES SUPERIORES
-        ========================================================= */
+        /* BOTONES */
 
         .acciones-superiores {
             display: flex;
@@ -94,595 +79,342 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-
-            padding: 10px 16px;
-
-            border-radius: 7px;
-
+            padding: 11px 17px;
+            border-radius: 8px;
             text-decoration: none;
-
             font-size: 13px;
             font-weight: 600;
-
             border: none;
-
             cursor: pointer;
-
             transition: .2s;
         }
 
-        .btn-azul {
-            background: #2563eb;
+        .btn-vino {
+            background: #7B1E3A;
             color: white;
         }
 
-        .btn-azul:hover {
-            background: #1d4ed8;
+        .btn-vino:hover {
+            background: #5D142B;
         }
 
-        .btn-tutoria {
-            background: white;
-            color: #2563eb;
-            border: 1px solid #dbe2ea;
-        }
-
-        .btn-tutoria:hover {
-            background: #eff6ff;
-        }
-
-
-        /* =========================================================
-           TARJETAS DE ESTADÍSTICAS
-        ========================================================= */
-
-        .estadisticas {
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
-
-            gap: 18px;
-
-            margin-bottom: 22px;
-        }
-
-        .tarjeta-estadistica {
-            background: white;
-
-            border: 1px solid #e5e7eb;
-
-            border-radius: 10px;
-
-            min-height: 115px;
-
-            padding: 20px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            box-shadow:
-                0 1px 3px rgba(0, 0, 0, .04);
-        }
-
-        .estadistica-texto {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .estadistica-titulo {
-            font-size: 12px;
-            font-weight: 600;
-            color: #6b7280;
-
-            text-transform: uppercase;
-        }
-
-        .estadistica-numero {
-            font-size: 28px;
-            font-weight: 600;
-            color: #111827;
-        }
-
-        .estadistica-icono {
-            width: 42px;
-            height: 42px;
-
-            border-radius: 9px;
-
-            background: #eff6ff;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            font-size: 19px;
-        }
-
-
-        /* =========================================================
-           BUSCADOR
-        ========================================================= */
+        /* BUSCADOR */
 
         .buscador {
             background: white;
-
-            border: 1px solid #e5e7eb;
-
-            border-radius: 10px;
-
+            border: 1px solid #E7D9DE;
+            border-radius: 12px;
             padding: 20px;
-
             margin-bottom: 22px;
-
-            box-shadow:
-                0 1px 3px rgba(0, 0, 0, .04);
+            box-shadow: 0 2px 6px rgba(76, 28, 46, .04);
         }
 
         .buscador-titulo {
             font-size: 14px;
-            font-weight: 600;
-
+            font-weight: 700;
             margin-bottom: 12px;
-
-            color: #374151;
+            color: #4B3740;
         }
 
         .form-busqueda {
             display: flex;
-
             gap: 10px;
-
             align-items: center;
         }
 
         .input-busqueda {
             flex: 1;
-
-            height: 42px;
-
-            border: 1px solid #d1d5db;
-
-            border-radius: 7px;
-
+            min-width: 220px;
+            height: 44px;
+            border: 1px solid #D8C5CC;
+            border-radius: 8px;
             padding: 0 14px;
-
-            font-size: 13px;
-
+            font-size: 14px;
             outline: none;
         }
 
         .input-busqueda:focus {
-            border-color: #2563eb;
-
-            box-shadow:
-                0 0 0 2px rgba(37, 99, 235, .10);
+            border-color: #7B1E3A;
+            box-shadow: 0 0 0 3px rgba(123, 30, 58, .12);
         }
 
         .btn-buscar {
-            height: 42px;
-
+            height: 44px;
             padding: 0 20px;
-
             border: none;
-
-            border-radius: 7px;
-
-            background: #2563eb;
-
+            border-radius: 8px;
+            background: #7B1E3A;
             color: white;
-
             font-weight: 600;
-
             cursor: pointer;
         }
 
         .btn-buscar:hover {
-            background: #1d4ed8;
+            background: #5D142B;
         }
 
         .btn-limpiar {
-            height: 42px;
-
+            height: 44px;
             padding: 0 18px;
-
             display: flex;
-
             align-items: center;
-
             text-decoration: none;
-
-            background: #f3f4f6;
-
-            color: #374151;
-
-            border-radius: 7px;
-
+            background: #F2E7EB;
+            color: #551225;
+            border-radius: 8px;
             font-size: 13px;
-
             font-weight: 600;
         }
 
-
-        /* =========================================================
-           TABLA
-        ========================================================= */
+        /* TABLA */
 
         .tabla-contenedor {
             background: white;
-
-            border: 1px solid #e5e7eb;
-
-            border-radius: 10px;
-
+            border: 1px solid #E7D9DE;
+            border-radius: 12px;
             overflow: hidden;
-
-            box-shadow:
-                0 1px 3px rgba(0, 0, 0, .04);
+            box-shadow: 0 2px 6px rgba(76, 28, 46, .04);
         }
 
         .tabla-header {
-            padding: 18px 20px;
-
-            border-bottom: 1px solid #e5e7eb;
-
+            padding: 20px;
+            border-bottom: 1px solid #E7D9DE;
             display: flex;
-
             justify-content: space-between;
-
             align-items: center;
         }
 
         .tabla-header h2 {
             margin: 0;
-
-            font-size: 15px;
-
-            font-weight: 600;
-
-            color: #374151;
+            font-size: 16px;
+            font-weight: 700;
+            color: #4B3740;
         }
 
         .tabla-header p {
-            margin: 4px 0 0;
-
-            font-size: 11px;
-
-            color: #6b7280;
+            margin: 5px 0 0;
+            font-size: 12px;
+            color: #786A70;
         }
 
         .cantidad-registros {
-            font-size: 11px;
-
-            color: #6b7280;
+            font-size: 12px;
+            color: #786A70;
         }
 
         .tabla-scroll {
             width: 100%;
-
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         table {
             width: 100%;
-
             border-collapse: collapse;
-
-            min-width: 850px;
+            min-width: 820px;
         }
 
         thead {
-            background: #f9fafb;
+            background: #FBF8F9;
         }
 
         th {
-            padding: 12px 10px;
-
+            padding: 14px 12px;
             text-align: left;
-
             font-size: 11px;
-
-            font-weight: 600;
-
-            color: #6b7280;
-
-            border-bottom: 1px solid #e5e7eb;
-
+            font-weight: 700;
+            color: #786A70;
+            border-bottom: 1px solid #E7D9DE;
             text-transform: uppercase;
         }
 
         td {
-            padding: 13px 10px;
-
+            padding: 15px 12px;
             font-size: 12px;
-
-            color: #374151;
-
-            border-bottom: 1px solid #f0f1f3;
-
+            color: #4B3740;
+            border-bottom: 1px solid #F0E7EA;
             vertical-align: middle;
         }
 
         tbody tr:hover {
-            background: #fafafa;
+            background: #FCF9FA;
         }
 
         tbody tr:last-child td {
             border-bottom: none;
         }
 
-
-        /* =========================================================
-           ALUMNO
-        ========================================================= */
+        /* ALUMNO */
 
         .alumno {
             display: flex;
-
             align-items: center;
-
-            gap: 9px;
+            gap: 10px;
         }
 
         .avatar {
-            width: 30px;
-            height: 30px;
-
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
-
-            background: #eff6ff;
-
-            color: #2563eb;
-
+            background: #F2E7EB;
+            color: #7B1E3A;
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
-            font-size: 11px;
-
+            font-size: 12px;
             font-weight: 700;
+            flex-shrink: 0;
         }
 
         .alumno-nombre {
-            font-weight: 600;
-
-            color: #1f2937;
+            font-weight: 700;
+            color: #33262B;
         }
 
         .matricula {
-            margin-top: 2px;
-
+            margin-top: 3px;
             font-size: 10px;
-
-            color: #9ca3af;
+            color: #A08F96;
         }
 
-
-        /* =========================================================
-           GRUPO
-        ========================================================= */
+        /* GRUPO */
 
         .grupo {
             display: inline-flex;
-
             align-items: center;
-
             justify-content: center;
-
-            min-width: 28px;
-
-            height: 25px;
-
-            padding: 0 7px;
-
+            min-width: 30px;
+            padding: 6px 9px;
             border-radius: 6px;
-
-            background: #f3f4f6;
-
-            color: #374151;
-
+            background: #F8F4F5;
+            color: #4B3740;
             font-size: 11px;
-
-            font-weight: 600;
+            font-weight: 700;
         }
 
-
-        /* =========================================================
-           TIPO
-        ========================================================= */
+        /* TIPO */
 
         .tipo-principal {
-            font-weight: 600;
-
-            color: #374151;
+            font-weight: 700;
+            color: #4B3740;
         }
 
         .tipo-descripcion {
             display: block;
-
             max-width: 260px;
-
-            margin-top: 3px;
-
+            margin-top: 4px;
             font-size: 10px;
-
-            color: #9ca3af;
-
+            color: #A08F96;
             white-space: nowrap;
-
             overflow: hidden;
-
             text-overflow: ellipsis;
         }
 
-
-        /* =========================================================
-           ESTADO
-        ========================================================= */
+        /* ESTADO */
 
         .estado {
             display: inline-flex;
-
-            padding: 5px 9px;
-
+            padding: 6px 10px;
             border-radius: 20px;
-
             font-size: 10px;
-
-            font-weight: 600;
+            font-weight: 700;
+            white-space: nowrap;
         }
 
         .estado-atendida {
-            background: #dcfce7;
-
+            background: #DCFCE7;
             color: #166534;
         }
 
         .estado-pendiente {
-            background: #fef3c7;
-
-            color: #92400e;
+            background: #FEF3C7;
+            color: #92400E;
         }
 
         .estado-seguimiento {
-            background: #dbeafe;
-
-            color: #1d4ed8;
+            background: #F2E7EB;
+            color: #7B1E3A;
         }
 
         .estado-concluida {
-            background: #e5e7eb;
-
-            color: #374151;
+            background: #E7D9DE;
+            color: #4B3740;
         }
 
-
-        /* =========================================================
-           PRIORIDAD
-        ========================================================= */
-
-        .prioridad {
-            font-size: 11px;
-
-            font-weight: 600;
-        }
-
-        .prioridad-alta {
-            color: #dc2626;
-        }
-
-        .prioridad-media {
-            color: #d97706;
-        }
-
-        .prioridad-baja {
-            color: #16a34a;
-        }
-
-
-        /* =========================================================
-           ACCIONES
-        ========================================================= */
+        /* ACCIONES */
 
         .acciones {
             display: flex;
-
             align-items: center;
-
             gap: 6px;
-
             white-space: nowrap;
         }
 
         .accion {
             display: inline-flex;
-
             align-items: center;
-
             gap: 4px;
-
-            padding: 6px 9px;
-
+            padding: 7px 10px;
             border-radius: 6px;
-
             text-decoration: none;
-
             font-size: 10px;
-
-            font-weight: 600;
-
+            font-weight: 700;
             border: none;
-
             cursor: pointer;
         }
 
         .accion-ver {
-            background: #f3f4f6;
+            background: #F2E7EB;
+            color: #7B1E3A;
+        }
 
-            color: #374151;
+        .accion-ver:hover {
+            background: #E8D6DD;
         }
 
         .accion-editar {
-            background: #eff6ff;
+            background: #FFF5E5;
+            color: #A16207;
+        }
 
-            color: #2563eb;
+        .accion-editar:hover {
+            background: #FDECC8;
         }
 
         .accion-eliminar {
-            background: #fef2f2;
-
-            color: #dc2626;
+            background: #FEF2F2;
+            color: #DC2626;
         }
 
+        .accion-eliminar:hover {
+            background: #FEE2E2;
+        }
 
-        /* =========================================================
-           MENSAJE
-        ========================================================= */
+        /* MENSAJES */
 
         .mensaje-exito {
-            background: #dcfce7;
-
+            background: #DCFCE7;
             color: #166534;
-
-            border: 1px solid #bbf7d0;
-
-            padding: 12px 15px;
-
-            border-radius: 7px;
-
+            border: 1px solid #BBF7D0;
+            padding: 13px 16px;
+            border-radius: 8px;
             margin-bottom: 18px;
-
             font-size: 13px;
         }
 
-
-        /* =========================================================
-           PAGINACIÓN
-        ========================================================= */
+        /* PAGINACIÓN */
 
         .paginacion {
-            padding: 15px 20px;
-
-            border-top: 1px solid #e5e7eb;
+            padding: 16px 20px;
+            border-top: 1px solid #E7D9DE;
         }
 
-
-        /* =========================================================
-           RESPONSIVE
-        ========================================================= */
+        /* RESPONSIVE */
 
         @media (max-width: 800px) {
-
             .encabezado {
                 flex-direction: column;
-
                 align-items: flex-start;
-
                 gap: 15px;
             }
 
@@ -694,37 +426,57 @@
                 flex: 1;
             }
 
-            .estadisticas {
-                grid-template-columns: 1fr;
-            }
-
             .form-busqueda {
                 flex-direction: column;
-
                 align-items: stretch;
             }
 
             .btn-buscar,
             .btn-limpiar {
                 width: 100%;
-
                 justify-content: center;
             }
         }
 
+
+        @media (max-width: 520px) {
+            .contenedor {
+                width: 96%;
+                padding-top: 18px;
+            }
+
+            .titulo-area h1 {
+                font-size: 21px;
+            }
+
+            .tabla-header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .acciones {
+                flex-wrap: wrap;
+            }
+        }
+
+        .btn:focus-visible,
+        .accion:focus-visible,
+        .btn-buscar:focus-visible,
+        .btn-limpiar:focus-visible,
+        .input-busqueda:focus-visible,
+        .select-filtro:focus-visible {
+            outline: 2px solid #7B1E3A;
+            outline-offset: 2px;
+        }
     </style>
-
 </head>
-
 
 <body>
 
 <div class="contenedor">
 
-
-    {{-- =========================================================
-         ENCABEZADO
-    ========================================================== --}}
+    {{-- ENCABEZADO --}}
 
     <div class="encabezado">
 
@@ -735,35 +487,30 @@
             </div>
 
             <div>
-
-                <h1>
-                    Incidencias
-                </h1>
+                <h1>Incidencias</h1>
 
                 <p>
-                    Registro y seguimiento de incidencias de los alumnos
+                    Registro de incidencias y consulta del historial de los alumnos
                 </p>
-
             </div>
 
         </div>
 
-
         <div class="acciones-superiores">
 
-            <a
-                href="{{ route('incidencias.create') }}"
-                class="btn btn-azul"
-            >
+            <a href="{{ route('incidencias.create') }}"
+               class="btn btn-vino">
                 ＋ Registrar incidencia
             </a>
 
+            <a href="{{ route('citatorios.create') }}"
+               class="btn btn-vino">
+                ▤ Crear citatorio
+            </a>
 
-            <a
-                href="{{ route('tutorias.index') }}"
-                class="btn btn-tutoria"
-            >
-                📋 Tutorías
+            <a href="{{ route('citatorios.index') }}"
+               class="btn btn-vino">
+                ☷ Ver citatorios
             </a>
 
         </div>
@@ -771,106 +518,17 @@
     </div>
 
 
-
-    {{-- =========================================================
-         MENSAJE
-    ========================================================== --}}
+    {{-- MENSAJE --}}
 
     @if(session('success'))
-
         <div class="mensaje-exito">
-
             {{ session('success') }}
-
         </div>
-
     @endif
 
 
 
-    {{-- =========================================================
-         ESTADÍSTICAS
-    ========================================================== --}}
-
-    <div class="estadisticas">
-
-
-        {{-- TOTAL --}}
-
-        <div class="tarjeta-estadistica">
-
-            <div class="estadistica-texto">
-
-                <span class="estadistica-titulo">
-                    Total de incidencias
-                </span>
-
-                <span class="estadistica-numero">
-                    {{ $totalIncidencias }}
-                </span>
-
-            </div>
-
-            <div class="estadistica-icono">
-                📋
-            </div>
-
-        </div>
-
-
-        {{-- EN SEGUIMIENTO --}}
-
-        <div class="tarjeta-estadistica">
-
-            <div class="estadistica-texto">
-
-                <span class="estadistica-titulo">
-                    En seguimiento
-                </span>
-
-                <span class="estadistica-numero">
-                    {{ $enSeguimiento }}
-                </span>
-
-            </div>
-
-            <div class="estadistica-icono">
-                🔎
-            </div>
-
-        </div>
-
-
-        {{-- PENDIENTES --}}
-
-        <div class="tarjeta-estadistica">
-
-            <div class="estadistica-texto">
-
-                <span class="estadistica-titulo">
-                    Pendientes
-                </span>
-
-                <span class="estadistica-numero">
-                    {{ $pendientes }}
-                </span>
-
-            </div>
-
-            <div class="estadistica-icono">
-                ⏳
-            </div>
-
-        </div>
-
-
-    </div>
-
-
-
-    {{-- =========================================================
-         BUSCADOR
-    ========================================================== --}}
+    {{-- BUSCADOR --}}
 
     <div class="buscador">
 
@@ -878,12 +536,9 @@
             Buscar alumno
         </div>
 
-
-        <form
-            action="{{ route('incidencias.index') }}"
-            method="GET"
-            class="form-busqueda"
-        >
+        <form action="{{ route('incidencias.index') }}"
+              method="GET"
+              class="form-busqueda">
 
             <input
                 type="text"
@@ -892,25 +547,14 @@
                 class="input-busqueda"
                 placeholder="Nombre, apellido o matrícula..."
             >
-
-
-            <button
-                type="submit"
-                class="btn-buscar"
-            >
+<button type="submit" class="btn-buscar">
                 🔎 Buscar
             </button>
 
-
             @if(request('buscar'))
-
-                <a
-                    href="{{ route('incidencias.index') }}"
-                    class="btn-limpiar"
-                >
-                    Limpiar
+                <a href="{{ route('incidencias.index') }}" class="btn-limpiar">
+                    Limpiar filtros
                 </a>
-
             @endif
 
         </form>
@@ -918,39 +562,25 @@
     </div>
 
 
-
-    {{-- =========================================================
-         TABLA
-    ========================================================== --}}
+    {{-- TABLA DE INCIDENCIAS --}}
 
     <div class="tabla-contenedor">
-
 
         <div class="tabla-header">
 
             <div>
-
-                <h2>
-                    Incidencias registradas
-                </h2>
+                <h2>Incidencias registradas</h2>
 
                 <p>
-                    Consulta y administra las incidencias de los alumnos.
+                    Consulta las incidencias registradas de los alumnos.
                 </p>
-
             </div>
 
-
             <span class="cantidad-registros">
-
-                {{ $incidencias->total() }}
-
-                registro(s)
-
+                {{ $incidencias->total() }} registro(s)
             </span>
 
         </div>
-
 
 
         <div class="tabla-scroll">
@@ -958,279 +588,170 @@
             <table>
 
                 <thead>
-
                     <tr>
-
-                        <th>
-                            Alumno
-                        </th>
-
-                        <th>
-                            Grupo
-                        </th>
-
-                        <th>
-                            Tipo
-                        </th>
-
-                        <th>
-                            Fecha
-                        </th>
-
-                        <th>
-                            Prioridad
-                        </th>
-
-                        <th>
-                            Estado
-                        </th>
-
-                        <th>
-                            Acciones
-                        </th>
-
+                        <th>Alumno</th>
+                        <th>Grupo</th>
+                        <th>Tipo</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
                     </tr>
-
                 </thead>
 
 
                 <tbody>
 
-                @forelse($incidencias as $incidencia)
+                    @forelse($incidencias as $incidencia)
 
-                    <tr>
+                        <tr>
 
+                            {{-- ALUMNO --}}
 
-                        {{-- ALUMNO --}}
+                            <td>
 
-                        <td>
+                                <div class="alumno">
 
-                            <div class="alumno">
-
-                                <div class="avatar">
-
-                                    {{ strtoupper(substr($incidencia->alumno->nombres ?? 'A', 0, 1)) }}
-
-                                </div>
-
-
-                                <div>
-
-                                    <div class="alumno-nombre">
-
-                                        {{ $incidencia->alumno->nombres ?? '' }}
-                                        {{ $incidencia->alumno->apellidos ?? '' }}
-
+                                    <div class="avatar">
+                                        {{ strtoupper(substr($incidencia->alumno->nombres ?? 'A', 0, 1)) }}
                                     </div>
 
+                                    <div>
 
-                                    <div class="matricula">
+                                        <div class="alumno-nombre">
+                                            {{ $incidencia->alumno->nombres ?? '' }}
+                                            {{ $incidencia->alumno->apellidos ?? '' }}
+                                        </div>
 
-                                        Matrícula:
-                                        {{ $incidencia->alumno->matricula ?? '—' }}
+                                        <div class="matricula">
+                                            Matrícula:
+                                            {{ $incidencia->alumno->matricula ?? '—' }}
+                                        </div>
 
                                     </div>
 
                                 </div>
 
-                            </div>
-
-                        </td>
+                            </td>
 
 
+                            {{-- GRUPO --}}
 
-                        {{-- GRUPO --}}
-
-                        <td>
-
-                            <span class="grupo">
-
-                                {{ $incidencia->alumno->grupo->nombre ?? '—' }}
-
-                            </span>
-
-                        </td>
+                            <td>
+                                <span class="grupo">
+                                    {{ $incidencia->alumno->grupo->nombre ?? '—' }}
+                                </span>
+                            </td>
 
 
+                            {{-- TIPO --}}
 
-                        {{-- TIPO --}}
+                            <td>
 
-                        <td>
-
-                            <span class="tipo-principal">
-
-                                {{ $incidencia->tipo }}
-
-                            </span>
-
-
-                            @if($incidencia->descripcion)
-
-                                <span class="tipo-descripcion">
-
-                                    {{ $incidencia->descripcion }}
-
+                                <span class="tipo-principal">
+                                    {{ $incidencia->tipo }}
                                 </span>
 
-                            @endif
+                                @if($incidencia->descripcion)
+                                    <span class="tipo-descripcion">
+                                        {{ $incidencia->descripcion }}
+                                    </span>
+                                @endif
 
-                        </td>
-
-
-
-                        {{-- FECHA --}}
-
-                        <td>
-
-                            {{ \Carbon\Carbon::parse($incidencia->fecha)->format('d/m/Y') }}
-
-                        </td>
+                            </td>
 
 
+                            {{-- FECHA --}}
 
-                        {{-- PRIORIDAD --}}
-
-                        <td>
-
-                            @if($incidencia->prioridad === 'Alta')
-
-                                <span class="prioridad prioridad-alta">
-                                    ● Alta
-                                </span>
-
-                            @elseif($incidencia->prioridad === 'Media')
-
-                                <span class="prioridad prioridad-media">
-                                    ● Media
-                                </span>
-
-                            @else
-
-                                <span class="prioridad prioridad-baja">
-                                    ● Baja
-                                </span>
-
-                            @endif
-
-                        </td>
+                            <td>
+                                {{ \Carbon\Carbon::parse($incidencia->fecha)->format('d/m/Y') }}
+                            </td>
 
 
+                            {{-- ESTADO --}}
 
-                        {{-- ESTADO --}}
+                            <td>
 
-                        <td>
+                                @if($incidencia->estado === 'Atendida')
 
-                            @if($incidencia->estado === 'Atendida')
+                                    <span class="estado estado-atendida">
+                                        Atendida
+                                    </span>
 
-                                <span class="estado estado-atendida">
-                                    Atendida
-                                </span>
+                                @elseif($incidencia->estado === 'Pendiente')
 
-                            @elseif($incidencia->estado === 'Pendiente')
+                                    <span class="estado estado-pendiente">
+                                        Pendiente
+                                    </span>
 
-                                <span class="estado estado-pendiente">
-                                    Pendiente
-                                </span>
+                                @elseif($incidencia->estado === 'En seguimiento')
 
-                            @elseif($incidencia->estado === 'En seguimiento')
+                                    <span class="estado estado-seguimiento">
+                                        En seguimiento
+                                    </span>
 
-                                <span class="estado estado-seguimiento">
-                                    En seguimiento
-                                </span>
+                                @else
 
-                            @else
+                                    <span class="estado estado-concluida">
+                                        {{ $incidencia->estado }}
+                                    </span>
 
-                                <span class="estado estado-concluida">
-                                    {{ $incidencia->estado }}
-                                </span>
+                                @endif
 
-                            @endif
-
-                        </td>
-
+                            </td>
 
 
-                        {{-- ACCIONES --}}
+                            {{-- ACCIONES --}}
 
-                        <td>
+                            <td>
 
-                            <div class="acciones">
+                                <div class="acciones">
 
+                                    <a href="{{ route('incidencias.historial', $incidencia->alumno_id) }}"
+                                       class="accion accion-ver">
+                                        📋 Historial
+                                    </a>
 
-                                {{-- VER --}}
+                                    <a href="{{ route('incidencias.show', $incidencia) }}"
+                                       class="accion accion-ver">
+                                        👁 Ver
+                                    </a>
 
-                                <a
-                                    href="{{ route('incidencias.show', $incidencia) }}"
-                                    class="accion accion-ver"
-                                >
-                                    👁 Ver
-                                </a>
+                                    <a href="{{ route('incidencias.edit', $incidencia) }}"
+                                       class="accion accion-editar">
+                                        ✏ Editar
+                                    </a>
 
-
-                                {{-- EDITAR --}}
-
-                                <a
-                                    href="{{ route('incidencias.edit', $incidencia) }}"
-                                    class="accion accion-editar"
-                                >
-                                    ✏ Editar
-                                </a>
-                                <a href="{{ route('tutorias.create', ['incidencia' => $incidencia->id]) }}"
-   class="btn-tutoria">
-    📋 Tutoría
-</a>
-
-                                {{-- ELIMINAR --}}
-
-                                <form
-                                    action="{{ route('incidencias.destroy', $incidencia) }}"
-                                    method="POST"
-                                    style="display:inline;"
-                                    onsubmit="return confirm('¿Deseas eliminar esta incidencia?');"
-                                >
-
-                                    @csrf
-
-                                    @method('DELETE')
-
-                                    <button
-                                        type="submit"
-                                        class="accion accion-eliminar"
+                                    <form
+                                        action="{{ route('incidencias.destroy', $incidencia) }}"
+                                        method="POST"
+                                        style="display:inline;"
+                                        onsubmit="return confirm('¿Deseas eliminar esta incidencia?');"
                                     >
-                                        🗑 Eliminar
-                                    </button>
 
-                                </form>
+                                        @csrf
+                                        @method('DELETE')
 
+                                        <button type="submit" class="accion accion-eliminar">
+                                            🗑 Eliminar
+                                        </button>
 
-                            </div>
+                                    </form>
 
-                        </td>
+                                </div>
 
+                            </td>
 
-                    </tr>
+                        </tr>
 
+                    @empty
 
-                @empty
+                        <tr>
+                            <td colspan="6" style="text-align:center; padding:40px; color:#786A70;">
+                                No hay incidencias registradas.
+                            </td>
+                        </tr>
 
-                    <tr>
-
-                        <td
-                            colspan="7"
-                            style="
-                                text-align:center;
-                                padding:40px;
-                                color:#6b7280;
-                            "
-                        >
-
-                            No hay incidencias registradas.
-
-                        </td>
-
-                    </tr>
-
-                @endforelse
+                    @endforelse
 
                 </tbody>
 
@@ -1239,25 +760,19 @@
         </div>
 
 
-
         {{-- PAGINACIÓN --}}
 
         @if($incidencias->hasPages())
 
             <div class="paginacion">
-
-                {{ $incidencias->links() }}
-
+                {{ $incidencias->withQueryString()->links() }}
             </div>
 
         @endif
 
-
     </div>
-
 
 </div>
 
 </body>
-
 </html>

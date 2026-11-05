@@ -1,682 +1,618 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Gestión de Alumnos</title>
-
+<x-app-layout>
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f3f4f6;
-            color: #1f2937;
-        }
-
-        .contenedor {
-            max-width: 1450px;
+        .alumnos-page {
+            max-width: 1500px;
             margin: 0 auto;
-            padding: 35px;
+            padding: 30px 24px;
+            color: #35111d;
         }
 
-        /* ENCABEZADO */
-        .encabezado {
+        .alumnos-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 20px;
+            padding: 26px 30px;
             margin-bottom: 25px;
+            border-radius: 16px;
+            color: #fff;
+            background: linear-gradient(135deg, #5b1729, #8b2942);
+            box-shadow: 0 8px 24px rgba(91, 23, 41, .16);
         }
 
-        .titulo h1 {
+        .alumnos-header h1 {
             margin: 0;
-            font-size: 32px;
-            color: #1f2937;
+            font-size: 28px;
+            font-weight: 750;
+            line-height: 1.3;
         }
 
-        .titulo p {
-            margin: 7px 0 0;
-            color: #6b7280;
-            font-size: 15px;
+        .alumnos-header p {
+            margin: 8px 0 0;
+            color: #f7e8ed;
+            font-size: 14px;
         }
 
-        /* BOTÓN REGISTRAR */
-        .btn-registrar {
-            display: inline-block;
-            background: #2563eb;
-            color: white;
+        .alumnos-header-acciones {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-registrar,
+        .btn-exportar {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 18px;
+            border: 1px solid rgba(255,255,255,.35);
+            border-radius: 9px;
             text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 7px;
-            font-weight: bold;
-            transition: 0.2s;
+            font-size: 14px;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: .2s;
+        }
+
+        .btn-registrar {
+            background: #fff;
+            color: #751f35;
         }
 
         .btn-registrar:hover {
-            background: #1d4ed8;
+            background: #f8e9ee;
+            transform: translateY(-1px);
         }
 
-        /* MENSAJE */
+        .btn-exportar {
+            background: #198754;
+            color: #fff;
+        }
+
+        .btn-exportar:hover {
+            background: #146c43;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
         .mensaje {
-            background: #dcfce7;
-            color: #166534;
-            border: 1px solid #bbf7d0;
-            padding: 13px 16px;
-            border-radius: 7px;
+            padding: 14px 18px;
             margin-bottom: 20px;
-        }
-
-        /* TARJETA */
-        .tarjeta {
-            background: white;
+            border: 1px solid #b7e4c7;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            background: #e7f7ed;
+            color: #17643a;
+        }
+
+        .alumnos-card {
             overflow: hidden;
+            border: 1px solid #eadde1;
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 5px 20px rgba(40,20,25,.06);
         }
 
-        /* BARRA */
-        .barra {
-            padding: 20px;
-            border-bottom: 1px solid #e5e7eb;
-
+        .alumnos-toolbar {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-
-            gap: 15px;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 22px 24px;
+            border-bottom: 1px solid #eadde1;
         }
 
-        .barra h2 {
+        .alumnos-toolbar h2 {
             margin: 0;
+            color: #35111d;
             font-size: 19px;
-            color: #374151;
+            font-weight: 700;
         }
 
-        /* BUSCADOR */
+        .subtitulo-tabla {
+            margin: 5px 0 0;
+            color: #82747a;
+            font-size: 13px;
+        }
+
         .buscador {
             position: relative;
-            width: 350px;
+            width: min(100%, 360px);
         }
 
         .buscador input {
             width: 100%;
-
-            padding: 11px 15px 11px 42px;
-
-            border: 1px solid #d1d5db;
-            border-radius: 7px;
-
-            outline: none;
-
+            padding: 12px 14px 12px 42px;
+            border: 1px solid #ddcbd1;
+            border-radius: 9px;
+            background: #fff;
+            color: #35111d;
             font-size: 14px;
+            outline: none;
         }
 
         .buscador input:focus {
-            border-color: #2563eb;
-
-            box-shadow:
-                0 0 0 2px rgba(37, 99, 235, 0.12);
+            border-color: #8b2942;
+            box-shadow: 0 0 0 3px rgba(139,41,66,.12);
         }
 
         .icono-busqueda {
             position: absolute;
-
             left: 14px;
             top: 50%;
-
             transform: translateY(-50%);
-
-            color: #6b7280;
-
-            font-size: 16px;
+            color: #8b2942;
+            pointer-events: none;
         }
 
-        /* TABLA */
         .tabla-contenedor {
             width: 100%;
             overflow-x: auto;
         }
 
-        table {
+        .tabla-alumnos {
             width: 100%;
             border-collapse: collapse;
         }
 
-        thead {
-            background: #2563eb;
-            color: white;
+        .tabla-alumnos thead {
+            background: #751f35;
+            color: #fff;
         }
 
-        th {
-            padding: 14px 12px;
-
+        .tabla-alumnos th {
+            padding: 15px 14px;
             text-align: left;
-
-            font-size: 14px;
-
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .035em;
             white-space: nowrap;
         }
 
-        td {
-            padding: 14px 12px;
-
-            border-bottom: 1px solid #e5e7eb;
-
-            font-size: 14px;
-
+        .tabla-alumnos td {
+            padding: 15px 14px;
+            border-bottom: 1px solid #f0e7ea;
+            color: #51464a;
+            font-size: 13px;
             vertical-align: middle;
         }
 
-        tbody tr:hover {
-            background: #f8fafc;
+        .tabla-alumnos tbody tr {
+            transition: background .15s;
         }
 
-        /* NOMBRE */
+        .tabla-alumnos tbody tr:hover {
+            background: #fcf5f7;
+        }
+
+        .tabla-alumnos tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .id-alumno {
+            color: #8b2942;
+            font-weight: 700;
+        }
+
+        .matricula {
+            display: inline-block;
+            padding: 5px 8px;
+            border-radius: 6px;
+            background: #f7edf0;
+            color: #751f35;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
         .nombre-alumno {
-            font-weight: bold;
-            color: #1f2937;
+            color: #35111d;
+            font-weight: 700;
         }
 
         .correo {
-            color: #4b5563;
+            color: #6b6266;
         }
 
-        /* MATRÍCULA */
-        .matricula {
-            font-weight: bold;
-            color: #374151;
-        }
-
-        /* GRADO */
-        .grado {
+        .etiqueta {
             display: inline-block;
-
-            background: #eff6ff;
-            color: #1d4ed8;
-
             padding: 5px 9px;
-
-            border-radius: 5px;
-
-            font-size: 13px;
-
-            font-weight: 600;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
         }
 
-        /* GRUPO */
-        .grupo {
-            display: inline-block;
-
-            background: #f3f4f6;
-            color: #374151;
-
-            padding: 5px 9px;
-
-            border-radius: 5px;
-
-            font-size: 13px;
-
-            font-weight: 600;
+        .etiqueta-grado {
+            background: #f5e5ea;
+            color: #751f35;
         }
 
-        /* ACCIONES */
+        .etiqueta-grupo {
+            background: #f1f0f1;
+            color: #51464a;
+        }
+
         .acciones {
             display: flex;
+            align-items: center;
             gap: 6px;
             flex-wrap: wrap;
         }
 
-        .btn {
+        .btn-accion {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7px 10px;
             border: none;
-
-            color: white;
-
+            border-radius: 6px;
+            color: #fff;
             text-decoration: none;
-
-            padding: 7px 11px;
-
-            border-radius: 5px;
-
-            font-size: 13px;
-
+            font-size: 12px;
+            font-weight: 700;
             cursor: pointer;
-
-            display: inline-block;
+            transition: .2s;
         }
 
         .btn-ver {
-            background: #16a34a;
+            background: #751f35;
         }
 
         .btn-ver:hover {
-            background: #15803d;
+            background: #591527;
         }
 
         .btn-editar {
-            background: #f59e0b;
+            background: #a76512;
         }
 
         .btn-editar:hover {
-            background: #d97706;
+            background: #85500d;
         }
 
         .btn-eliminar {
-            background: #dc2626;
+            background: #b42336;
         }
 
         .btn-eliminar:hover {
-            background: #b91c1c;
+            background: #8f1929;
         }
 
-        /* SIN RESULTADOS */
+        .form-eliminar {
+            display: inline;
+            margin: 0;
+        }
+
         .sin-resultados {
             display: none;
-
+            padding: 35px 20px;
             text-align: center;
-
-            padding: 35px;
-
-            color: #6b7280;
+            color: #82747a;
         }
 
-        /* CONTADOR */
+        .estado-vacio {
+            padding: 40px 20px !important;
+            text-align: center;
+            color: #82747a !important;
+        }
+
         .contador {
-            padding: 14px 20px;
-
-            color: #6b7280;
-
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 15px 24px;
+            border-top: 1px solid #eadde1;
+            background: #fdfafb;
+            color: #74666c;
             font-size: 13px;
-
-            border-top: 1px solid #e5e7eb;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 800px) {
+        .contador strong {
+            color: #751f35;
+        }
 
-            .contenedor {
-                padding: 20px;
+        @media (max-width: 850px) {
+            .alumnos-page {
+                padding: 20px 14px;
             }
 
-            .encabezado {
-                flex-direction: column;
-
+            .alumnos-header {
                 align-items: flex-start;
+                flex-direction: column;
+                padding: 22px;
             }
 
-            .barra {
-                flex-direction: column;
+            .alumnos-header h1 {
+                font-size: 24px;
+            }
 
+            .alumnos-header-acciones {
+                justify-content: flex-start;
+                width: 100%;
+            }
+
+            .alumnos-toolbar {
                 align-items: stretch;
+                flex-direction: column;
             }
 
             .buscador {
                 width: 100%;
             }
+        }
 
-            .titulo h1 {
-                font-size: 27px;
+        @media (max-width: 480px) {
+            .alumnos-header-acciones {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .btn-registrar,
+            .btn-exportar {
+                width: 100%;
+            }
+
+            .contador {
+                align-items: flex-start;
+                flex-direction: column;
             }
         }
     </style>
-</head>
 
-<body>
+    <div class="alumnos-page">
 
-<div class="contenedor">
+        {{-- ENCABEZADO --}}
+        <header class="alumnos-header">
+            <div>
+                <h1>Gestión de Alumnos</h1>
+                <p>Administra y consulta la información de los alumnos registrados.</p>
+            </div>
 
-    {{-- ENCABEZADO --}}
-    <div class="encabezado">
+            <div class="alumnos-header-acciones">
+                <a href="{{ route('alumnos.exportar') }}"
+                   class="btn-exportar">
+                    <span aria-hidden="true">↓</span>
+                    Exportar a Excel
+                </a>
+                
+{{-- Formulario para importar alumnos desde Excel --}}
+<div style="background:#fff; border:1px solid #eadde1; border-radius:12px; padding:18px; margin-bottom:20px;">
+    <h3 style="color:#711b32; font-size:17px; font-weight:700; margin-bottom:8px;">
+        Importar alumnos desde Excel
+    </h3>
 
-        <div class="titulo">
+    <p style="color:#6b6064; font-size:13px; margin-bottom:14px;">
+        Selecciona el archivo Excel con los alumnos de los seis semestres.
+    </p>
 
-            <h1>
-                Gestión de Alumnos
-            </h1>
+    <form action="{{ route('alumnos.importar') }}"
+          method="POST"
+          enctype="multipart/form-data"
+          style="display:flex; flex-wrap:wrap; align-items:center; gap:12px;">
+        @csrf
 
-            <p>
-                Administra y consulta la información de los alumnos registrados.
-            </p>
-
-        </div>
-
-
-        <a
-            href="{{ route('alumnos.create') }}"
-            class="btn-registrar"
+        <input
+            type="file"
+            name="archivo"
+            accept=".xlsx,.xls,.csv"
+            required
+            style="max-width:100%; border:1px solid #ddd; border-radius:7px; padding:8px;"
         >
-            + Registrar Alumno
-        </a>
 
-    </div>
-
-
-    {{-- MENSAJE DE ÉXITO --}}
-    @if(session('success'))
-
-        <div class="mensaje">
-            {{ session('success') }}
-        </div>
-
-    @endif
-
-
-    {{-- TARJETA --}}
-    <div class="tarjeta">
-
-
-        {{-- BARRA --}}
-        <div class="barra">
-
-            <h2>
-                Alumnos registrados
-            </h2>
-
-
-            {{-- BUSCADOR --}}
-            <div class="buscador">
-
-                <span class="icono-busqueda">
-                    🔍
-                </span>
-
-                <input
-                    type="text"
-                    id="buscador"
-                    placeholder="Buscar alumno..."
-                    autocomplete="off"
-                >
-
-            </div>
-
-        </div>
-
-
-        {{-- TABLA --}}
-        <div class="tabla-contenedor">
-
-            <table id="tablaAlumnos">
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            ID
-                        </th>
-
-                        <th>
-                            Matrícula
-                        </th>
-
-                        <th>
-                            Nombre
-                        </th>
-
-                        <th>
-                            Correo
-                        </th>
-
-                        <th>
-                            Grado
-                        </th>
-
-                        <th>
-                            Grupo
-                        </th>
-
-                        <th>
-                            Acciones
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody>
-
-                    @forelse($alumnos as $alumno)
-
-                        <tr class="fila-alumno">
-
-
-                            {{-- ID --}}
-                            <td>
-                                {{ $alumno->id }}
-                            </td>
-
-
-                            {{-- MATRÍCULA --}}
-                            <td>
-
-                                <span class="matricula">
-                                    {{ $alumno->matricula }}
-                                </span>
-
-                            </td>
-
-
-                            {{-- NOMBRE --}}
-                            <td>
-
-                                <div class="nombre-alumno">
-
-                                    {{ $alumno->nombres }}
-                                    {{ $alumno->apellidos }}
-
-                                </div>
-
-                            </td>
-
-
-                            {{-- CORREO --}}
-                            <td>
-
-                                <span class="correo">
-                                    {{ $alumno->email }}
-                                </span>
-
-                            </td>
-
-
-                            {{-- GRADO --}}
-                            <td>
-
-                                <span class="grado">
-
-                                    {{ $alumno->grupo->grado ?? '-' }}
-
-                                   °
-
-                                </span>
-
-                            </td>
-
-
-                            {{-- GRUPO --}}
-                            <td>
-
-                                <span class="grupo">
-
-                                    {{ $alumno->grupo->nombre ?? '-' }}
-
-                                </span>
-
-                            </td>
-
-
-                            {{-- ACCIONES --}}
-                            <td>
-
-                                <div class="acciones">
-
-
-                                    <a
-                                        href="{{ route('alumnos.show', $alumno->id) }}"
-                                        class="btn btn-ver"
-                                    >
-                                        Ver
-                                    </a>
-
-
-                                    <a
-                                        href="{{ route('alumnos.edit', $alumno->id) }}"
-                                        class="btn btn-editar"
-                                    >
-                                        Editar
-                                    </a>
-
-
-                                    <form
-                                        action="{{ route('alumnos.destroy', $alumno->id) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('¿Estás seguro de eliminar este alumno?');"
-                                        style="display:inline;"
-                                    >
-
-                                        @csrf
-
-                                        @method('DELETE')
-
-
-                                        <button
-                                            type="submit"
-                                            class="btn btn-eliminar"
-                                        >
-                                            Eliminar
-                                        </button>
-
-                                    </form>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                    @empty
-
-                        <tr>
-
-                            <td
-                                colspan="7"
-                                style="text-align:center; padding:40px;"
-                            >
-                                No hay alumnos registrados.
-                            </td>
-
-                        </tr>
-
-                    @endforelse
-
-                </tbody>
-
-            </table>
-
-
-            {{-- SIN RESULTADOS --}}
-            <div
-                id="sinResultados"
-                class="sin-resultados"
-            >
-                No se encontraron alumnos con esa búsqueda.
-            </div>
-
-        </div>
-
-
-        {{-- CONTADOR --}}
-        <div class="contador">
-
-            Total de alumnos:
-
-            <strong id="contadorAlumnos">
-                {{ $alumnos->count() }}
-            </strong>
-
-        </div>
-
-    </div>
-
+        <button
+            type="submit"
+            style="background:#711b32; color:white; border:0; border-radius:7px; padding:10px 16px; font-weight:700; cursor:pointer;"
+        >
+            Importar Excel
+        </button>
+    </form>
+
+    @error('archivo')
+        <p style="color:#b42335; font-size:13px; margin-top:10px;">
+            {{ $message }}
+        </p>
+    @enderror
 </div>
 
+@if (session('errores_importacion'))
+    <div style="background:#fff8e8; border:1px solid #ead39a; border-radius:8px; padding:14px; margin-bottom:18px;">
+        <strong style="color:#805500;">Filas que no se importaron:</strong>
 
-{{-- BUSCADOR --}}
-<script>
-
-    const buscador =
-        document.getElementById('buscador');
-
-    const filas =
-        document.querySelectorAll('.fila-alumno');
-
-    const sinResultados =
-        document.getElementById('sinResultados');
-
-    const contador =
-        document.getElementById('contadorAlumnos');
+        <ul style="margin:10px 0 0 20px; list-style:disc; color:#684d16;">
+            @foreach (session('errores_importacion') as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 
-    buscador.addEventListener('input', function () {
+                <a href="{{ route('alumnos.create') }}"
+                   class="btn-registrar">
+                    <span aria-hidden="true">＋</span>
+                    Registrar alumno
+                </a>
+            </div>
+        </header>
 
-        const texto =
-            this.value
-                .toLowerCase()
-                .trim();
+        {{-- MENSAJE DE ÉXITO --}}
+        @if (session('success'))
+            <div class="mensaje" role="status">
+                {{ session('success') }}
+            </div>
+        @endif
 
-        let encontrados = 0;
+        {{-- TABLA DE ALUMNOS --}}
+        <section class="alumnos-card">
+            <div class="alumnos-toolbar">
+                <div>
+                    <h2>Alumnos registrados</h2>
+                    <p class="subtitulo-tabla">
+                        Consulta y administra los registros del plantel.
+                    </p>
+                </div>
 
+                <div class="buscador">
+                    <span class="icono-busqueda" aria-hidden="true">⌕</span>
+                    <input
+                        type="search"
+                        id="buscador"
+                        placeholder="Buscar por nombre, matrícula, correo o grupo..."
+                        autocomplete="off"
+                        aria-label="Buscar alumnos"
+                    >
+                </div>
+            </div>
 
-        filas.forEach(function (fila) {
+            <div class="tabla-contenedor">
+                <table class="tabla-alumnos" id="tablaAlumnos">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Matrícula</th>
+                            <th>Nombre completo</th>
+                            <th>Correo</th>
+                            <th>Grado</th>
+                            <th>Grupo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
 
-            const contenido =
-                fila.textContent.toLowerCase();
+                    <tbody id="cuerpoAlumnos">
+                        @forelse ($alumnos as $alumno)
+                            <tr class="fila-alumno">
+                                <td>
+                                    <span class="id-alumno">{{ $alumno->id }}</span>
+                                </td>
 
+                                <td>
+                                    <span class="matricula">
+                                        {{ $alumno->matricula }}
+                                    </span>
+                                </td>
 
-            if (contenido.includes(texto)) {
+                                <td>
+                                    <div class="nombre-alumno">
+                                        {{ $alumno->nombres }} {{ $alumno->apellidos }}
+                                    </div>
+                                </td>
 
-                fila.style.display = '';
+                                <td>
+                                    <span class="correo">{{ $alumno->email }}</span>
+                                </td>
 
-                encontrados++;
+                                <td>
+                                    <span class="etiqueta etiqueta-grado">
+                                        @if ($alumno->grupo)
+                                            {{ $alumno->grupo->grado }}°
+                                        @else
+                                            —
+                                        @endif
+                                    </span>
+                                </td>
 
-            } else {
+                                <td>
+                                    <span class="etiqueta etiqueta-grupo">
+                                        {{ $alumno->grupo->nombre ?? 'Sin grupo' }}
+                                    </span>
+                                </td>
 
-                fila.style.display = 'none';
+                                <td>
+                                    <div class="acciones">
+                                        <a
+                                            href="{{ route('alumnos.show', $alumno->id) }}"
+                                            class="btn-accion btn-ver"
+                                        >
+                                            Ver
+                                        </a>
 
+                                        <a
+                                            href="{{ route('alumnos.edit', $alumno->id) }}"
+                                            class="btn-accion btn-editar"
+                                        >
+                                            Editar
+                                        </a>
+
+                                        <form
+                                            action="{{ route('alumnos.destroy', $alumno->id) }}"
+                                            method="POST"
+                                            class="form-eliminar"
+                                            onsubmit="return confirm('¿Estás seguro de eliminar este alumno?');"
+                                        >
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit"
+                                                    class="btn-accion btn-eliminar">
+                                                Eliminar
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="estado-vacio">
+                                    No hay alumnos registrados.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+
+                <div id="sinResultados" class="sin-resultados">
+                    No se encontraron alumnos con esa búsqueda.
+                </div>
+            </div>
+
+            <footer class="contador">
+                <span>
+                    Total de alumnos registrados:
+                    <strong>{{ $alumnos->count() }}</strong>
+                </span>
+
+                <span>
+                    Coincidencias visibles:
+                    <strong id="contadorAlumnos">{{ $alumnos->count() }}</strong>
+                </span>
+            </footer>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const buscador = document.getElementById('buscador');
+            const filas = document.querySelectorAll('.fila-alumno');
+            const sinResultados = document.getElementById('sinResultados');
+            const contador = document.getElementById('contadorAlumnos');
+
+            if (!buscador || !contador || !sinResultados) {
+                return;
             }
 
+            buscador.addEventListener('input', function () {
+                const texto = this.value.toLocaleLowerCase('es').trim();
+                let encontrados = 0;
+
+                filas.forEach(function (fila) {
+                    const contenido = fila.textContent.toLocaleLowerCase('es');
+                    const coincide = contenido.includes(texto);
+
+                    fila.style.display = coincide ? '' : 'none';
+
+                    if (coincide) {
+                        encontrados++;
+                    }
+                });
+
+                contador.textContent = encontrados;
+
+                sinResultados.style.display =
+                    filas.length > 0 && encontrados === 0 ? 'block' : 'none';
+            });
         });
-
-
-        contador.textContent =
-            encontrados;
-
-
-        if (
-            encontrados === 0 &&
-            texto !== ''
-        ) {
-
-            sinResultados.style.display =
-                'block';
-
-        } else {
-
-            sinResultados.style.display =
-                'none';
-
-        }
-
-    });
-
-</script>
-
-</body>
-
-</html>
+    </script>
+</x-app-layout>

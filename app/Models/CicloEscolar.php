@@ -18,10 +18,30 @@ class CicloEscolar extends Model
         'activo',
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | ASIGNACIONES DE MATERIAS
+    |--------------------------------------------------------------------------
+    */
+
     public function asignacionesMaterias()
     {
         return $this->hasMany(
             AsignacionMateria::class,
+            'ciclo_escolar_id'
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACTIVIDADES GRUPALES DE TUTORÍA
+    |--------------------------------------------------------------------------
+    */
+
+    public function actividadesTutorias()
+    {
+        return $this->hasMany(
+            ActividadTutoria::class,
             'ciclo_escolar_id'
         );
     }

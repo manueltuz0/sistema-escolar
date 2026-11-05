@@ -424,24 +424,20 @@
                             </option>
 
                             <option
-                                value="Disciplinaria"
+                                value="Conducta"
                                 @selected(
                                     old('tipo', $incidencia->tipo)
-                                    === 'Disciplinaria'
+                                    === 'Conducta'
                                 )
-                            >
-                                Disciplinaria
-                            </option>
+                            >Conducta</option>
 
                             <option
-                                value="Conductual"
+                                value="Convivencia"
                                 @selected(
                                     old('tipo', $incidencia->tipo)
-                                    === 'Conductual'
+                                    === 'Convivencia'
                                 )
-                            >
-                                Conductual
-                            </option>
+                            >Convivencia escolar</option>
 
                             <option
                                 value="Asistencia"
@@ -454,14 +450,22 @@
                             </option>
 
                             <option
-                                value="Otra"
+                                value="Disciplina"
                                 @selected(
                                     old('tipo', $incidencia->tipo)
-                                    === 'Otra'
+                                    === 'Disciplina'
                                 )
                             >
-                                Otra
+                                Disciplina
                             </option>
+
+                            <option
+                                value="Otro"
+                                @selected(
+                                    old('tipo', $incidencia->tipo)
+                                    === 'Otro'
+                                )
+                            >Otro</option>
 
                         </select>
 
@@ -474,72 +478,6 @@
                         @enderror
 
                     </div>
-
-
-                    {{-- PRIORIDAD --}}
-                    <div class="campo">
-
-                        <label for="prioridad">
-
-                            Prioridad
-                            <span class="requerido">*</span>
-
-                        </label>
-
-                        <select
-                            name="prioridad"
-                            id="prioridad"
-                            required
-                        >
-
-                            <option
-                                value="Baja"
-                                @selected(
-                                    old(
-                                        'prioridad',
-                                        $incidencia->prioridad
-                                    ) === 'Baja'
-                                )
-                            >
-                                🟢 Baja
-                            </option>
-
-                            <option
-                                value="Media"
-                                @selected(
-                                    old(
-                                        'prioridad',
-                                        $incidencia->prioridad
-                                    ) === 'Media'
-                                )
-                            >
-                                🟡 Media
-                            </option>
-
-                            <option
-                                value="Alta"
-                                @selected(
-                                    old(
-                                        'prioridad',
-                                        $incidencia->prioridad
-                                    ) === 'Alta'
-                                )
-                            >
-                                🔴 Alta
-                            </option>
-
-                        </select>
-
-                        @error('prioridad')
-
-                            <span class="error">
-                                {{ $message }}
-                            </span>
-
-                        @enderror
-
-                    </div>
-
 
                     {{-- ESTADO --}}
                     <div class="campo">

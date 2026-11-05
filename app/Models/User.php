@@ -7,7 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -24,7 +24,10 @@ class User extends Authenticatable
         'password',
         'role_id',
     ];
-
+public function rol(): BelongsTo
+{
+    return $this->belongsTo(Rol::class, 'role_id');
+}
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -15,8 +15,8 @@
             margin: 0;
             min-height: 100vh;
             font-family: Arial, Helvetica, sans-serif;
-            background: #f3f4f6;
-            color: #1f2937;
+            background: #f5f1f2;
+            color: #2b2025;
         }
 
         .pagina {
@@ -29,10 +29,10 @@
 
         .contenedor {
             width: 100%;
-            max-width: 620px;
+            max-width: 760px;
             background: #ffffff;
             border-radius: 14px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 12px 35px rgba(85, 18, 37, 0.10);
             padding: 36px 40px;
         }
 
@@ -43,7 +43,7 @@
         .encabezado h1 {
             margin: 0 0 8px;
             font-size: 30px;
-            color: #111827;
+            color: #741b32;
         }
 
         .encabezado p {
@@ -61,7 +61,7 @@
             margin-bottom: 8px;
             font-size: 14px;
             font-weight: 700;
-            color: #374151;
+            color: #741b32;
         }
 
         .campo input,
@@ -69,10 +69,10 @@
             width: 100%;
             height: 48px;
             padding: 0 14px;
-            border: 1px solid #d1d5db;
+            border: 1px solid #d9c7cd;
             border-radius: 8px;
             background: #ffffff;
-            color: #1f2937;
+            color: #741b32;
             font-size: 15px;
             outline: none;
             transition: border-color 0.2s, box-shadow 0.2s;
@@ -80,14 +80,40 @@
 
         .campo input:focus,
         .campo select:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+            border-color: #741b32;
+            box-shadow: 0 0 0 3px rgba(116, 27, 50, 0.12);
         }
 
         .campo select:disabled {
-            background: #f3f4f6;
+            background: #f8edf0;
             color: #9ca3af;
             cursor: not-allowed;
+        }
+
+
+        .seccion-responsable {
+            margin-top: 30px;
+            padding: 24px;
+            border: 1px solid #eadde1;
+            border-radius: 14px;
+            background: #fcf8f9;
+        }
+
+        .seccion-responsable h2 {
+            margin: 0 0 8px;
+            font-size: 19px;
+            color: #1f2937;
+        }
+
+        .seccion-responsable .descripcion {
+            margin: 0 0 20px;
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .seccion-responsable .campo:last-child {
+            margin-bottom: 0;
         }
 
         .errores {
@@ -119,7 +145,7 @@
 
         .btn-guardar {
             border: none;
-            background: #2563eb;
+            background: #741b32;
             color: white;
             padding: 12px 22px;
             border-radius: 8px;
@@ -130,7 +156,7 @@
         }
 
         .btn-guardar:hover {
-            background: #1d4ed8;
+            background: #551225;
         }
 
         .btn-guardar:active {
@@ -332,6 +358,62 @@
                     @endforeach
                 </select>
             </div>
+
+
+            {{-- Datos de madre, padre o tutor --}}
+            <section class="seccion-responsable">
+                <h2>Datos de madre, padre o tutor</h2>
+                <p class="descripcion">
+                    Estos datos son opcionales. Puedes registrarlos ahora o agregarlos posteriormente.
+                </p>
+
+                <div class="campo">
+                    <label for="responsable_nombre">Nombre completo</label>
+                    <input
+                        type="text"
+                        id="responsable_nombre"
+                        name="responsable_nombre"
+                        value="{{ old('responsable_nombre') }}"
+                        placeholder="Nombre de la madre, padre o tutor"
+                        maxlength="150"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="responsable_parentesco">Parentesco</label>
+                    <select id="responsable_parentesco" name="responsable_parentesco">
+                        <option value="">Selecciona el parentesco</option>
+                        <option value="Madre" {{ old('responsable_parentesco') == 'Madre' ? 'selected' : '' }}>Madre</option>
+                        <option value="Padre" {{ old('responsable_parentesco') == 'Padre' ? 'selected' : '' }}>Padre</option>
+                        <option value="Tutor" {{ old('responsable_parentesco') == 'Tutor' ? 'selected' : '' }}>Tutor(a)</option>
+                        <option value="Otro" {{ old('responsable_parentesco') == 'Otro' ? 'selected' : '' }}>Otro</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="responsable_email">Correo electrónico</label>
+                    <input
+                        type="email"
+                        id="responsable_email"
+                        name="responsable_email"
+                        value="{{ old('responsable_email') }}"
+                        placeholder="correo@ejemplo.com"
+                        maxlength="150"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="responsable_telefono">Teléfono</label>
+                    <input
+                        type="tel"
+                        id="responsable_telefono"
+                        name="responsable_telefono"
+                        value="{{ old('responsable_telefono') }}"
+                        placeholder="Número de contacto"
+                        maxlength="20"
+                    >
+                </div>
+            </section>
 
             {{-- Botones --}}
             <div class="acciones">

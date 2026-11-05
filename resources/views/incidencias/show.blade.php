@@ -396,40 +396,32 @@
 
                 </div>
 
+{{-- CLASIFICACIÓN --}}
+<div class="campo">
 
-                {{-- PRIORIDAD --}}
-                <div class="campo">
+    <span class="etiqueta">
+        Clasificación
+    </span>
 
-                    <span class="etiqueta">
-                        Prioridad
-                    </span>
+    <div class="valor">
 
-                    <div class="valor">
+        @if(($incidencia->clasificacion ?? 'Normal') === 'Grave')
 
-                        @if($incidencia->prioridad === 'Alta')
+            <span class="prioridad prioridad-alta">
+                🔴 Grave
+            </span>
 
-                            <span class="prioridad prioridad-alta">
-                                🔴 Alta
-                            </span>
+        @else
 
-                        @elseif($incidencia->prioridad === 'Media')
+            <span class="prioridad prioridad-baja">
+                🟢 Normal
+            </span>
 
-                            <span class="prioridad prioridad-media">
-                                🟡 Media
-                            </span>
+        @endif
 
-                        @else
+    </div>
 
-                            <span class="prioridad prioridad-baja">
-                                🟢 Baja
-                            </span>
-
-                        @endif
-
-                    </div>
-
-                </div>
-
+</div>
 
                 {{-- ESTADO --}}
                 <div class="campo">
@@ -560,67 +552,20 @@
 
     </div>
 
+{{-- BOTONES INFERIORES --}}
+<div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
 
-    {{-- INFORMACIÓN DE TUTORÍAS --}}
-    @if($incidencia->tutorias && $incidencia->tutorias->count() > 0)
+    <a href="{{ route('incidencias.index') }}"
+       class="boton boton-regresar">
+        ← Regresar a incidencias
+    </a>
 
-        <div class="tarjeta">
+    <a href="{{ route('incidencias.edit', $incidencia) }}"
+       class="boton boton-editar">
+        ✎ Editar incidencia
+    </a>
 
-            <div class="tarjeta-titulo">
-                👨‍🏫 Tutorías relacionadas
-            </div>
-
-            <div class="tarjeta-contenido">
-
-                <div class="grid">
-
-                    @foreach($incidencia->tutorias as $tutoria)
-
-                        <div class="campo campo-completo">
-
-                            <span class="etiqueta">
-                                Tutoría
-                            </span>
-
-                            <div class="valor valor-texto">
-
-                                {{ $tutoria->observaciones
-                                    ?? $tutoria->descripcion
-                                    ?? 'Tutoría registrada' }}
-
-                            </div>
-
-                        </div>
-
-                    @endforeach
-
-                </div>
-
-            </div>
-
-        </div>
-
-    @endif
-
-
-    {{-- BOTONES INFERIORES --}}
-    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
-
-        <a href="{{ route('incidencias.index') }}"
-           class="boton boton-regresar">
-            ← Regresar a incidencias
-        </a>
-
-        <a href="{{ route('incidencias.edit', $incidencia) }}"
-           class="boton boton-editar">
-            ✎ Editar incidencia
-        </a>
-        <a href="{{ route('tutorias.create', ['incidencia_id' => $incidencia->id]) }}"
-   class="boton boton-tutoria">
-    👨‍🏫 Registrar tutoría
-</a>
-
-    </div>
+</div>
 
 </div>
 

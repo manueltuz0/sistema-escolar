@@ -11,6 +11,16 @@ use App\Http\Controllers\CalificacionController;
 use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\TutoriaController;
 use App\Http\Controllers\GrupoController;
+use App\Http\Controllers\PrestamoEquipoController;
+use App\Http\Controllers\EquipoTecnologicoController;
+use App\Http\Controllers\ReservacionEquipoController;
+use App\Http\Controllers\CitatorioController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
+// CONTROLADORES DE TUTORÍAS
+use App\Http\Controllers\ActividadTutoriaController;
+use App\Http\Controllers\SeguimientoTutoriaController;
+use App\Http\Controllers\ExpedienteTutoriaController;
 
 use App\Models\Horario;
 use App\Models\AsignacionMateria;
@@ -18,7 +28,9 @@ use App\Models\Aula;
 
 use Illuminate\Support\Facades\Route;
 
-
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('logout');
 /*
 |--------------------------------------------------------------------------
 | PÁGINA PRINCIPAL
@@ -29,62 +41,33 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 /*
 |--------------------------------------------------------------------------
-| DASHBOARD
+| DASHBOARD PRINCIPAL
 |--------------------------------------------------------------------------
 */
 
 Route::get('/dashboard', function () {
 
-    /*
-    |--------------------------------------------------------------------------
-    | Horarios registrados
-    |--------------------------------------------------------------------------
-    */
-
     $horarios = Horario::with([
         'asignacionMateria.docente',
         'asignacionMateria.materia',
         'asignacionMateria.grupo',
-        'aula'
+        'aula',
     ])
         ->orderBy('hora_inicio')
         ->get();
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Asignaciones disponibles
-    |--------------------------------------------------------------------------
-    */
 
     $asignaciones = AsignacionMateria::with([
         'docente',
         'materia',
         'grupo',
-        'cicloEscolar'
-    ])
-        ->get();
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Aulas disponibles
-    |--------------------------------------------------------------------------
-    */
+        'cicloEscolar',
+    ])->get();
 
     $aulas = Aula::where('disponible', true)
         ->orderBy('nombre')
         ->get();
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Mostrar dashboard
-    |--------------------------------------------------------------------------
-    */
 
     return view('dashboard', compact(
         'horarios',
@@ -92,8 +75,7 @@ Route::get('/dashboard', function () {
         'aulas'
     ));
 
-})->middleware(['auth'])->name('dashboard');
-
+})->middleware('auth')->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------
@@ -102,38 +84,25 @@ Route::get('/dashboard', function () {
 */
 
 Route::middleware('auth')->group(function () {
-
-/*
-|--------------------------------------------------------------------------
-| GESTIÓN DE GRUPOS
-|--------------------------------------------------------------------------
-*/
-
-Route::resource(
-    'grupos',
-    GrupoController::class
-);
+     
+Route::get(
+    'prestamos_equipos/materias-por-docente/{id}',
+    [PrestamoEquipoController::class, 'materiasPorDocente']
+)->name('prestamos_equipos.materias_por_docente');
     /*
     |--------------------------------------------------------------------------
     | PERFIL
     |--------------------------------------------------------------------------
     */
 
-    Route::get(
-        '/profile',
-        [ProfileController::class, 'edit']
-    )->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
 
-    Route::patch(
-        '/profile',
-        [ProfileController::class, 'update']
-    )->name('profile.update');
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
 
-    Route::delete(
-        '/profile',
-        [ProfileController::class, 'destroy']
-    )->name('profile.destroy');
-
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
 
     /*
     |--------------------------------------------------------------------------
@@ -141,11 +110,25 @@ Route::resource(
     |--------------------------------------------------------------------------
     */
 
-    Route::resource(
-        'alumnos',
-        AlumnoController::class
-    );
+    Route::get(
+        '/alumnos/exportar',
+        [AlumnoController::class, 'exportar']
+    )->name('alumnos.exportar');
 
+    Route::post(
+        '/alumnos/importar',
+        [AlumnoController::class, 'importar']
+    )->name('alumnos.importar');
+
+    Route::resource('alumnos', AlumnoController::class);
+
+    /*
+    |--------------------------------------------------------------------------
+    | GESTIÓN DE GRUPOS
+    |--------------------------------------------------------------------------
+    */
+
+    Route::resource('grupos', GrupoController::class);
 
     /*
     |--------------------------------------------------------------------------
@@ -153,11 +136,7 @@ Route::resource(
     |--------------------------------------------------------------------------
     */
 
-    Route::resource(
-        'materias',
-        MateriaController::class
-    );
-
+    Route::resource('materias', MateriaController::class);
 
     /*
     |--------------------------------------------------------------------------
@@ -165,11 +144,22 @@ Route::resource(
     |--------------------------------------------------------------------------
     */
 
-    Route::resource(
-        'docentes',
-        DocenteController::class
-    );
+    Route::post(
+        'docentes/importar',
+        [DocenteController::class, 'importar']
+    )->name('docentes.importar');
 
+    Route::get(
+        'docentes/exportar',
+        [DocenteController::class, 'exportar']
+    )->name('docentes.exportar');
+
+    Route::get(
+        'docentes/plantilla',
+        [DocenteController::class, 'descargarPlantilla']
+    )->name('docentes.plantilla');
+
+    Route::resource('docentes', DocenteController::class);
 
     /*
     |--------------------------------------------------------------------------
@@ -182,18 +172,38 @@ Route::resource(
         AsignacionMateriaController::class
     );
 
-
     /*
     |--------------------------------------------------------------------------
     | HORARIOS
     |--------------------------------------------------------------------------
     */
 
-    Route::resource(
-        'horarios',
-        HorarioController::class
-    );
+    Route::get(
+        '/horarios/captura-rapida',
+        [HorarioController::class, 'capturaRapida']
+    )->name('horarios.captura-rapida');
 
+    Route::post(
+        '/horarios/captura-rapida',
+        [HorarioController::class, 'guardarCapturaRapida']
+    )->name('horarios.guardar-captura-rapida');
+
+    Route::get(
+        '/horarios/grupo/{grupo}/imprimir',
+        [HorarioController::class, 'imprimirGrupo']
+    )->name('horarios.imprimir-grupo');
+
+    Route::put(
+        '/horarios/captura-rapida/{horario}',
+        [HorarioController::class, 'actualizarCapturaRapida']
+    )->name('horarios.captura-rapida.actualizar');
+
+    Route::delete(
+        '/horarios/captura-rapida/{horario}',
+        [HorarioController::class, 'eliminarCapturaRapida']
+    )->name('horarios.captura-rapida.eliminar');
+
+    Route::resource('horarios', HorarioController::class);
 
     /*
     |--------------------------------------------------------------------------
@@ -201,11 +211,7 @@ Route::resource(
     |--------------------------------------------------------------------------
     */
 
-    Route::resource(
-        'aulas',
-        AulaController::class
-    );
-
+    Route::resource('aulas', AulaController::class);
 
     /*
     |--------------------------------------------------------------------------
@@ -228,31 +234,10 @@ Route::resource(
         [CalificacionController::class, 'boleta']
     )->name('calificaciones.boleta');
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | INCIDENCIAS Y TUTORÍAS
-    |--------------------------------------------------------------------------
-    */
-
-
     /*
     |--------------------------------------------------------------------------
     | HISTORIAL DEL ALUMNO
     |--------------------------------------------------------------------------
-    |
-    | Aquí podremos consultar todo el seguimiento del alumno:
-    |
-    | - Datos personales
-    | - Grupo
-    | - Incidencias
-    | - Tutorías
-    | - Seguimiento de incidencias
-    |
-    | Ejemplo:
-    |
-    | /incidencias/alumno/2/historial
-    |
     */
 
     Route::get(
@@ -260,57 +245,166 @@ Route::resource(
         [IncidenciaController::class, 'historial']
     )->name('incidencias.historial');
 
+    /*
+    |--------------------------------------------------------------------------
+    | CITATORIOS
+    |--------------------------------------------------------------------------
+    */
+
+    Route::resource('citatorios', CitatorioController::class);
+
+    Route::post(
+        '/citatorios/{citatorio}/notificar',
+        [CitatorioController::class, 'notificar']
+    )->name('citatorios.notificar');
 
     /*
     |--------------------------------------------------------------------------
     | INCIDENCIAS
     |--------------------------------------------------------------------------
-    |
-    | GET       /incidencias
-    | GET       /incidencias/create
-    | POST      /incidencias
-    | GET       /incidencias/{incidencia}
-    | GET       /incidencias/{incidencia}/edit
-    | PUT       /incidencias/{incidencia}
-    | PATCH     /incidencias/{incidencia}
-    | DELETE    /incidencias/{incidencia}
-    |
     */
 
-    Route::resource(
-        'incidencias',
-        IncidenciaController::class
-    );
-
+    Route::resource('incidencias', IncidenciaController::class);
 
     /*
     |--------------------------------------------------------------------------
-    | TUTORÍAS
+    | MÓDULO DE TUTORÍAS
     |--------------------------------------------------------------------------
-    |
-    | GET       /tutorias
-    | GET       /tutorias/create
-    | POST      /tutorias
-    | GET       /tutorias/{tutoria}
-    | GET       /tutorias/{tutoria}/edit
-    | PUT       /tutorias/{tutoria}
-    | PATCH     /tutorias/{tutoria}
-    | DELETE    /tutorias/{tutoria}
-    |
     */
 
+    // ACTIVIDADES GRUPALES
     Route::resource(
-        'tutorias',
-        TutoriaController::class
-    );
+        'tutorias/actividades',
+        ActividadTutoriaController::class
+    )->names('tutorias.actividades');
+
+    // LISTADO DE EXPEDIENTES
+    Route::get(
+        'tutorias/expedientes',
+        [ExpedienteTutoriaController::class, 'index']
+    )->name('tutorias.expedientes.index');
+
+    // EXPEDIENTE INDIVIDUAL DEL ALUMNO
+    Route::get(
+        'tutorias/alumnos/{alumno}/expediente',
+        [ExpedienteTutoriaController::class, 'show']
+    )->name('tutorias.expedientes.show');
+
+    // REGISTRAR SEGUIMIENTOS
+    Route::post(
+        'tutorias/{tutoria}/seguimientos',
+        [SeguimientoTutoriaController::class, 'store']
+    )->name('tutorias.seguimientos.store');
+
+    // ACTUALIZAR SEGUIMIENTOS
+    Route::put(
+        'tutorias/seguimientos/{seguimiento}',
+        [SeguimientoTutoriaController::class, 'update']
+    )->name('tutorias.seguimientos.update');
+
+    // ATENCIÓN INDIVIDUAL
+    Route::resource('tutorias', TutoriaController::class);
+    
+    Route::get(
+    'prestamos_equipos/buscar-alumnos',
+    [PrestamoEquipoController::class, 'buscarAlumnos']
+)->name('prestamos_equipos.buscar_alumnos');
+
+Route::get(
+    'prestamos_equipos/materias-por-docente/{id}',
+    [PrestamoEquipoController::class, 'materiasPorDocente']
+)->name('prestamos_equipos.materias_por_docente');
+    /*
+    |--------------------------------------------------------------------------
+    | PRÉSTAMO DE EQUIPO TECNOLÓGICO
+    |--------------------------------------------------------------------------
+    */
+    
+    // INVENTARIO DE EQUIPOS TECNOLÓGICOS
+Route::resource(
+    'equipos_tecnologicos',
+    EquipoTecnologicoController::class
+)->parameters([
+    'equipos_tecnologicos' => 'equipoTecnologico'
+]);
+    // RESERVACIONES
+    Route::prefix('reservaciones-equipos')
+        ->name('reservaciones_equipos.')
+        ->group(function () {
+
+            // LISTADO
+            Route::get(
+                '/',
+                [ReservacionEquipoController::class, 'index']
+            )->name('index');
+
+            // FORMULARIO DE RESERVACIÓN
+            Route::get(
+                '/crear',
+                [ReservacionEquipoController::class, 'create']
+            )->name('create');
+
+            // BUSCAR ALUMNOS
+            Route::get(
+                '/buscar-alumnos',
+                [ReservacionEquipoController::class, 'buscarAlumnos']
+            )->name('buscar_alumnos');
+
+            // MATERIAS POR SEMESTRE
+            Route::get(
+                '/materias-por-semestre',
+                [ReservacionEquipoController::class, 'materiasPorSemestre']
+            )->name('materias_por_semestre');
+
+            // CALENDARIO
+            Route::get(
+                '/calendario',
+                [ReservacionEquipoController::class, 'calendario']
+            )->name('calendario');
+
+            // GUARDAR RESERVACIÓN
+            Route::post(
+                '/',
+                [ReservacionEquipoController::class, 'store']
+            )->name('store');
+
+            // APROBAR RESERVACIÓN
+            Route::patch(
+                '/{reservacionEquipo}/aprobar',
+                [ReservacionEquipoController::class, 'aprobar']
+            )->name('aprobar');
+
+            // RECHAZAR RESERVACIÓN
+            Route::patch(
+                '/{reservacionEquipo}/rechazar',
+                [ReservacionEquipoController::class, 'rechazar']
+            )->name('rechazar');
+
+            // CANCELAR RESERVACIÓN
+            Route::patch(
+                '/{reservacionEquipo}/cancelar',
+                [ReservacionEquipoController::class, 'cancelar']
+            )->name('cancelar');
+
+            // VER DETALLE
+            Route::get(
+                '/{reservacionEquipo}',
+                [ReservacionEquipoController::class, 'show']
+            )->name('show');
+        });
+
+    /*
+    |--------------------------------------------------------------------------
+    | PRÉSTAMOS TRADICIONALES
+    |--------------------------------------------------------------------------
+    */
+
+Route::resource(
+    'prestamos_equipos',
+    PrestamoEquipoController::class
+)->parameters([
+    'prestamos_equipos' => 'prestamoEquipo'
+]);
 
 });
-
-
-/*
-|--------------------------------------------------------------------------
-| AUTENTICACIÓN
-|--------------------------------------------------------------------------
-*/
-
 require __DIR__.'/auth.php';

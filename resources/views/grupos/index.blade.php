@@ -1,561 +1,423 @@
 <x-app-layout>
+    <style>
+        .grupos-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 28px 20px;
+            color: #292329;
+        }
 
-    <div class="min-h-screen bg-gray-50 py-8">
+        .grupos-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+        }
 
-        <div class="max-w-7xl mx-auto px-6">
+        .grupos-titulo {
+            margin: 0;
+            color: #711b32;
+            font-size: 27px;
+            font-weight: 800;
+        }
 
-            {{-- ===================================================== --}}
-            {{-- ENCABEZADO --}}
-            {{-- ===================================================== --}}
+        .grupos-subtitulo {
+            margin-top: 5px;
+            color: #75666c;
+            font-size: 13px;
+        }
 
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-7">
+        .btn-vino {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 15px;
+            border: 1px solid #711b32;
+            border-radius: 8px;
+            background: #711b32;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background .2s;
+        }
 
-                <div>
+        .btn-vino:hover {
+            background: #531326;
+        }
 
-                    <h1 class="text-2xl font-bold text-gray-800">
-                        Gestión de Grupos
-                    </h1>
+        .btn-blanco {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 12px;
+            border: 1px solid #d8c4ca;
+            border-radius: 7px;
+            background: #fff;
+            color: #711b32;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
-                    <p class="text-sm text-gray-500 mt-1">
-                        Administra los grupos escolares y consulta sus alumnos.
-                    </p>
+        .btn-blanco:hover {
+            background: #f8eef1;
+        }
 
-                </div>
+        .grupos-filtros {
+            display: flex;
+            align-items: end;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 16px;
+            border: 1px solid #eadde1;
+            border-radius: 12px;
+            background: #fff;
+        }
 
-                <div class="flex items-center gap-2">
+        .grupo-campo {
+            display: flex;
+            flex: 1;
+            min-width: 190px;
+            flex-direction: column;
+            gap: 6px;
+        }
 
-                    <a
-                        href="{{ route('dashboard') }}"
-                        class="px-4 py-2 bg-white border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-100 text-sm"
-                    >
-                        ← Dashboard
-                    </a>
+        .grupo-campo label {
+            color: #5c2738;
+            font-size: 12px;
+            font-weight: 700;
+        }
 
-                    <a
-                        href="{{ route('grupos.create') }}"
-                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-semibold shadow-sm"
-                    >
-                        + Registrar grupo
-                    </a>
+        .grupo-campo input,
+        .grupo-campo select {
+            width: 100%;
+            min-height: 40px;
+            border: 1px solid #dfd1d6;
+            border-radius: 7px;
+            padding: 8px 10px;
+            background: #fff;
+            font-size: 13px;
+        }
 
-                </div>
+        .grupos-resumen {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
 
+        .resumen-item {
+            padding: 9px 13px;
+            border: 1px solid #eadde1;
+            border-radius: 8px;
+            background: #fff;
+            color: #5b2638;
+            font-size: 13px;
+        }
+
+        .grupos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+            gap: 14px;
+        }
+
+        .grupo-card {
+            overflow: hidden;
+            border: 1px solid #eadde1;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 3px 10px rgba(70, 20, 38, .06);
+        }
+
+        .grupo-card-cabecera {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 12px 14px;
+            background: #711b32;
+            color: #fff;
+        }
+
+        .grupo-card-nombre {
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .grupo-badge {
+            flex-shrink: 0;
+            padding: 4px 8px;
+            border: 1px solid rgba(255,255,255,.45);
+            border-radius: 20px;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .grupo-card-cuerpo {
+            padding: 13px 14px;
+        }
+
+        .grupo-dato {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 7px 0;
+            border-bottom: 1px solid #f1e8eb;
+            font-size: 12px;
+        }
+
+        .grupo-dato:last-child {
+            border-bottom: none;
+        }
+
+        .grupo-dato span {
+            color: #77676d;
+        }
+
+        .grupo-dato strong {
+            color: #49202e;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .grupo-card-acciones {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            padding: 11px 14px;
+            border-top: 1px solid #f0e4e8;
+            background: #fffafb;
+        }
+
+        .grupo-card-acciones form {
+            margin: 0;
+        }
+
+        .btn-eliminar {
+            border-color: #b42335;
+            color: #b42335;
+        }
+
+        .btn-eliminar:hover {
+            background: #fff0f1;
+        }
+
+        .grupos-mensaje {
+            margin-bottom: 16px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .mensaje-exito {
+            border: 1px solid #b8e2c5;
+            background: #effaf2;
+            color: #176534;
+        }
+
+        .mensaje-error {
+            border: 1px solid #f0c2c6;
+            background: #fff1f2;
+            color: #a11d2c;
+        }
+
+        .grupos-vacio {
+            padding: 35px 20px;
+            border: 1px dashed #d8b9c3;
+            border-radius: 12px;
+            background: #fff;
+            text-align: center;
+        }
+
+        .grupos-vacio h3 {
+            margin-bottom: 6px;
+            color: #711b32;
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .grupos-vacio p {
+            margin-bottom: 15px;
+            color: #77676d;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .grupos-page {
+                padding: 20px 12px;
+            }
+
+            .grupos-titulo {
+                font-size: 23px;
+            }
+
+            .grupos-filtros {
+                align-items: stretch;
+            }
+
+            .grupos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <div class="grupos-page">
+        <div class="grupos-header">
+            <div>
+                <h1 class="grupos-titulo">Gestión de Grupos</h1>
+                <p class="grupos-subtitulo">
+                    Consulta y administra los grupos escolares.
+                </p>
             </div>
 
-
-            {{-- ===================================================== --}}
-            {{-- MENSAJES --}}
-            {{-- ===================================================== --}}
-
-            @if(session('success'))
-
-                <div class="mb-5 p-4 rounded-xl bg-green-50 border border-green-200 text-green-700 text-sm">
-                    ✓ {{ session('success') }}
-                </div>
-
-            @endif
-
-
-            @if(session('error'))
-
-                <div class="mb-5 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
-                    ⚠ {{ session('error') }}
-                </div>
-
-            @endif
-
-
-            {{-- ===================================================== --}}
-            {{-- BUSCADOR --}}
-            {{-- ===================================================== --}}
-
-            <div class="mb-8">
-
-                <div class="max-w-4xl mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
-
-                    <div class="flex items-center gap-3 mb-4">
-
-                        <div class="w-9 h-9 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600">
-                            🔎
-                        </div>
-
-                        <div>
-
-                            <h2 class="font-semibold text-gray-800">
-                                Buscar grupos
-                            </h2>
-
-                            <p class="text-xs text-gray-500">
-                                Busca por grupo, especialidad o grado.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <form
-                        action="{{ route('grupos.index') }}"
-                        method="GET"
-                    >
-
-                        <div class="flex flex-col md:flex-row gap-3">
-
-                            {{-- BUSCAR --}}
-
-                            <div class="flex-1">
-
-                                <label
-                                    for="buscar"
-                                    class="block text-xs font-semibold text-gray-600 mb-1.5"
-                                >
-                                    Nombre o especialidad
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="buscar"
-                                    name="buscar"
-                                    value="{{ $busqueda }}"
-                                    placeholder="Ej. A, B, C o especialidad..."
-                                    class="w-full h-10 rounded-lg border-gray-300 text-sm focus:border-blue-500 focus:ring-blue-500"
-                                >
-
-                            </div>
-
-
-                            {{-- GRADO --}}
-
-                            <div class="w-full md:w-44">
-
-                                <label
-                                    for="grado"
-                                    class="block text-xs font-semibold text-gray-600 mb-1.5"
-                                >
-                                    Grado
-                                </label>
-
-                                <select
-                                    id="grado"
-                                    name="grado"
-                                    class="w-full h-10 rounded-lg border-gray-300 text-sm focus:border-blue-500 focus:ring-blue-500"
-                                >
-
-                                    <option value="">
-                                        Todos
-                                    </option>
-
-                                    @foreach($grados as $gradoItem)
-
-                                        <option
-                                            value="{{ $gradoItem }}"
-                                            {{ (string)$grado === (string)$gradoItem ? 'selected' : '' }}
-                                        >
-                                            {{ $gradoItem }}° grado
-                                        </option>
-
-                                    @endforeach
-
-                                </select>
-
-                            </div>
-
-
-                            {{-- BOTÓN BUSCAR --}}
-
-                            <div class="flex items-end">
-
-                                <button
-                                    type="submit"
-                                    class="h-10 px-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold text-sm shadow-sm"
-                                >
-                                    🔎 Buscar
-                                </button>
-
-                            </div>
-
-                        </div>
-
-
-                        {{-- LIMPIAR --}}
-
-                        @if(request()->has('buscar') || request()->has('grado'))
-
-                            <div class="mt-3">
-
-                                <a
-                                    href="{{ route('grupos.index') }}"
-                                    class="text-xs text-gray-500 hover:text-blue-600"
-                                >
-                                    ← Limpiar búsqueda
-                                </a>
-
-                            </div>
-
-                        @endif
-
-                    </form>
-
-                </div>
-
-            </div>
-
-
-            {{-- ===================================================== --}}
-            {{-- RESULTADOS --}}
-            {{-- ===================================================== --}}
-
-            @if(request()->has('buscar') || request()->has('grado'))
-
-                <div class="flex items-center justify-between mb-4">
-
-                    <div>
-
-                        <h2 class="text-lg font-bold text-gray-800">
-                            Grupos encontrados
-                        </h2>
-
-                        <p class="text-xs text-gray-500 mt-1">
-                            Resultados de la búsqueda.
-                        </p>
-
-                    </div>
-
-
-                    <div class="px-3 py-1.5 bg-white border border-gray-200 rounded-lg">
-
-                        <span class="text-sm font-semibold text-gray-600">
-                            {{ $grupos->total() }}
-                        </span>
-
-                        <span class="text-xs text-gray-400">
-                            {{ $grupos->total() == 1 ? 'grupo' : 'grupos' }}
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                {{-- ================================================= --}}
-                {{-- SIN RESULTADOS --}}
-                {{-- ================================================= --}}
-
-                @if($grupos->count() === 0)
-
-                    <div class="bg-white rounded-2xl border border-gray-200 p-14 text-center">
-
-                        <div class="w-16 h-16 mx-auto rounded-full bg-gray-100 flex items-center justify-center text-3xl mb-4">
-                            🔎
-                        </div>
-
-                        <h3 class="font-semibold text-gray-700">
-                            No se encontraron grupos
-                        </h3>
-
-                        <p class="text-sm text-gray-500 mt-1">
-                            Intenta con otro nombre, especialidad o grado.
-                        </p>
-
-                    </div>
-
-
-                @else
-
-
-                    {{-- ================================================= --}}
-                    {{-- TARJETAS --}}
-                    {{-- ================================================= --}}
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-
-                        @foreach($grupos as $grupo)
-
-                            <div
-                                class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-md transition duration-200"
-                            >
-
-
-                                {{-- ===================================== --}}
-                                {{-- CABECERA DE TARJETA --}}
-                                {{-- ===================================== --}}
-
-                                <div class="bg-gradient-to-r from-blue-600 to-blue-500 px-5 py-4">
-
-                                    <div class="flex items-center justify-between gap-4">
-
-
-                                        <div>
-
-                                            <p class="text-blue-100 text-xs font-semibold uppercase tracking-wide">
-                                                Grupo escolar
-                                            </p>
-
-
-                                            {{-- ================================= --}}
-                                            {{-- GRADO Y LETRA DEL GRUPO --}}
-                                            {{-- ================================= --}}
-
-                                            <div class="flex items-center gap-2 mt-1">
-
-                                                <h3 class="text-2xl font-bold text-white">
-                                                    {{ $grupo->grado }}° grado
-                                                </h3>
-
-                                                <span class="text-blue-100 text-xl">
-                                                    —
-                                                </span>
-
-                                                <span class="text-2xl font-bold text-white">
-                                                    {{ strtoupper($grupo->nombre) }}
-                                                </span>
-
-                                            </div>
-
-
-                                            <p class="text-blue-100 text-xs mt-1">
-                                                Grupo {{ strtoupper($grupo->nombre) }}
-                                            </p>
-
-                                        </div>
-
-
-                                        {{-- ================================= --}}
-                                        {{-- IDENTIFICADOR --}}
-                                        {{-- ================================= --}}
-
-                                        <div
-                                            class="w-14 h-14 flex-shrink-0 rounded-xl bg-white/20 border border-white/20 flex items-center justify-center"
-                                        >
-
-                                            <span class="text-white text-lg font-bold">
-                                                {{ $grupo->grado }}°{{ strtoupper($grupo->nombre) }}
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-
-                                {{-- ===================================== --}}
-                                {{-- INFORMACIÓN --}}
-                                {{-- ===================================== --}}
-
-                                <div class="p-5">
-
-
-                                    {{-- GRADO --}}
-
-                                    <div class="flex items-center gap-3 mb-4">
-
-                                        <div class="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
-                                            🎓
-                                        </div>
-
-                                        <div>
-
-                                            <p class="text-xs text-gray-400">
-                                                Grado
-                                            </p>
-
-                                            <p class="text-sm font-semibold text-gray-700">
-                                                {{ $grupo->grado }}° grado
-                                            </p>
-
-                                        </div>
-
-                                    </div>
-
-
-                                    {{-- ESPECIALIDAD --}}
-
-                                    <div class="flex items-center gap-3 mb-4">
-
-                                        <div class="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
-                                            📚
-                                        </div>
-
-                                        <div class="min-w-0">
-
-                                            <p class="text-xs text-gray-400">
-                                                Especialidad
-                                            </p>
-
-                                            <p class="text-sm font-semibold text-gray-700 truncate">
-                                                {{ $grupo->especialidad ?: 'General' }}
-                                            </p>
-
-                                        </div>
-
-                                    </div>
-
-
-                                    {{-- CICLO ESCOLAR --}}
-
-                                    <div class="flex items-center gap-3 mb-4">
-
-                                        <div class="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center text-green-600">
-                                            📅
-                                        </div>
-
-                                        <div>
-
-                                            <p class="text-xs text-gray-400">
-                                                Ciclo escolar
-                                            </p>
-
-                                            <p class="text-sm font-semibold text-gray-700">
-                                                {{ $grupo->cicloEscolar->nombre ?? 'Sin ciclo' }}
-                                            </p>
-
-                                        </div>
-
-                                    </div>
-
-
-                                    {{-- ALUMNOS --}}
-
-                                    <div class="flex items-center justify-between bg-gray-50 rounded-xl px-4 py-3">
-
-                                        <div class="flex items-center gap-3">
-
-                                            <div class="w-9 h-9 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600">
-                                                👥
-                                            </div>
-
-                                            <div>
-
-                                                <p class="text-xs text-gray-400">
-                                                    Alumnos
-                                                </p>
-
-                                                <p class="text-sm font-semibold text-gray-700">
-                                                    {{ $grupo->alumnos_count }}
-                                                </p>
-
-                                            </div>
-
-                                        </div>
-
-
-                                        <span class="text-xs text-gray-400">
-                                            registrados
-                                        </span>
-
-                                    </div>
-
-
-                                    {{-- ===================================== --}}
-                                    {{-- BOTONES --}}
-                                    {{-- ===================================== --}}
-
-                                    <div class="grid grid-cols-2 gap-2 mt-5">
-
-
-                                        <a
-                                            href="{{ route('grupos.show', $grupo) }}"
-                                            class="flex items-center justify-center gap-1.5 px-3 py-2.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 text-sm font-semibold"
-                                        >
-                                            👁 Ver
-                                        </a>
-
-
-                                        <a
-                                            href="{{ route('grupos.edit', $grupo) }}"
-                                            class="flex items-center justify-center gap-1.5 px-3 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-semibold"
-                                        >
-                                            ✏ Editar
-                                        </a>
-
-                                    </div>
-
-
-                                    {{-- ===================================== --}}
-                                    {{-- ELIMINAR --}}
-                                    {{-- ===================================== --}}
-
-                                    <form
-                                        action="{{ route('grupos.destroy', $grupo) }}"
-                                        method="POST"
-                                        class="mt-2"
-                                        onsubmit="return confirm('¿Seguro que deseas eliminar este grupo?');"
-                                    >
-
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button
-                                            type="submit"
-                                            class="w-full flex items-center justify-center gap-1.5 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg text-xs font-medium"
-                                        >
-                                            🗑 Eliminar grupo
-                                        </button>
-
-                                    </form>
-
-
-                                </div>
-
-                            </div>
-
-                        @endforeach
-
-                    </div>
-
-
-                    {{-- =============================================== --}}
-                    {{-- PAGINACIÓN --}}
-                    {{-- =============================================== --}}
-
-                    @if($grupos->hasPages())
-
-                        <div class="mt-6 bg-white rounded-xl border border-gray-200 p-4">
-
-                            {{ $grupos->links() }}
-
-                        </div>
-
-                    @endif
-
-
-                @endif
-
-
-            @else
-
-
-                {{-- ================================================= --}}
-                {{-- ESTADO INICIAL --}}
-                {{-- ================================================= --}}
-
-                <div class="max-w-4xl mx-auto">
-
-                    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-14 text-center">
-
-                        <div class="w-20 h-20 mx-auto rounded-2xl bg-blue-50 flex items-center justify-center text-4xl mb-5">
-                            👥
-                        </div>
-
-                        <h2 class="text-xl font-bold text-gray-800">
-                            Consulta tus grupos
-                        </h2>
-
-                        <p class="text-sm text-gray-500 mt-2 max-w-md mx-auto">
-                            Utiliza el buscador para encontrar un grupo por nombre,
-                            especialidad o grado.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            @endif
-
-
+            <a href="{{ route('grupos.create') }}" class="btn-vino">
+                + Crear grupo
+            </a>
         </div>
 
-    </div>
+        @if (session('success'))
+            <div class="grupos-mensaje mensaje-exito">
+                {{ session('success') }}
+            </div>
+        @endif
 
+        @if (session('error'))
+            <div class="grupos-mensaje mensaje-error">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <form method="GET" action="{{ route('grupos.index') }}"
+              class="grupos-filtros">
+            <div class="grupo-campo">
+                <label for="buscar">Buscar grupo o especialidad</label>
+                <input
+                    id="buscar"
+                    type="text"
+                    name="buscar"
+                    value="{{ $busqueda }}"
+                    placeholder="Ej. A, B, C o especialidad"
+                >
+            </div>
+
+            <div class="grupo-campo" style="max-width: 190px;">
+                <label for="grado">Filtrar por grado</label>
+                <select id="grado" name="grado">
+                    <option value="">Todos los grados</option>
+                    @foreach ($grados as $g)
+                        <option value="{{ $g }}"
+                            @selected((string) $grado === (string) $g)>
+                            {{ $g }}.° semestre
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <button type="submit" class="btn-vino">
+                Buscar
+            </button>
+
+            @if ($busqueda !== '' || ($grado !== null && $grado !== ''))
+                <a href="{{ route('grupos.index') }}" class="btn-blanco">
+                    Limpiar filtros
+                </a>
+            @endif
+        </form>
+
+        <div class="grupos-resumen">
+            <div class="resumen-item">
+                <strong>{{ $grupos->count() }}</strong>
+                {{ $grupos->count() === 1 ? 'grupo encontrado' : 'grupos encontrados' }}
+            </div>
+        </div>
+
+        @if ($grupos->isNotEmpty())
+            <div class="grupos-grid">
+                @foreach ($grupos as $grupo)
+                    <article class="grupo-card">
+                        <div class="grupo-card-cabecera">
+                            <div class="grupo-card-nombre">
+                                {{ $grupo->grado }}.° {{ $grupo->nombre }}
+                            </div>
+
+                            <span class="grupo-badge">
+                                {{ $grupo->alumnos_count }}
+                                {{ $grupo->alumnos_count === 1 ? 'alumno' : 'alumnos' }}
+                            </span>
+                        </div>
+
+                        <div class="grupo-card-cuerpo">
+                            <div class="grupo-dato">
+                                <span>Grado</span>
+                                <strong>{{ $grupo->grado }}.° semestre</strong>
+                            </div>
+
+                            <div class="grupo-dato">
+                                <span>Especialidad</span>
+                                <strong>{{ $grupo->especialidad ?: 'No especificada' }}</strong>
+                            </div>
+
+                            <div class="grupo-dato">
+                                <span>Ciclo escolar</span>
+                                <strong>
+                                    @if ($grupo->cicloEscolar)
+                                        {{ $grupo->cicloEscolar->nombre
+                                            ?? $grupo->cicloEscolar->ciclo
+                                            ?? 'Registrado' }}
+                                    @else
+                                        No asignado
+                                    @endif
+                                </strong>
+                            </div>
+                        </div>
+
+                        <div class="grupo-card-acciones">
+                            <a href="{{ route('grupos.show', $grupo) }}"
+                               class="btn-blanco">
+                                Ver
+                            </a>
+
+                            <a href="{{ route('grupos.edit', $grupo) }}"
+                               class="btn-blanco">
+                                Editar
+                            </a>
+
+                            @if ($grupo->alumnos_count == 0)
+                                <form
+                                    action="{{ route('grupos.destroy', $grupo) }}"
+                                    method="POST"
+                                    onsubmit="return confirm('¿Seguro que deseas eliminar este grupo?');"
+                                >
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="submit"
+                                            class="btn-blanco btn-eliminar">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+        @else
+            <div class="grupos-vacio">
+                <h3>No se encontraron grupos</h3>
+                <p>
+                    Prueba con otro nombre o grado, o registra un grupo nuevo.
+                </p>
+                <a href="{{ route('grupos.create') }}" class="btn-vino">
+                    Crear grupo
+                </a>
+            </div>
+        @endif
+    </div>
 </x-app-layout>

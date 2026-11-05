@@ -198,22 +198,30 @@ class MateriaController extends Controller
                 'Materia actualizada correctamente.'
             );
     }
+/**
+ * Eliminar una materia.
+ */
+public function destroy(string $id)
+{
+    $materia = Materia::findOrFail($id);
 
-
-    /**
-     * Eliminar una materia.
-     */
-    public function destroy(string $id)
-    {
-        $materia = Materia::findOrFail($id);
-
-        $materia->delete();
-
+    // Evitar eliminar materias utilizadas en asignaciones.
+    if ($materia->asignaciones()->exists()) {
         return redirect()
             ->route('materias.index')
             ->with(
-                'success',
-                'Materia eliminada correctamente.'
+                'error',
+                'No se puede eliminar esta materia porque tiene asignaciones registradas. Puedes desactivarla desde la edición.'
             );
+    }
+
+    $materia->delete();
+
+    return redirect()
+        ->route('materias.index')
+        ->with(
+            'success',
+            'Materia eliminada correctamente.'
+        );
     }
 }

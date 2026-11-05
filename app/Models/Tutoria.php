@@ -9,77 +9,50 @@ class Tutoria extends Model
 {
     use HasFactory;
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | TABLA
-    |--------------------------------------------------------------------------
-    */
-
     protected $table = 'tutorias';
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | CAMPOS
-    |--------------------------------------------------------------------------
-    */
-
     protected $fillable = [
-
         'alumno_id',
-
-        'incidencia_id',
-
+        'docente_id',
         'fecha',
-
         'tipo',
-
         'motivo',
-
         'situacion',
-
         'acuerdos',
-
         'compromisos_alumno',
-
         'compromisos_tutor',
-
         'fecha_seguimiento',
-
         'estado',
-
         'observaciones',
-
     ];
 
+    protected $casts = [
+        'fecha' => 'date',
+        'fecha_seguimiento' => 'date',
+    ];
 
     /*
     |--------------------------------------------------------------------------
-    | ALUMNO
+    | RELACIONES
     |--------------------------------------------------------------------------
     */
 
+    // Alumno atendido
     public function alumno()
     {
-        return $this->belongsTo(
-            Alumno::class,
-            'alumno_id'
-        );
+        return $this->belongsTo(Alumno::class, 'alumno_id');
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | INCIDENCIA
-    |--------------------------------------------------------------------------
-    */
-
-    public function incidencia()
+    // Docente que realizó la atención
+    public function docente()
     {
-        return $this->belongsTo(
-            Incidencia::class,
-            'incidencia_id'
-        );
+        return $this->belongsTo(Docente::class, 'docente_id');
+    }
+
+    // Seguimientos de esta atención individual
+    public function seguimientos()
+    {
+        return $this->hasMany(SeguimientoTutoria::class, 'tutoria_id')
+            ->orderBy('fecha_programada');
     }
 }

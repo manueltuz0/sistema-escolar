@@ -3,193 +3,80 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alumno;
-use App\Models\Incidencia;
+use App\Models\Docente;
 use App\Models\Tutoria;
 use Illuminate\Http\Request;
 
 class TutoriaController extends Controller
 {
     /**
-     * Mostrar listado de tutorías.
+     * Mostrar listado de atenciones individuales.
      */
     public function index(Request $request)
     {
         $query = Tutoria::with([
             'alumno.grupo',
-            'incidencia'
+            'docente',
+            'seguimientos'
         ])->latest('fecha');
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | BUSCAR ALUMNO
-        |--------------------------------------------------------------------------
-        */
-
+        // Buscar alumno por matrícula, nombre o apellido.
         if ($request->filled('buscar')) {
-
             $buscar = trim($request->buscar);
 
             $query->whereHas('alumno', function ($q) use ($buscar) {
-
                 $q->where('matricula', 'like', "%{$buscar}%")
                     ->orWhere('nombres', 'like', "%{$buscar}%")
                     ->orWhere('apellidos', 'like', "%{$buscar}%");
-
             });
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | FILTRAR POR ESTADO
-        |--------------------------------------------------------------------------
-        */
-
+        // Filtrar por estado.
         if ($request->filled('estado')) {
-
-            $query->where(
-                'estado',
-                $request->estado
-            );
+            $query->where('estado', $request->estado);
         }
 
+        $tutorias = $query->paginate(10)->withQueryString();
 
-        /*
-        |--------------------------------------------------------------------------
-        | PAGINACIÓN
-        |--------------------------------------------------------------------------
-        */
-
-        $tutorias = $query
-            ->paginate(10)
-            ->withQueryString();
-
-
-        return view(
-            'tutorias.index',
-            compact('tutorias')
-        );
+        return view('tutorias.index', compact('tutorias'));
     }
 
-
     /**
-     * Formulario para registrar una tutoría.
-     *
-     * Si se recibe incidencia_id:
-     *
-     * /tutorias/create?incidencia_id=3
-     *
-     * se carga automáticamente esa incidencia.
+     * Mostrar formulario para registrar atención individual.
      */
-    public function create(Request $request)
+    public function create()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | ALUMNOS
-        |--------------------------------------------------------------------------
-        */
-
         $alumnos = Alumno::with('grupo')
             ->orderBy('apellidos')
             ->orderBy('nombres')
             ->get();
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | INCIDENCIA SELECCIONADA
-        |--------------------------------------------------------------------------
-        */
-
-        $incidenciaSeleccionada = null;
-
-
-        if ($request->filled('incidencia_id')) {
-
-            $incidenciaSeleccionada = Incidencia::with([
-                'alumno.grupo'
-            ])->find(
-                $request->incidencia_id
-            );
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | INCIDENCIAS DISPONIBLES
-        |--------------------------------------------------------------------------
-        |
-        | Se utilizan para mostrar las incidencias que pueden
-        | relacionarse con una tutoría.
-        |
-        */
-
-        $incidencias = Incidencia::with([
-            'alumno.grupo'
-        ])
-            ->whereIn('estado', [
-                'Pendiente',
-                'En seguimiento',
-                'Atendida'
-            ])
-            ->latest('fecha')
+        $docentes = Docente::where('activo', true)
+            ->orderBy('nombres')
+            ->orderBy('apellidos')
             ->get();
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | VISTA
-        |--------------------------------------------------------------------------
-        */
-
-        return view(
-            'tutorias.create',
-            compact(
-                'alumnos',
-                'incidencias',
-                'incidenciaSeleccionada'
-            )
-        );
+        return view('tutorias.create', compact(
+            'alumnos',
+            'docentes'
+        ));
     }
 
-
     /**
-     * Guardar tutoría.
+     * Guardar una atención individual.
      */
     public function store(Request $request)
     {
         $datos = $request->validate([
-
-            /*
-            |--------------------------------------------------------------------------
-            | ALUMNO
-            |--------------------------------------------------------------------------
-            */
-
             'alumno_id' => [
                 'required',
                 'exists:alumnos,id'
             ],
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | INCIDENCIA RELACIONADA
-            |--------------------------------------------------------------------------
-            */
-
-            'incidencia_id' => [
+            'docente_id' => [
                 'nullable',
-                'exists:incidencias,id'
+                'exists:docentes,id'
             ],
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | DATOS DE TUTORÍA
-            |--------------------------------------------------------------------------
-            */
 
             'fecha' => [
                 'required',
@@ -230,7 +117,8 @@ class TutoriaController extends Controller
 
             'fecha_seguimiento' => [
                 'nullable',
-                'date'
+                'date',
+                'after_or_equal:fecha'
             ],
 
             'estado' => [
@@ -244,154 +132,72 @@ class TutoriaController extends Controller
             ],
         ]);
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | GUARDAR TUTORÍA
-        |--------------------------------------------------------------------------
-        */
-
         $tutoria = Tutoria::create($datos);
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | ACTUALIZAR INCIDENCIA
-        |--------------------------------------------------------------------------
-        |
-        | Si la tutoría nace de una incidencia,
-        | automáticamente pasa a "En seguimiento".
-        |
-        */
-
-        if (!empty($datos['incidencia_id'])) {
-
-            Incidencia::where(
-                'id',
-                $datos['incidencia_id']
-            )->update([
-                'estado' => 'En seguimiento'
-            ]);
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | REGRESAR
-        |--------------------------------------------------------------------------
-        */
-
         return redirect()
-            ->route(
-                'tutorias.show',
-                $tutoria
-            )
+            ->route('tutorias.show', $tutoria)
             ->with(
                 'success',
-                'La tutoría se registró correctamente y quedó vinculada con la incidencia.'
+                'La atención individual se registró correctamente.'
             );
     }
 
-
     /**
-     * Mostrar una tutoría.
+     * Mostrar una atención individual.
      */
     public function show(Tutoria $tutoria)
     {
         $tutoria->load([
             'alumno.grupo',
-            'incidencia.alumno.grupo'
+            'docente',
+            'seguimientos'
         ]);
 
-
-        return view(
-            'tutorias.show',
-            compact('tutoria')
-        );
+        return view('tutorias.show', compact('tutoria'));
     }
-
 
     /**
      * Formulario de edición.
      */
     public function edit(Tutoria $tutoria)
     {
-        /*
-        |--------------------------------------------------------------------------
-        | CARGAR TUTORÍA
-        |--------------------------------------------------------------------------
-        */
-
         $tutoria->load([
             'alumno.grupo',
-            'incidencia.alumno.grupo'
+            'docente',
+            'seguimientos'
         ]);
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | ALUMNOS
-        |--------------------------------------------------------------------------
-        */
 
         $alumnos = Alumno::with('grupo')
             ->orderBy('apellidos')
             ->orderBy('nombres')
             ->get();
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | INCIDENCIAS
-        |--------------------------------------------------------------------------
-        */
-
-        $incidencias = Incidencia::with([
-            'alumno.grupo'
-        ])
-            ->latest('fecha')
+        $docentes = Docente::where('activo', true)
+            ->orderBy('nombres')
+            ->orderBy('apellidos')
             ->get();
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | INCIDENCIA SELECCIONADA
-        |--------------------------------------------------------------------------
-        */
-
-        $incidenciaSeleccionada = $tutoria->incidencia;
-
-
-        return view(
-            'tutorias.edit',
-            compact(
-                'tutoria',
-                'alumnos',
-                'incidencias',
-                'incidenciaSeleccionada'
-            )
-        );
+        return view('tutorias.edit', compact(
+            'tutoria',
+            'alumnos',
+            'docentes'
+        ));
     }
 
-
     /**
-     * Actualizar tutoría.
+     * Actualizar una atención individual.
      */
-    public function update(
-        Request $request,
-        Tutoria $tutoria
-    ) {
-
+    public function update(Request $request, Tutoria $tutoria)
+    {
         $datos = $request->validate([
-
             'alumno_id' => [
                 'required',
                 'exists:alumnos,id'
             ],
 
-            'incidencia_id' => [
+            'docente_id' => [
                 'nullable',
-                'exists:incidencias,id'
+                'exists:docentes,id'
             ],
 
             'fecha' => [
@@ -433,7 +239,8 @@ class TutoriaController extends Controller
 
             'fecha_seguimiento' => [
                 'nullable',
-                'date'
+                'date',
+                'after_or_equal:fecha'
             ],
 
             'estado' => [
@@ -447,64 +254,38 @@ class TutoriaController extends Controller
             ],
         ]);
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | GUARDAR CAMBIOS
-        |--------------------------------------------------------------------------
-        */
-
         $tutoria->update($datos);
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | ACTUALIZAR INCIDENCIA
-        |--------------------------------------------------------------------------
-        */
-
-        if (!empty($datos['incidencia_id'])) {
-
-            Incidencia::where(
-                'id',
-                $datos['incidencia_id']
-            )->update([
-                'estado' => 'En seguimiento'
-            ]);
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | REGRESAR
-        |--------------------------------------------------------------------------
-        */
-
         return redirect()
-            ->route(
-                'tutorias.show',
-                $tutoria
-            )
+            ->route('tutorias.show', $tutoria)
             ->with(
                 'success',
-                'La tutoría se actualizó correctamente.'
+                'La atención individual se actualizó correctamente.'
             );
     }
 
-
     /**
-     * Eliminar tutoría.
+     * Eliminar una atención individual.
      */
     public function destroy(Tutoria $tutoria)
     {
-        $tutoria->delete();
+        // Evitar eliminar atenciones que tengan seguimientos registrados.
+        if ($tutoria->seguimientos()->exists()) {
+            return redirect()
+                ->route('tutorias.index')
+                ->with(
+                    'error',
+                    'No se puede eliminar esta atención porque tiene seguimientos registrados.'
+                );
+        }
 
+        $tutoria->delete();
 
         return redirect()
             ->route('tutorias.index')
             ->with(
                 'success',
-                'La tutoría se eliminó correctamente.'
+                'La atención individual se eliminó correctamente.'
             );
     }
 }

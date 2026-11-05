@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Grupo extends Model
 {
+    use HasFactory;
+
+    protected $table = 'grupos';
+
     protected $fillable = [
         'nombre',
         'grado',
@@ -19,27 +24,18 @@ class Grupo extends Model
         'grado' => 'integer',
     ];
 
-    /**
-     * Un grupo pertenece a un ciclo escolar.
-     */
     public function cicloEscolar(): BelongsTo
     {
-        return $this->belongsTo(CicloEscolar::class);
+        return $this->belongsTo(CicloEscolar::class, 'ciclo_escolar_id');
     }
 
-    /**
-     * Un grupo puede tener muchos alumnos.
-     */
     public function alumnos(): HasMany
     {
-        return $this->hasMany(Alumno::class);
+        return $this->hasMany(Alumno::class, 'grupo_id');
     }
 
-    /**
-     * Un grupo puede tener muchas asignaciones de materias.
-     */
     public function asignacionesMaterias(): HasMany
     {
-        return $this->hasMany(AsignacionMateria::class);
+        return $this->hasMany(AsignacionMateria::class, 'grupo_id');
     }
 }

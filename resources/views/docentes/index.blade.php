@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Gestión de Docentes</title>
 
     <style>
@@ -14,117 +13,251 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f3f4f6;
-            color: #1f2937;
+            background: #f8f4f5;
+            color: #292329;
         }
 
         .contenedor {
             max-width: 1450px;
             margin: 0 auto;
-            padding: 35px;
+            padding: 30px;
         }
 
-        /* Encabezado */
         .encabezado {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
             gap: 20px;
+            margin-bottom: 25px;
         }
 
         .titulo h1 {
             margin: 0;
-            font-size: 32px;
-            color: #1f2937;
+            color: #7b1e3a;
+            font-size: 30px;
         }
 
         .titulo p {
-            margin: 7px 0 0;
-            color: #6b7280;
-            font-size: 15px;
+            margin: 8px 0 0;
+            color: #6b6266;
+            font-size: 14px;
+            line-height: 1.5;
         }
 
-        /* Botón registrar */
         .btn-registrar {
             display: inline-block;
-            background: #2563eb;
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
+            padding: 12px 18px;
             border-radius: 7px;
+            background: #7b1e3a;
+            color: #fff;
+            text-decoration: none;
             font-weight: bold;
-            transition: 0.2s;
+            white-space: nowrap;
         }
 
         .btn-registrar:hover {
-            background: #1d4ed8;
+            background: #5e162c;
         }
 
-        /* Mensaje */
         .mensaje {
-            background: #dcfce7;
-            color: #166534;
-            border: 1px solid #bbf7d0;
-            padding: 13px 16px;
+            padding: 14px 16px;
+            margin-bottom: 18px;
             border-radius: 7px;
-            margin-bottom: 20px;
+            line-height: 1.5;
         }
 
-        /* Tarjeta */
-        .tarjeta {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
+        .mensaje-exito {
+            background: #f0f8f1;
+            color: #245b32;
+            border: 1px solid #c6e4cc;
         }
 
-        /* Barra superior */
-        .barra {
+        .mensaje-error {
+            background: #fff0f2;
+            color: #8b1e35;
+            border: 1px solid #edc2cb;
+        }
+
+        .mensaje-advertencia {
+            background: #fff8eb;
+            color: #744b0b;
+            border: 1px solid #ead4a8;
+        }
+
+        .herramientas-excel {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+            gap: 14px;
             padding: 20px;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid #eadfe3;
+            background: #fff;
+        }
+
+        .excel-panel {
+            flex: 1 1 320px;
+            min-width: 0;
+            padding: 16px;
+            border: 1px solid #eadfe3;
+            border-radius: 8px;
+            background: #fcf9fa;
+        }
+
+        .excel-panel h3 {
+            margin: 0 0 7px;
+            color: #7b1e3a;
+            font-size: 15px;
+        }
+
+        .excel-panel p {
+            margin: 0 0 13px;
+            color: #6b6266;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .form-importar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-importar input[type="file"] {
+            flex: 1 1 190px;
+            min-width: 0;
+            max-width: 100%;
+            padding: 8px;
+            border: 1px solid #d8c8ce;
+            border-radius: 5px;
+            background: #fff;
+            color: #292329;
+            font-size: 12px;
+        }
+
+        .btn-excel {
+            display: inline-block;
+            padding: 10px 14px;
+            border: 0;
+            border-radius: 5px;
+            background: #7b1e3a;
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-excel:hover {
+            background: #5e162c;
+        }
+
+        .nota-excel {
+            display: block;
+            margin-top: 9px;
+            color: #7a7075;
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
+        .errores-importacion {
+            margin: 8px 0 0;
+            padding-left: 22px;
+        }
+
+        .errores-importacion li + li {
+            margin-top: 5px;
+        }
+
+        .mensaje ul {
+            margin-bottom: 0;
+        }
+
+        .tarjeta {
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid #eadfe3;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(75, 20, 40, 0.07);
+        }
+
+        .barra {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
+            gap: 18px;
+            padding: 20px;
+            border-bottom: 1px solid #eadfe3;
         }
 
         .barra h2 {
             margin: 0;
+            color: #7b1e3a;
             font-size: 19px;
-            color: #374151;
         }
 
-        /* Buscador */
         .buscador {
-            position: relative;
-            width: 350px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            width: 510px;
+            max-width: 100%;
         }
 
-        .buscador input {
+        .campo-busqueda {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .campo-busqueda input {
             width: 100%;
-            padding: 11px 15px 11px 42px;
-            border: 1px solid #d1d5db;
-            border-radius: 7px;
+            padding: 11px 13px;
+            border: 1px solid #d8c8ce;
+            border-radius: 6px;
             outline: none;
             font-size: 14px;
         }
 
-        .buscador input:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+        .campo-busqueda input:focus {
+            border-color: #7b1e3a;
+            box-shadow: 0 0 0 3px rgba(123, 30, 58, 0.10);
         }
 
-        .icono-busqueda {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6b7280;
-            font-size: 16px;
+        .btn-buscar,
+        .btn {
+            display: inline-block;
+            padding: 9px 12px;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            cursor: pointer;
+            text-align: center;
         }
 
-        /* Tabla */
+        .btn-buscar {
+            padding: 11px 15px;
+            background: #7b1e3a;
+            font-size: 14px;
+        }
+
+        .btn-buscar:hover {
+            background: #5e162c;
+        }
+
+        .btn-limpiar {
+            color: #7b1e3a;
+            text-decoration: none;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .btn-limpiar:hover {
+            text-decoration: underline;
+        }
+
         .tabla-contenedor {
             width: 100%;
             overflow-x: auto;
@@ -136,198 +269,340 @@
         }
 
         thead {
-            background: #2563eb;
-            color: white;
+            background: #7b1e3a;
+            color: #fff;
         }
 
         th {
             padding: 14px 12px;
             text-align: left;
-            font-size: 14px;
+            font-size: 13px;
             white-space: nowrap;
         }
 
         td {
             padding: 14px 12px;
-            border-bottom: 1px solid #e5e7eb;
-            font-size: 14px;
+            border-bottom: 1px solid #eee5e8;
+            font-size: 13px;
             vertical-align: middle;
         }
 
         tbody tr:hover {
-            background: #f8fafc;
+            background: #fcf7f9;
         }
 
-        /* Nombre */
         .nombre-docente {
+            color: #512033;
             font-weight: bold;
-            color: #1f2937;
         }
 
         .correo {
-            color: #4b5563;
+            overflow-wrap: anywhere;
+            color: #5f555a;
         }
 
-        /* Especialidad */
         .especialidad {
             display: inline-block;
-            background: #eff6ff;
-            color: #1d4ed8;
             padding: 5px 9px;
             border-radius: 5px;
-            font-size: 13px;
-            font-weight: 600;
+            background: #f8e9ee;
+            color: #7b1e3a;
+            font-size: 12px;
+            font-weight: bold;
         }
 
-        /* Acciones */
         .acciones {
             display: flex;
-            gap: 6px;
             flex-wrap: wrap;
-        }
-
-        .btn {
-            border: none;
-            color: white;
-            text-decoration: none;
-            padding: 7px 11px;
-            border-radius: 5px;
-            font-size: 13px;
-            cursor: pointer;
-            display: inline-block;
+            gap: 6px;
         }
 
         .btn-ver {
-            background: #16a34a;
+            background: #7b1e3a;
         }
 
         .btn-ver:hover {
-            background: #15803d;
+            background: #5e162c;
         }
 
         .btn-editar {
-            background: #f59e0b;
+            background: #a34b68;
         }
 
         .btn-editar:hover {
-            background: #d97706;
+            background: #873650;
         }
 
         .btn-eliminar {
-            background: #dc2626;
+            background: #4b4145;
         }
 
         .btn-eliminar:hover {
-            background: #b91c1c;
+            background: #30292c;
         }
 
-        /* Sin resultados */
         .sin-resultados {
-            display: none;
-            text-align: center;
             padding: 35px;
-            color: #6b7280;
+            color: #6b6266;
+            text-align: center;
         }
 
-        /* Contador */
         .contador {
             padding: 14px 20px;
-            color: #6b7280;
+            border-top: 1px solid #eadfe3;
+            color: #6b6266;
             font-size: 13px;
-            border-top: 1px solid #e5e7eb;
         }
 
-        /* Responsive */
-        @media (max-width: 800px) {
+        .contador strong {
+            color: #7b1e3a;
+        }
 
+        .paginacion {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 18px 20px;
+        }
+
+        .paginacion-info {
+            color: #6b6266;
+            font-size: 13px;
+        }
+
+        .paginacion-enlaces nav > div:first-child {
+            display: none;
+        }
+
+        .paginacion-enlaces nav > div:last-child {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .paginacion-enlaces a,
+        .paginacion-enlaces span[aria-current="page"] span,
+        .paginacion-enlaces span[aria-disabled="true"] span {
+            display: inline-block;
+            padding: 8px 12px;
+            border: 1px solid #eadfe3;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .paginacion-enlaces a {
+            background: #fff;
+            color: #7b1e3a;
+        }
+
+        .paginacion-enlaces a:hover {
+            background: #f8e9ee;
+        }
+
+        .paginacion-enlaces span[aria-current="page"] span {
+            background: #7b1e3a;
+            border-color: #7b1e3a;
+            color: #fff;
+        }
+
+        .paginacion-enlaces span[aria-disabled="true"] span {
+            background: #faf7f8;
+            color: #aaa0a4;
+        }
+
+        @media (max-width: 850px) {
             .contenedor {
-                padding: 20px;
+                padding: 18px;
             }
 
-            .encabezado {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
+            .encabezado,
             .barra {
-                flex-direction: column;
                 align-items: stretch;
+                flex-direction: column;
             }
 
             .buscador {
                 width: 100%;
             }
+        }
+
+        @media (max-width: 500px) {
+            .contenedor {
+                padding: 12px;
+            }
 
             .titulo h1 {
-                font-size: 27px;
+                font-size: 25px;
+            }
+
+            .buscador {
+                flex-wrap: wrap;
+            }
+
+            .campo-busqueda {
+                flex-basis: 100%;
+            }
+
+            .btn-registrar {
+                text-align: center;
             }
         }
     </style>
 </head>
 
 <body>
-
 <div class="contenedor">
 
-    {{-- ENCABEZADO --}}
-    <div class="encabezado">
-
+    <header class="encabezado">
         <div class="titulo">
             <h1>Gestión de Docentes</h1>
-
-            <p>
-                Administra y consulta la información de los docentes registrados.
-            </p>
+            <p>Administra y consulta la información de los docentes registrados.</p>
         </div>
 
         <a href="{{ route('docentes.create') }}" class="btn-registrar">
-            + Registrar Docente
+            + Registrar docente
         </a>
+    </header>
 
-    </div>
+    {{-- HERRAMIENTAS DE IMPORTACIÓN Y EXPORTACIÓN --}}
+    <section class="tarjeta" style="margin-bottom: 22px;">
+        <div class="herramientas-excel">
+            <div class="excel-panel">
+                <h3>Importar docentes desde Excel</h3>
+                <p>Selecciona un archivo con los datos de los docentes que deseas registrar.</p>
 
-
-    {{-- MENSAJE DE ÉXITO --}}
-    @if(session('success'))
-
-        <div class="mensaje">
-            {{ session('success') }}
-        </div>
-
-    @endif
-
-
-    {{-- TARJETA PRINCIPAL --}}
-    <div class="tarjeta">
-
-        {{-- BARRA --}}
-        <div class="barra">
-
-            <h2>Docentes registrados</h2>
-
-            <div class="buscador">
-
-                <span class="icono-busqueda">🔍</span>
-
-                <input
-                    type="text"
-                    id="buscador"
-                    placeholder="Buscar docente..."
-                    autocomplete="off"
+                <form
+                    action="{{ route('docentes.importar') }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                    class="form-importar"
                 >
+                    @csrf
 
+                    <input
+                        type="file"
+                        name="archivo"
+                        accept=".xlsx,.xls,.csv"
+                        required
+                        aria-label="Seleccionar archivo Excel de docentes"
+                    >
+
+                    <button type="submit" class="btn-excel">
+                        Importar Excel
+                    </button>
+                </form>
+
+                <span class="nota-excel">
+                    Formatos permitidos: XLSX, XLS o CSV. Tamaño máximo: 5 MB.
+                    Las filas con número de empleado o correo duplicado se omitirán.
+                </span>
             </div>
 
+            <div class="excel-panel">
+                <h3>Exportar docentes</h3>
+                <p>Descarga el listado completo de docentes registrados en un archivo Excel.</p>
+
+                <a href="{{ route('docentes.exportar') }}" class="btn-excel">
+                    
+                    Exportar a Excel
+                </a>
+                
+<a href="{{ route('docentes.plantilla') }}" class="btn-excel" style="margin-top: 10px;">
+    Descargar plantilla vacía
+</a>
+
+                <span class="nota-excel">
+                    Se exportan todos los docentes, no solamente los resultados de la búsqueda actual.
+                </span>
+            </div>
+        </div>
+    </section>
+
+    {{-- MENSAJES DE OPERACIONES --}}
+    @if(session('success'))
+        <div class="mensaje mensaje-exito" role="status">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="mensaje mensaje-error" role="alert">
+            <strong>No se pudo completar la operación.</strong>
+            <div>{{ session('error') }}</div>
+        </div>
+    @endif
+
+    @if(session('warning'))
+        <div class="mensaje mensaje-advertencia" role="alert">
+            <strong>{{ session('warning') }}</strong>
+
+            @if(session('errores_importacion'))
+                <ul class="errores-importacion">
+                    @foreach(session('errores_importacion') as $errorImportacion)
+                        <li>{{ $errorImportacion }}</li>
+                    @endforeach
+                </ul>
+            @endif
+        </div>
+    @endif
+
+    {{-- ERRORES DE VALIDACIÓN --}}
+    @if($errors->any())
+        <div class="mensaje mensaje-error" role="alert">
+            <strong>Se encontraron errores:</strong>
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    {{-- TABLA DE DOCENTES --}}
+    <section class="tarjeta">
+
+        <div class="barra">
+            <h2>Docentes registrados</h2>
+
+            <form
+                action="{{ route('docentes.index') }}"
+                method="GET"
+                class="buscador"
+            >
+                <div class="campo-busqueda">
+                    <input
+                        type="text"
+                        id="buscador"
+                        name="buscar"
+                        value="{{ $buscar }}"
+                        placeholder="Buscar por nombre, empleado, correo..."
+                        autocomplete="off"
+                        aria-label="Buscar docentes"
+                    >
+                </div>
+
+                <button type="submit" class="btn-buscar">
+                    Buscar
+                </button>
+
+                @if($buscar !== '')
+                    <a
+                        href="{{ route('docentes.index') }}"
+                        class="btn-limpiar"
+                    >
+                        Limpiar
+                    </a>
+                @endif
+            </form>
         </div>
 
-
-        {{-- TABLA --}}
         <div class="tabla-contenedor">
-
-            <table id="tablaDocentes">
-
+            <table>
                 <thead>
-
                     <tr>
                         <th>ID</th>
                         <th>Número de empleado</th>
@@ -337,71 +612,46 @@
                         <th>Especialidad</th>
                         <th>Acciones</th>
                     </tr>
-
                 </thead>
 
                 <tbody>
-
                     @forelse($docentes as $docente)
+                        <tr>
+                            <td>{{ $docente->id }}</td>
 
-                        <tr class="fila-docente">
-
-                            {{-- ID --}}
                             <td>
-                                {{ $docente->id }}
+                                <strong>{{ $docente->numero_empleado }}</strong>
                             </td>
 
-
-                            {{-- Número de empleado --}}
                             <td>
-                                <strong>
-                                    {{ $docente->numero_empleado }}
-                                </strong>
-                            </td>
-
-
-                            {{-- Nombre --}}
-                            <td>
-
                                 <div class="nombre-docente">
                                     {{ $docente->nombres }}
                                     {{ $docente->apellidos }}
                                 </div>
-
                             </td>
 
-
-                            {{-- Correo --}}
                             <td>
-
-                                <span class="correo">
-                                    {{ $docente->email }}
-                                </span>
-
+                                <span class="correo">{{ $docente->email }}</span>
                             </td>
 
-
-                            {{-- Teléfono --}}
                             <td>
-                                {{ $docente->telefono }}
+                                {{ $docente->telefono ?: 'No registrado' }}
                             </td>
 
-
-                            {{-- Especialidad --}}
                             <td>
-
-                                <span class="especialidad">
-                                    {{ $docente->especialidad }}
-                                </span>
-
+                                @if($docente->especialidad)
+                                    <span class="especialidad">
+                                        {{ $docente->especialidad }}
+                                    </span>
+                                @else
+                                    <span style="color: #9b9095;">
+                                        No especificada
+                                    </span>
+                                @endif
                             </td>
 
-
-                            {{-- Acciones --}}
                             <td>
-
                                 <div class="acciones">
-
                                     <a
                                         href="{{ route('docentes.show', $docente->id) }}"
                                         class="btn btn-ver"
@@ -419,10 +669,8 @@
                                     <form
                                         action="{{ route('docentes.destroy', $docente->id) }}"
                                         method="POST"
-                                        onsubmit="return confirm('¿Estás seguro de eliminar este docente?');"
-                                        style="display:inline;"
+                                        onsubmit="return confirm('¿Estás seguro de eliminar este docente? Esta operación no se puede deshacer.');"
                                     >
-
                                         @csrf
                                         @method('DELETE')
 
@@ -432,113 +680,50 @@
                                         >
                                             Eliminar
                                         </button>
-
                                     </form>
-
                                 </div>
-
                             </td>
-
                         </tr>
-
                     @empty
-
                         <tr>
-
-                            <td colspan="7" style="text-align:center; padding:40px;">
-
-                                No hay docentes registrados.
-
+                            <td colspan="7" class="sin-resultados">
+                                @if($buscar !== '')
+                                    No se encontraron docentes con esa búsqueda.
+                                @else
+                                    No hay docentes registrados.
+                                @endif
                             </td>
-
                         </tr>
-
                     @endforelse
-
                 </tbody>
-
             </table>
-
-
-            {{-- SIN RESULTADOS DE BÚSQUEDA --}}
-            <div
-                id="sinResultados"
-                class="sin-resultados"
-            >
-                No se encontraron docentes con esa búsqueda.
-            </div>
-
         </div>
 
-
-        {{-- CONTADOR --}}
         <div class="contador">
+            @if($buscar !== '')
+                Resultados encontrados:
+            @else
+                Total de docentes registrados:
+            @endif
 
-            Total de docentes:
-            <strong id="contadorDocentes">
-                {{ $docentes->count() }}
-            </strong>
-
+            <strong>{{ $docentes->total() }}</strong>
         </div>
 
-    </div>
+        @if($docentes->hasPages())
+            <div class="paginacion">
+                <div class="paginacion-info">
+                    Mostrando {{ $docentes->firstItem() }}
+                    a {{ $docentes->lastItem() }}
+                    de {{ $docentes->total() }} docentes.
+                </div>
 
+                <div class="paginacion-enlaces">
+                    {{ $docentes->links() }}
+                </div>
+            </div>
+        @endif
+
+    </section>
 </div>
-
-
-{{-- BUSCADOR --}}
-<script>
-
-    const buscador = document.getElementById('buscador');
-
-    const filas = document.querySelectorAll('.fila-docente');
-
-    const sinResultados = document.getElementById('sinResultados');
-
-    const contador = document.getElementById('contadorDocentes');
-
-
-    buscador.addEventListener('input', function () {
-
-        const texto = this.value.toLowerCase().trim();
-
-        let encontrados = 0;
-
-
-        filas.forEach(function (fila) {
-
-            const contenido = fila.textContent.toLowerCase();
-
-            if (contenido.includes(texto)) {
-
-                fila.style.display = '';
-                encontrados++;
-
-            } else {
-
-                fila.style.display = 'none';
-
-            }
-
-        });
-
-
-        contador.textContent = encontrados;
-
-
-        if (encontrados === 0 && texto !== '') {
-
-            sinResultados.style.display = 'block';
-
-        } else {
-
-            sinResultados.style.display = 'none';
-
-        }
-
-    });
-
-</script>
-
 </body>
 </html>

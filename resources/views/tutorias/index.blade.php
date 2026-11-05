@@ -1,16 +1,13 @@
-@extends('layouts.app')
+ @extends('layouts.app')
 
 @section('content')
 
 <style>
-
     .tutorias-container {
         max-width: 1200px;
         margin: 0 auto;
         padding: 30px 20px;
     }
-
-    /* ENCABEZADO */
 
     .tutorias-header {
         display: flex;
@@ -33,30 +30,75 @@
         font-size: 14px;
     }
 
-    .btn-nueva-tutoria {
-        background: #2563eb;
+    .btn-principal {
+        background: #7B1E3A;
         color: white;
         text-decoration: none;
         padding: 12px 20px;
         border-radius: 9px;
         font-weight: 600;
-        transition: .2s;
         white-space: nowrap;
     }
 
-    .btn-nueva-tutoria:hover {
-        background: #1d4ed8;
+    .btn-principal:hover {
+        background: #5D142B;
         color: white;
     }
 
-    /* BUSCADOR */
+    /* ACCESOS PRINCIPALES */
+    .accesos-tutoria {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-bottom: 28px;
+    }
 
+    .acceso-card {
+        display: block;
+        background: white;
+        border-radius: 12px;
+        padding: 22px;
+        text-decoration: none;
+        box-shadow: 0 3px 12px rgba(0,0,0,.06);
+        border-top: 4px solid #7B1E3A;
+        transition: .2s;
+        cursor: pointer;
+        color: inherit;
+    }
+
+    .acceso-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 16px rgba(0,0,0,.10);
+        text-decoration: none;
+    }
+
+    .acceso-card h3 {
+        margin: 0 0 8px;
+        color: #1f2937;
+        font-size: 17px;
+    }
+
+    .acceso-card p {
+        margin: 0;
+        color: #6b7280;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .seccion-titulo {
+        font-size: 21px;
+        color: #1f2937;
+        font-weight: 700;
+        margin: 30px 0 16px;
+    }
+
+    /* BUSCADOR */
     .busqueda-box {
         background: white;
         padding: 20px;
         border-radius: 12px;
         box-shadow: 0 2px 10px rgba(0,0,0,.06);
-        margin-bottom: 25px;
+        margin-bottom: 18px;
     }
 
     .busqueda-box form {
@@ -77,27 +119,27 @@
         margin-bottom: 7px;
     }
 
-    .campo-busqueda input {
+    .campo-busqueda input,
+    .campo-busqueda select {
         width: 100%;
         padding: 11px 14px;
         border: 1px solid #d1d5db;
         border-radius: 8px;
-        outline: none;
         box-sizing: border-box;
-    }
-
-    .campo-busqueda input:focus {
-        border-color: #2563eb;
     }
 
     .btn-buscar {
         border: none;
-        background: #374151;
+        background: #7B1E3A;
         color: white;
         padding: 11px 22px;
         border-radius: 8px;
         cursor: pointer;
         font-weight: 600;
+    }
+
+    .btn-buscar:hover {
+        background: #5D142B;
     }
 
     .btn-limpiar {
@@ -109,8 +151,6 @@
         font-weight: 600;
     }
 
-    /* MENSAJE */
-
     .mensaje-exito {
         background: #dcfce7;
         color: #166534;
@@ -120,48 +160,75 @@
         margin-bottom: 20px;
     }
 
-    /* TARJETAS */
+    .mensaje-error {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+        padding: 13px 16px;
+        border-radius: 9px;
+        margin-bottom: 20px;
+    }
 
+    /* LISTADO COMPACTO */
     .tutorias-lista {
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 10px;
     }
 
     .tutoria-card {
         background: white;
-        border-radius: 13px;
-        box-shadow: 0 3px 12px rgba(0,0,0,.07);
-        padding: 20px;
-        border-left: 5px solid #2563eb;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,.05);
+        padding: 13px 17px;
+        border-left: 4px solid #7B1E3A;
     }
 
     .tutoria-superior {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
-        gap: 20px;
-        margin-bottom: 15px;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .alumno-info {
+        min-width: 0;
     }
 
     .alumno-info h3 {
         margin: 0 0 5px;
-        font-size: 19px;
+        font-size: 15px;
+        font-weight: 700;
         color: #111827;
     }
 
     .alumno-info span {
-        font-size: 13px;
+        font-size: 12px;
         color: #6b7280;
     }
 
-    /* ESTADO */
+    .tutoria-resumen {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-top: 9px;
+        color: #6b7280;
+        font-size: 12px;
+    }
 
+    .tutoria-resumen span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    /* ESTADOS */
     .estado {
         display: inline-block;
-        padding: 6px 11px;
+        padding: 5px 10px;
         border-radius: 20px;
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 700;
         white-space: nowrap;
     }
@@ -181,114 +248,103 @@
         color: #166534;
     }
 
-    /* INCIDENCIA RELACIONADA */
-
-    .incidencia-relacionada {
-        background: #f8fafc;
-        border: 1px solid #e5e7eb;
-        border-radius: 10px;
-        padding: 14px;
-        margin-bottom: 15px;
+    /* INFORMACIÓN DESPLEGABLE */
+    .tutoria-detalle {
+        margin-top: 10px;
+        border-top: 1px solid #eeeeee;
+        padding-top: 9px;
     }
 
-    .incidencia-titulo {
+    .tutoria-detalle summary {
+        color: #7B1E3A;
         font-size: 12px;
         font-weight: 700;
-        color: #6b7280;
-        text-transform: uppercase;
-        margin-bottom: 7px;
-    }
-
-    .incidencia-contenido {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
+        cursor: pointer;
+        list-style: none;
+        display: inline-flex;
         align-items: center;
+        gap: 6px;
     }
 
-    .incidencia-tipo {
-        font-weight: 700;
-        color: #1f2937;
+    .tutoria-detalle summary::-webkit-details-marker {
+        display: none;
     }
 
-    .incidencia-fecha {
-        color: #6b7280;
-        font-size: 13px;
+    .tutoria-detalle summary::before {
+        content: '+';
+        font-size: 16px;
+        font-weight: 800;
     }
 
-    .sin-incidencia {
-        color: #9ca3af;
-        font-size: 13px;
-        font-style: italic;
+    .tutoria-detalle[open] summary::before {
+        content: '−';
     }
 
-    /* INFORMACIÓN */
-
-    .tutoria-datos {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 15px;
-        margin-bottom: 16px;
-    }
-
-    .dato {
+    .detalle-contenido {
         background: #f9fafb;
-        padding: 12px;
         border-radius: 8px;
+        padding: 12px;
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
 
-    .dato strong {
+    .detalle-item strong {
         display: block;
-        font-size: 12px;
+        font-size: 11px;
         color: #6b7280;
         margin-bottom: 4px;
     }
 
-    .dato span {
-        font-size: 14px;
+    .detalle-item span {
+        display: block;
+        font-size: 13px;
         color: #1f2937;
+        overflow-wrap: anywhere;
     }
 
-    /* BOTONES */
+    .detalle-completo {
+        grid-column: 1 / -1;
+    }
 
+    /* ACCIONES */
     .acciones {
         display: flex;
         justify-content: flex-end;
         gap: 8px;
-        border-top: 1px solid #e5e7eb;
-        padding-top: 14px;
+        flex-wrap: wrap;
+        margin-top: 10px;
     }
 
     .btn-accion {
-        padding: 8px 13px;
+        display: inline-block;
+        padding: 7px 12px;
         border-radius: 7px;
         text-decoration: none;
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 600;
-        border: none;
-        cursor: pointer;
     }
 
     .btn-ver {
+        background: #f3e8ed;
+        color: #7B1E3A;
+    }
+
+    .btn-ver:hover {
+        background: #ead5dd;
+        color: #5D142B;
+    }
+
+    .btn-expediente {
         background: #e0f2fe;
         color: #0369a1;
     }
 
-    .btn-editar {
-        background: #fef3c7;
-        color: #92400e;
+    .btn-expediente:hover {
+        background: #cce9fa;
+        color: #075985;
     }
-
-    .btn-eliminar {
-        background: #fee2e2;
-        color: #b91c1c;
-    }
-
-    .form-eliminar {
-        display: inline;
-    }
-
-    /* SIN RESULTADOS */
 
     .sin-resultados {
         background: white;
@@ -299,19 +355,19 @@
         box-shadow: 0 2px 10px rgba(0,0,0,.05);
     }
 
-    /* PAGINACIÓN */
-
     .paginacion {
-        margin-top: 25px;
+        margin-top: 20px;
     }
 
     /* RESPONSIVE */
-
     @media (max-width: 750px) {
-
         .tutorias-header {
             flex-direction: column;
             align-items: stretch;
+        }
+
+        .accesos-tutoria {
+            grid-template-columns: 1fr;
         }
 
         .busqueda-box form {
@@ -320,98 +376,115 @@
         }
 
         .tutoria-superior {
+            align-items: flex-start;
             flex-direction: column;
         }
 
-        .tutoria-datos {
-            grid-template-columns: 1fr;
+        .tutoria-resumen {
+            gap: 9px 15px;
         }
 
         .acciones {
             justify-content: flex-start;
-            flex-wrap: wrap;
+        }
+
+        .detalle-contenido {
+            grid-template-columns: 1fr;
         }
     }
-
 </style>
-
 
 <div class="tutorias-container">
 
     {{-- ENCABEZADO --}}
-
     <div class="tutorias-header">
 
         <div class="tutorias-title">
-
-            <h1>
-                Tutorías
-            </h1>
+            <h1>Tutorías</h1>
 
             <p>
-                Seguimiento y atención de alumnos relacionados con incidencias escolares.
+                Atención individual, actividades grupales y seguimiento de alumnos.
             </p>
-
         </div>
 
-        <a
-            href="{{ route('tutorias.create') }}"
-            class="btn-nueva-tutoria"
-        >
-            + Registrar tutoría
+        <a href="{{ route('tutorias.create') }}" class="btn-principal">
+            + Nueva atención individual
         </a>
 
     </div>
-    <div class="container">
 
-    {{-- BOTÓN REGRESAR A INCIDENCIAS --}}
-    <div style="margin-bottom: 20px;">
-        <a href="{{ route('incidencias.index') }}"
-           style="
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-                padding: 10px 18px;
-                background: #6c757d;
-                color: white;
-                text-decoration: none;
-                border-radius: 8px;
-                font-weight: 600;
-                transition: 0.2s;
-           ">
-            ← Regresar a Incidencias
-        </a>
-    </div>
-
-
-    {{-- MENSAJE DE ÉXITO --}}
-
+    {{-- MENSAJES --}}
     @if(session('success'))
-
         <div class="mensaje-exito">
             {{ session('success') }}
         </div>
-
     @endif
 
+    @if(session('error'))
+        <div class="mensaje-error">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    {{-- ACCESOS PRINCIPALES --}}
+    <div class="accesos-tutoria">
+
+        <a href="{{ route('tutorias.actividades.index') }}"
+           class="acceso-card">
+
+            <h3>Actividades grupales</h3>
+
+            <p>
+                Registrar actividades de tutoría por grupo, temas,
+                asistencia y observaciones de los alumnos.
+            </p>
+
+        </a>
+
+        <a href="{{ route('tutorias.create') }}"
+           class="acceso-card">
+
+            <h3>Atención individual</h3>
+
+            <p>
+                Registrar conversaciones privadas, situaciones,
+                acuerdos y compromisos con los alumnos.
+            </p>
+
+        </a>
+
+        <a href="{{ route('tutorias.expedientes.index') }}"
+           class="acceso-card">
+
+            <h3>Expedientes de alumnos</h3>
+
+            <p>
+                Consultar los alumnos y acceder a sus expedientes individuales de tutoría.
+            </p>
+
+        </a>
+
+    </div>
+
+    {{-- LISTADO --}}
+    <h2 class="seccion-titulo">
+        Atenciones individuales registradas
+    </h2>
 
     {{-- BUSCADOR --}}
-
     <div class="busqueda-box">
 
-        <form
-            method="GET"
-            action="{{ route('tutorias.index') }}"
-        >
+        <form method="GET" action="{{ route('tutorias.index') }}">
 
             <div class="campo-busqueda">
 
-                <label>
+                <label for="buscar">
                     Buscar alumno
                 </label>
 
                 <input
                     type="text"
+                    id="buscar"
                     name="buscar"
                     value="{{ request('buscar') }}"
                     placeholder="Matrícula, nombre o apellido..."
@@ -419,31 +492,52 @@
 
             </div>
 
-            <button
-                type="submit"
-                class="btn-buscar"
-            >
+            <div class="campo-busqueda">
+
+                <label for="estado">
+                    Estado
+                </label>
+
+                <select name="estado" id="estado">
+
+                    <option value="">
+                        Todos los estados
+                    </option>
+
+                    <option value="Pendiente"
+                        {{ request('estado') == 'Pendiente' ? 'selected' : '' }}>
+                        Pendiente
+                    </option>
+
+                    <option value="En seguimiento"
+                        {{ request('estado') == 'En seguimiento' ? 'selected' : '' }}>
+                        En seguimiento
+                    </option>
+
+                    <option value="Concluida"
+                        {{ request('estado') == 'Concluida' ? 'selected' : '' }}>
+                        Concluida
+                    </option>
+
+                </select>
+
+            </div>
+
+            <button type="submit" class="btn-buscar">
                 Buscar
             </button>
 
-            @if(request('buscar'))
-
-                <a
-                    href="{{ route('tutorias.index') }}"
-                    class="btn-limpiar"
-                >
+            @if(request()->hasAny(['buscar', 'estado']))
+                <a href="{{ route('tutorias.index') }}" class="btn-limpiar">
                     Limpiar
                 </a>
-
             @endif
 
         </form>
 
     </div>
 
-
-    {{-- LISTA DE TUTORÍAS --}}
-
+    {{-- TARJETAS COMPACTAS DE ATENCIONES --}}
     @if($tutorias->count())
 
         <div class="tutorias-lista">
@@ -452,33 +546,43 @@
 
                 <div class="tutoria-card">
 
-                    {{-- PARTE SUPERIOR --}}
-
+                    {{-- INFORMACIÓN PRINCIPAL --}}
                     <div class="tutoria-superior">
 
                         <div class="alumno-info">
 
                             <h3>
-
                                 {{ $tutoria->alumno->nombres ?? 'Alumno no disponible' }}
-
                                 {{ $tutoria->alumno->apellidos ?? '' }}
-
                             </h3>
 
                             <span>
-
                                 Matrícula:
-
                                 {{ $tutoria->alumno->matricula ?? 'Sin matrícula' }}
 
+                                @if($tutoria->alumno && $tutoria->alumno->grupo)
+                                    | Grupo: {{ $tutoria->alumno->grupo->nombre }}
+                                @endif
                             </span>
+
+                            {{-- RESUMEN --}}
+                            <div class="tutoria-resumen">
+
+                                <span>
+                                    📅
+                                    {{ $tutoria->fecha->format('d/m/Y') }}
+                                </span>
+
+                                <span>
+                                    📁
+                                    {{ $tutoria->tipo }}
+                                </span>
+
+                            </div>
 
                         </div>
 
-
                         {{-- ESTADO --}}
-
                         @if($tutoria->estado === 'Pendiente')
 
                             <span class="estado estado-pendiente">
@@ -501,139 +605,64 @@
 
                     </div>
 
+                    {{-- INFORMACIÓN ADICIONAL DESPLEGABLE --}}
+                    <details class="tutoria-detalle">
 
-                    {{-- INCIDENCIA RELACIONADA --}}
+                        <summary>
+                            Más información
+                        </summary>
 
-                    <div class="incidencia-relacionada">
+                        <div class="detalle-contenido">
 
-                        <div class="incidencia-titulo">
-                            Incidencia relacionada
-                        </div>
+                            <div class="detalle-item">
+                                <strong>Docente responsable</strong>
 
-
-                        @if($tutoria->incidencia)
-
-                            <div class="incidencia-contenido">
-
-                                <span class="incidencia-tipo">
-
-                                    {{ $tutoria->incidencia->tipo }}
-
+                                <span>
+                                    @if($tutoria->docente)
+                                        {{ $tutoria->docente->nombres }}
+                                        {{ $tutoria->docente->apellidos }}
+                                    @else
+                                        Sin asignar
+                                    @endif
                                 </span>
-
-                                <span class="incidencia-fecha">
-
-                                    {{ \Carbon\Carbon::parse($tutoria->incidencia->fecha)->format('d/m/Y') }}
-
-                                </span>
-
-                                <span class="incidencia-fecha">
-
-                                    {{ Str::limit($tutoria->incidencia->descripcion, 100) }}
-
-                                </span>
-
                             </div>
 
-                        @else
+                            <div class="detalle-item">
+                                <strong>Fecha de atención</strong>
 
-                            <span class="sin-incidencia">
+                                <span>
+                                    {{ $tutoria->fecha->format('d/m/Y') }}
+                                </span>
+                            </div>
 
-                                Esta tutoría no está relacionada con una incidencia.
+                            <div class="detalle-item detalle-completo">
+                                <strong>Motivo de atención</strong>
 
-                            </span>
-
-                        @endif
-
-                    </div>
-
-
-                    {{-- DATOS DE LA TUTORÍA --}}
-
-                    <div class="tutoria-datos">
-
-                        <div class="dato">
-
-                            <strong>
-                                Fecha de tutoría
-                            </strong>
-
-                            <span>
-
-                                {{ \Carbon\Carbon::parse($tutoria->fecha)->format('d/m/Y') }}
-
-                            </span>
+                                <span>
+                                    {{ $tutoria->motivo ?: 'Sin motivo registrado' }}
+                                </span>
+                            </div>
 
                         </div>
 
+                    </details>
 
-                        <div class="dato">
-
-                            <strong>
-                                Tipo de tutoría
-                            </strong>
-
-                            <span>
-                                {{ $tutoria->tipo }}
-                            </span>
-
-                        </div>
-
-
-                        <div class="dato">
-
-                            <strong>
-                                Motivo
-                            </strong>
-
-                            <span>
-                                {{ $tutoria->motivo }}
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    {{-- BOTONES --}}
-
+                    {{-- ACCIONES --}}
                     <div class="acciones">
 
-                        <a
-                            href="{{ route('tutorias.show', $tutoria) }}"
-                            class="btn-accion btn-ver"
-                        >
-                            Ver
+                        <a href="{{ route('tutorias.show', $tutoria) }}"
+                           class="btn-accion btn-ver">
+                            Ver atención
                         </a>
 
+                        @if($tutoria->alumno)
 
-                        <a
-                            href="{{ route('tutorias.edit', $tutoria) }}"
-                            class="btn-accion btn-editar"
-                        >
-                            Editar
-                        </a>
+                            <a href="{{ route('tutorias.expedientes.show', $tutoria->alumno) }}"
+                               class="btn-accion btn-expediente">
+                                Expediente del alumno
+                            </a>
 
-
-                        <form
-                            action="{{ route('tutorias.destroy', $tutoria) }}"
-                            method="POST"
-                            class="form-eliminar"
-                            onsubmit="return confirm('¿Seguro que deseas eliminar esta tutoría?');"
-                        >
-
-                            @csrf
-
-                            @method('DELETE')
-
-                            <button
-                                type="submit"
-                                class="btn-accion btn-eliminar"
-                            >
-                                Eliminar
-                            </button>
-
-                        </form>
+                        @endif
 
                     </div>
 
@@ -643,13 +672,9 @@
 
         </div>
 
-
         {{-- PAGINACIÓN --}}
-
         <div class="paginacion">
-
             {{ $tutorias->links() }}
-
         </div>
 
     @else
@@ -657,12 +682,20 @@
         <div class="sin-resultados">
 
             <h3>
-                No hay tutorías registradas
+                No hay atenciones individuales registradas
             </h3>
 
             <p>
-                Cuando registres una tutoría aparecerá aquí junto con la incidencia relacionada.
+                Cuando registres una atención individual aparecerá aquí.
             </p>
+
+            <a href="{{ route('tutorias.create') }}"
+               class="btn-principal"
+               style="display:inline-block; margin-top:12px;">
+
+                Registrar primera atención
+
+            </a>
 
         </div>
 

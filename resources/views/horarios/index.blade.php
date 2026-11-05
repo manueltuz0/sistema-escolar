@@ -1,283 +1,261 @@
 <x-app-layout>
-
     <style>
-
-        .horarios-container {
-            max-width: 1450px;
-            margin: 0 auto;
-            padding: 25px 20px 40px;
+        :root {
+            --vino: #7B1E3A;
+            --vino-oscuro: #5D142B;
+            --vino-claro: #F8F4F5;
+            --borde: #E7D9DE;
+            --texto: #33262B;
+            --muted: #786A70;
+            --blanco: #FFFFFF;
         }
 
-        /* ENCABEZADO */
+        .horarios-container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 25px 20px 40px;
+            color: var(--texto);
+        }
+
+        .page-header,
+        .panel {
+            background: var(--blanco);
+            border: 1px solid var(--borde);
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(65, 18, 36, .04);
+            margin-bottom: 18px;
+        }
 
         .page-header {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 18px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
+            padding: 22px;
+            border-top: 5px solid var(--vino);
         }
 
         .page-header h1 {
             margin: 0;
-            font-size: 24px;
-            font-weight: 700;
-            color: #1f2937;
+            font-size: 25px;
+            font-weight: 800;
+            color: var(--vino);
         }
 
         .page-header p {
-            margin: 5px 0 0;
-            font-size: 12px;
-            color: #6b7280;
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 13px;
         }
 
-        .new-button {
-            background: #198754;
-            color: white;
-            text-decoration: none;
-            padding: 9px 15px;
-            border-radius: 5px;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .new-button:hover {
-            background: #157347;
-        }
-
-
-        /* FLUJO */
-
-        .organization-box {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 18px;
-            margin-bottom: 18px;
+        .panel {
+            padding: 19px;
         }
 
         .section-title {
-            font-size: 17px;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 12px;
+            color: var(--vino);
+            font-size: 16px;
+            font-weight: 800;
+            margin: 0 0 5px;
+        }
+
+        .section-description {
+            margin: 0 0 16px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
         }
 
         .flow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 12px;
-            flex-wrap: wrap;
         }
 
         .flow-item {
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            color: #1e40af;
-            padding: 10px 20px;
-            border-radius: 7px;
+            display: block;
+            background: var(--vino-claro);
+            border: 1px solid var(--borde);
+            border-radius: 9px;
+            padding: 14px;
             text-decoration: none;
-            text-align: center;
+            color: var(--vino);
             font-size: 13px;
-            font-weight: 600;
-            min-width: 170px;
+            font-weight: 800;
+            transition: .2s;
         }
 
         .flow-item:hover {
-            background: #dbeafe;
+            border-color: var(--vino);
+            background: #F2E7EB;
         }
 
         .flow-item small {
             display: block;
-            margin-top: 4px;
-            font-size: 10px;
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 11px;
             font-weight: 400;
-            color: #4b5563;
-        }
-
-        .arrow {
-            font-size: 20px;
-            font-weight: bold;
-            color: #6b7280;
-        }
-
-
-        /* FILTROS */
-
-        .filter-box {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 18px;
-            margin-bottom: 18px;
-        }
-
-        .filter-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 15px;
+            line-height: 1.5;
         }
 
         .filter-form {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
             align-items: end;
         }
 
         .filter-group {
             display: flex;
             flex-direction: column;
+            min-width: 0;
         }
 
         .filter-group label {
-            font-size: 11px;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 5px;
+            color: var(--texto);
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 6px;
         }
 
         .filter-group select {
             width: 100%;
-            height: 36px;
-            border: 1px solid #d1d5db;
-            border-radius: 5px;
-            padding: 0 10px;
-            font-size: 12px;
+            min-height: 40px;
+            padding: 8px 10px;
+            border: 1px solid #D8C8CE;
+            border-radius: 7px;
             background: white;
+            color: var(--texto);
+            font-size: 12px;
+        }
+
+        .filter-group select:focus {
+            outline: 2px solid #E8C8D3;
+            border-color: var(--vino);
         }
 
         .filter-buttons {
             grid-column: 1 / -1;
             display: flex;
+            flex-wrap: wrap;
             gap: 8px;
         }
 
-        .filter-button {
-            border: none;
-            background: #2563eb;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .filter-button:hover {
-            background: #1d4ed8;
-        }
-
-        .clear-button {
-            background: #6b7280;
-            color: white;
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 14px;
+            border: 1px solid var(--vino);
+            border-radius: 7px;
             text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-size: 11px;
-            font-weight: 600;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 800;
+            transition: .2s;
         }
 
-        .clear-button:hover {
-            background: #4b5563;
+        .btn-primary {
+            background: var(--vino);
+            color: white;
         }
 
+        .btn-primary:hover {
+            background: var(--vino-oscuro);
+        }
 
-        /* TABLA */
-
-        .table-box {
+        .btn-outline {
             background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 18px;
+            color: var(--vino);
         }
 
-        .table-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #1f2937;
-            margin: 4px 0 10px;
+        .btn-outline:hover {
+            background: var(--vino-claro);
         }
 
-        .table-responsive {
+        .table-wrap {
             width: 100%;
             overflow-x: auto;
         }
 
-        .horarios-table {
+        .horarios-table,
+        .weekly-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 950px;
+        }
+
+        .horarios-table {
+            min-width: 1000px;
         }
 
         .horarios-table th {
-            background: #1f2937;
+            padding: 11px 10px;
+            background: var(--vino);
             color: white;
-            padding: 8px;
             text-align: left;
-            font-size: 11px;
-            font-weight: 600;
             white-space: nowrap;
+            font-size: 11px;
+            font-weight: 800;
         }
 
         .horarios-table td {
-            border: 1px solid #e5e7eb;
-            padding: 7px 8px;
-            font-size: 11px;
-            color: #374151;
+            padding: 10px;
+            border-bottom: 1px solid #EFE5E8;
+            font-size: 12px;
             vertical-align: middle;
         }
 
-        .horarios-table tbody tr:hover {
-            background: #f9fafb;
+        .horarios-table tbody tr:nth-child(even) {
+            background: #FCFAFB;
         }
 
-        .day-badge {
+        .horarios-table tbody tr:hover {
+            background: var(--vino-claro);
+        }
+
+        .day-badge,
+        .semester-badge {
             display: inline-block;
-            background: #eff6ff;
-            color: #1d4ed8;
-            border-radius: 4px;
-            padding: 4px 7px;
+            border-radius: 20px;
+            padding: 5px 9px;
+            background: var(--vino-claro);
+            color: var(--vino);
+            border: 1px solid var(--borde);
             font-size: 10px;
-            font-weight: 600;
+            font-weight: 800;
+            white-space: nowrap;
         }
 
         .action-buttons {
             display: flex;
-            gap: 4px;
             flex-wrap: wrap;
+            gap: 5px;
         }
 
         .action-button {
-            border: none;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--borde);
             text-decoration: none;
-            border-radius: 4px;
-            padding: 5px 7px;
-            font-size: 10px;
-            font-weight: 600;
             cursor: pointer;
+            font-size: 10px;
+            font-weight: 800;
         }
 
         .view-button {
-            background: #2563eb;
-            color: white;
+            background: var(--vino-claro);
+            color: var(--vino);
         }
 
         .edit-button {
-            background: #f59e0b;
-            color: white;
+            background: white;
+            border-color: var(--vino);
+            color: var(--vino);
         }
 
         .delete-button {
-            background: #dc2626;
+            background: var(--vino);
+            border-color: var(--vino);
             color: white;
         }
 
@@ -285,37 +263,21 @@
             margin: 0;
         }
 
-
-        /* VISTA SEMANAL */
-
-        .weekly-box {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 12px;
+        .weekly-wrap {
             overflow-x: auto;
         }
 
-        .weekly-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #1f2937;
-            margin: 4px 0 10px;
-        }
-
         .weekly-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 1100px;
+            min-width: 1050px;
             table-layout: fixed;
         }
 
         .weekly-table th {
-            background: #2563eb;
+            padding: 11px 8px;
+            background: var(--vino);
             color: white;
-            border: 1px solid #1d4ed8;
-            padding: 8px;
             text-align: center;
+            border: 1px solid #692039;
             font-size: 11px;
         }
 
@@ -324,29 +286,30 @@
         }
 
         .weekly-table td {
-            border: 1px solid #d1d5db;
-            padding: 5px;
+            border: 1px solid var(--borde);
+            padding: 7px;
             vertical-align: top;
-            height: 95px;
+            height: 90px;
             background: white;
         }
 
         .hour-cell {
-            background: #1f2937 !important;
-            color: white;
+            background: var(--vino-claro) !important;
+            color: var(--vino);
+            font-weight: 800;
             text-align: center;
-            font-size: 10px;
-            font-weight: 600;
             vertical-align: middle !important;
+            font-size: 11px;
         }
 
         .class-card {
-            border-radius: 6px;
-            border: 1px solid #bfdbfe;
-            background: #eff6ff;
-            padding: 7px;
-            margin-bottom: 5px;
-            color: #1f2937;
+            border: 1px solid var(--borde);
+            border-left: 4px solid var(--vino);
+            border-radius: 7px;
+            padding: 8px;
+            margin-bottom: 6px;
+            background: #FCFAFB;
+            overflow-wrap: anywhere;
         }
 
         .class-card:last-child {
@@ -355,80 +318,167 @@
 
         .class-card strong {
             display: block;
-            color: #1e3a8a;
-            font-size: 11px;
             margin-bottom: 5px;
+            color: var(--vino);
+            font-size: 11px;
         }
 
         .class-info {
             display: block;
-            font-size: 9px;
-            color: #4b5563;
-            margin-top: 3px;
-        }
-
-        .class-actions {
-            display: flex;
-            gap: 3px;
-            margin-top: 6px;
-            flex-wrap: wrap;
-        }
-
-        .class-actions a,
-        .class-actions button {
-            font-size: 9px;
-            padding: 3px 5px;
-            border-radius: 3px;
-            border: none;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .class-actions form {
-            margin: 0;
-        }
-
-        .class-view {
-            background: #2563eb;
-            color: white;
-        }
-
-        .class-edit {
-            background: #f59e0b;
-            color: white;
-        }
-
-        .class-delete {
-            background: #dc2626;
-            color: white;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.5;
         }
 
         .empty-cell {
             text-align: center;
-            color: #9ca3af;
-            font-size: 13px;
-            vertical-align: middle !important;
+            color: #B6A9AE;
+            padding-top: 20px;
         }
 
         .empty-message {
+            padding: 30px 12px;
             text-align: center;
-            padding: 30px 10px;
-            color: #6b7280;
+            color: var(--muted);
+            font-size: 13px;
+            background: #FCFAFB;
+            border: 1px dashed var(--borde);
+            border-radius: 8px;
+        }
+
+        .alert-success {
+            background: var(--vino-claro);
+            border: 1px solid var(--borde);
+            color: var(--vino);
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 16px;
             font-size: 13px;
         }
 
+        .collapsible-panel {
+            padding: 0;
+            overflow: hidden;
+        }
 
-        /* RESPONSIVO */
+        .collapsible-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 19px;
+            cursor: pointer;
+            list-style: none;
+            color: var(--vino);
+            font-size: 16px;
+            font-weight: 800;
+        }
 
-        @media (max-width: 800px) {
+        .collapsible-summary::-webkit-details-marker {
+            display: none;
+        }
 
-            .page-header {
-                flex-direction: column;
-                align-items: stretch;
+        .collapsible-summary::after {
+            content: "⌄";
+            color: var(--vino);
+            font-size: 20px;
+            line-height: 1;
+            transition: transform .2s ease;
+        }
+
+        .collapsible-panel[open] .collapsible-summary::after {
+            transform: rotate(180deg);
+        }
+
+        .toggle-label {
+            margin-left: auto;
+            color: var(--vino);
+            font-size: 12px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .collapsible-content {
+            padding: 0 19px 19px;
+        }
+
+        .capture-panel {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 22px;
+            background: linear-gradient(135deg, #FFFFFF 0%, #F8F4F5 100%);
+            border: 1px solid var(--borde);
+            border-left: 5px solid var(--vino);
+            border-radius: 10px;
+        }
+
+        .capture-panel h3 {
+            margin: 0 0 7px;
+            color: var(--vino);
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .capture-panel p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .capture-panel .btn {
+            flex-shrink: 0;
+            min-height: 42px;
+        }
+
+        @media (max-width: 650px) {
+            .collapsible-summary {
+                padding: 15px;
             }
 
-            .new-button {
-                text-align: center;
+            .collapsible-content {
+                padding: 0 12px 14px;
+            }
+
+            .capture-panel {
+                align-items: stretch;
+                flex-direction: column;
+                padding: 17px;
+            }
+
+            .capture-panel .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .filter-form {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .flow {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .horarios-container {
+                padding: 15px 10px 25px;
+            }
+
+            .page-header {
+                padding: 17px;
+            }
+
+            .page-header h1 {
+                font-size: 21px;
+            }
+
+            .panel {
+                padding: 14px;
             }
 
             .filter-form {
@@ -439,550 +489,307 @@
                 grid-column: auto;
             }
 
-            .flow {
-                flex-direction: column;
+            .filter-buttons .btn {
+                flex: 1;
             }
-
-            .arrow {
-                transform: rotate(90deg);
-            }
-
         }
-
     </style>
-
 
     <div class="horarios-container">
 
+        @if(session('success'))
+            <div class="alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
-        {{-- ENCABEZADO --}}
+        {{-- ENCABEZADO SIN BOTONES DUPLICADOS --}}
+        <header class="page-header">
+            <h1>Horarios escolares</h1>
+            <p>
+                Consulta y organiza los horarios por semestre, docente o grupo.
+                Las aulas se asignan automáticamente.
+            </p>
+        </header>
+        </section>
 
-        <div class="page-header">
+        {{-- ACCIONES PRINCIPALES: SOLO APARECEN AQUÍ --}}
+        <section class="panel">
+            <h2 class="section-title">Cómo organizar los horarios</h2>
 
-    <div>
+            <p class="section-description">
+                Sigue estos pasos para registrar materias, asignarlas a los grupos
+                y programar sus horarios.
+            </p>
 
-        <h1>
-            Horarios y Asignación de Materias
-        </h1>
+            <div class="flow">
+                <a href="{{ route('materias.create') }}" class="flow-item">
+                    1. Registrar materias
+                    <small>
+                        Define el nombre, las horas y el semestre de cada materia.
+                    </small>
+                </a>
 
-        <p>
-            Administra los horarios, docentes, materias, grupos y aulas.
-        </p>
+                <a href="{{ route('asignaciones_materias.create') }}"
+                   class="flow-item">
+                    2. Asignar materias
+                    <small>
+                        Relaciona al docente con una materia, un grupo y un ciclo escolar.
+                    </small>
+                </a>
 
-    </div>
-
-    <div style="display: flex; gap: 8px; align-items: center;">
-
-       <a href="{{ route('materias.create') }}"
-   class="new-button">
-
-    + Nueva Materia
-
-</a>
-
-<a href="{{ route('asignaciones_materias.create') }}"
-   class="new-button">
-
-    + Asignar Materia
-
-</a>
-
-<a href="{{ route('horarios.create') }}"
-   class="new-button">
-
-    + Nuevo Horario
-
-        </a>
-
-    </div>
-
-</div>
+                <a href="{{ route('horarios.create') }}" class="flow-item">
+                    3. Crear horario
+                    <small>
+                        Selecciona el día y las horas; el sistema busca un aula disponible.
+                    </small>
+                </a>
+            </div>
+        </section>
 
         {{-- FILTROS --}}
+        <section class="panel">
+            <h2 class="section-title">Consultar horarios</h2>
 
-        <div class="filter-box">
-
-            <div class="filter-title">
-                Consultar horarios
-            </div>
+            <p class="section-description">
+                Selecciona un semestre, docente, grado o grupo.
+                Puedes combinar varios filtros.
+            </p>
 
             <form action="{{ route('horarios.index') }}"
                   method="GET"
                   class="filter-form">
 
-
-                {{-- GRADO --}}
-
                 <div class="filter-group">
+                    <label for="semestre">Semestre</label>
 
-                    <label for="grado">
-                        Seleccionar grado
-                    </label>
+                    <select name="semestre" id="semestre">
+                        <option value="">Todos los semestres</option>
 
-                    <select name="grado"
-                            id="grado">
-
-                        <option value="">
-                            -- Mostrar todos los grados --
-                        </option>
-
-                        @foreach($grados as $gradoItem)
-
-                            <option value="{{ $gradoItem }}"
-                                {{ (string) $grado === (string) $gradoItem ? 'selected' : '' }}>
-
-                                {{ $gradoItem }}°
-
+                        @foreach(range(1, 6) as $semestreItem)
+                            <option value="{{ $semestreItem }}"
+                                {{ (string) ($semestre ?? '') === (string) $semestreItem ? 'selected' : '' }}>
+                                {{ $semestreItem }}° semestre
                             </option>
-
                         @endforeach
-
                     </select>
-
                 </div>
 
-
-                {{-- GRUPO --}}
-
                 <div class="filter-group">
+                    <label for="docente_id">Docente</label>
 
-                    <label for="grupo_id">
-                        Seleccionar grupo
-                    </label>
-
-                    <select name="grupo_id"
-                            id="grupo_id">
-
-                        <option value="">
-                            -- Mostrar todos los grupos --
-                        </option>
-
-                        @foreach($grupos as $grupoItem)
-
-                            <option value="{{ $grupoItem->id }}"
-                                    data-grado="{{ $grupoItem->grado }}"
-                                {{ (string) $grupoId === (string) $grupoItem->id ? 'selected' : '' }}>
-
-                                {{ $grupoItem->grado }}° {{ $grupoItem->nombre }}
-
-                            </option>
-
-                        @endforeach
-
-                    </select>
-
-                </div>
-
-
-                {{-- DOCENTE --}}
-
-                <div class="filter-group">
-
-                    <label for="docente_id">
-                        Seleccionar docente
-                    </label>
-
-                    <select name="docente_id"
-                            id="docente_id">
-
-                        <option value="">
-                            -- Mostrar todos los docentes --
-                        </option>
+                    <select name="docente_id" id="docente_id">
+                        <option value="">Todos los docentes</option>
 
                         @foreach($docentes as $docenteItem)
-
                             <option value="{{ $docenteItem->id }}"
-                                {{ (string) $docenteId === (string) $docenteItem->id ? 'selected' : '' }}>
-
-                                {{ $docenteItem->nombres }}
-                                {{ $docenteItem->apellidos }}
-
+                                {{ (string) ($docenteId ?? '') === (string) $docenteItem->id ? 'selected' : '' }}>
+                                {{ $docenteItem->apellidos }}, {{ $docenteItem->nombres }}
                             </option>
-
                         @endforeach
-
                     </select>
-
                 </div>
 
+                <div class="filter-group">
+                    <label for="grado">Grado</label>
 
-                {{-- BOTONES --}}
+                    <select name="grado" id="grado">
+                        <option value="">Todos los grados</option>
+
+                        @foreach($grados as $gradoItem)
+                            <option value="{{ $gradoItem }}"
+                                {{ (string) ($grado ?? '') === (string) $gradoItem ? 'selected' : '' }}>
+                                {{ $gradoItem }}°
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="grupo_id">Grupo</label>
+
+                    <select name="grupo_id" id="grupo_id">
+                        <option value="">Todos los grupos</option>
+
+                        @foreach($grupos as $grupoItem)
+                            <option value="{{ $grupoItem->id }}"
+                                data-grado="{{ $grupoItem->grado }}"
+                                {{ (string) ($grupoId ?? '') === (string) $grupoItem->id ? 'selected' : '' }}>
+                                {{ $grupoItem->grado }}° {{ $grupoItem->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
                 <div class="filter-buttons">
-
-                    <button type="submit"
-                            class="filter-button">
-
+                    <button type="submit" class="btn btn-primary">
                         Consultar horarios
-
                     </button>
 
-
                     <a href="{{ route('horarios.index') }}"
-                       class="clear-button">
-
+                       class="btn btn-outline">
                         Limpiar filtros
-
                     </a>
-
                 </div>
-
             </form>
+        </section>
 
-        </div>
+        {{-- LISTADO DE HORARIOS PLEGABLE --}}
+        <details class="panel collapsible-panel">
+            <summary class="collapsible-summary">
+                <span>Listado de horarios</span>
+                <span class="toggle-label">Desplegar listado</span>
+            </summary>
+            <div class="collapsible-content">
+                <p class="section-description">
+                    {{ $horarios->count() }} horario(s) encontrados. Abre esta sección cuando necesites consultar, editar o eliminar un registro.
+                </p>
 
-
-        {{-- TABLA DE HORARIOS --}}
-
-        <div class="table-box">
-
-            <div class="table-title">
-                Todos los horarios registrados
-            </div>
+            <p class="section-description">
+                {{ $horarios->count() }} horario(s) encontrados.
+            </p>
 
             @if($horarios->isEmpty())
-
                 <div class="empty-message">
-
                     No se encontraron horarios con los filtros seleccionados.
-
+                    Puedes cambiar los filtros o registrar un horario nuevo.
                 </div>
-
             @else
-
-                <div class="table-responsive">
-
+                <div class="table-wrap">
                     <table class="horarios-table">
-
                         <thead>
-
                             <tr>
-
                                 <th>ID</th>
                                 <th>Docente</th>
                                 <th>Materia</th>
+                                <th>Semestre</th>
                                 <th>Grupo</th>
                                 <th>Día</th>
-                                <th>Hora de inicio</th>
-                                <th>Hora de fin</th>
-                                <th>Aula</th>
+                                <th>Inicio</th>
+                                <th>Fin</th>
+                                <th>Aula asignada</th>
                                 <th>Acciones</th>
-
                             </tr>
-
                         </thead>
 
-
                         <tbody>
-
                             @foreach($horarios as $horario)
-
                                 <tr>
+                                    <td>{{ $horario->id }}</td>
 
                                     <td>
-                                        {{ $horario->id }}
-                                    </td>
-
-
-                                    <td>
-
+                                        {{ $horario->asignacionMateria->docente->apellidos ?? '' }},
                                         {{ $horario->asignacionMateria->docente->nombres ?? 'Sin docente' }}
-
-                                        {{ $horario->asignacionMateria->docente->apellidos ?? '' }}
-
                                     </td>
 
-
                                     <td>
-
                                         {{ $horario->asignacionMateria->materia->nombre ?? 'Sin materia' }}
-
                                     </td>
 
+                                    <td>
+                                        @if($horario->asignacionMateria->materia->semestre ?? false)
+                                            <span class="semester-badge">
+                                                {{ $horario->asignacionMateria->materia->semestre }}°
+                                            </span>
+                                        @else
+                                            —
+                                        @endif
+                                    </td>
 
                                     <td>
-
                                         {{ $horario->asignacionMateria->grupo->grado ?? '' }}°
-
                                         {{ $horario->asignacionMateria->grupo->nombre ?? 'Sin grupo' }}
-
                                     </td>
 
-
                                     <td>
-
                                         <span class="day-badge">
-
                                             {{ $horario->dia }}
-
                                         </span>
-
                                     </td>
 
-
                                     <td>
-
                                         {{ \Carbon\Carbon::parse($horario->hora_inicio)->format('H:i') }}
-
                                     </td>
 
-
                                     <td>
-
                                         {{ \Carbon\Carbon::parse($horario->hora_fin)->format('H:i') }}
-
                                     </td>
 
-
                                     <td>
-
                                         {{ $horario->aula->nombre ?? 'Sin aula' }}
-
                                     </td>
 
-
                                     <td>
-
                                         <div class="action-buttons">
-
                                             <a href="{{ route('horarios.show', $horario->id) }}"
                                                class="action-button view-button">
-
                                                 Ver
-
                                             </a>
 
                                             <a href="{{ route('horarios.edit', $horario->id) }}"
                                                class="action-button edit-button">
-
                                                 Editar
-
                                             </a>
 
                                             <form action="{{ route('horarios.destroy', $horario->id) }}"
                                                   method="POST"
                                                   onsubmit="return confirm('¿Seguro que deseas eliminar este horario?');">
-
                                                 @csrf
                                                 @method('DELETE')
 
                                                 <button type="submit"
                                                         class="action-button delete-button">
-
                                                     Eliminar
-
                                                 </button>
-
                                             </form>
-
                                         </div>
-
                                     </td>
-
                                 </tr>
-
                             @endforeach
-
                         </tbody>
-
                     </table>
+                </div>
+            @endif
+            </div>
+        </details>
 
+        <section class="panel">
+            <h2 class="section-title">Captura rápida semanal</h2>
+            <p class="section-description">
+                Llena el horario de un grupo de lunes a viernes en una sola pantalla. Las materias y docentes se cargan según las asignaciones del grupo y las aulas se asignan automáticamente.
+            </p>
+
+            <div class="capture-panel">
+                <div>
+                    <h3>Organiza el horario de cada grupo</h3>
+                    <p>
+                        Selecciona un grupo, elige las materias en los bloques de 50 minutos y guarda la semana. Los horarios registrados también aparecerán en el listado de arriba.
+                    </p>
                 </div>
 
-            @endif
-
-        </div>
-
-
-        {{-- VISTA SEMANAL --}}
-
-
-<div class="weekly-box">
-
-    <div class="weekly-title">
-        Vista semanal de horarios
+                <a href="{{ route('horarios.captura-rapida') }}" class="btn btn-primary">
+                    Abrir captura rápida
+                </a>
+            </div>
+        </section>
     </div>
 
-    @if($horarios->isEmpty())
-
-        <div class="empty-message">
-            No hay horarios para mostrar en la vista semanal.
-        </div>
-
-    @else
-
-        @php
-
-            $horas = $horarios
-                ->map(function ($horario) {
-
-                    return [
-                        'inicio' => $horario->hora_inicio,
-                        'fin' => $horario->hora_fin,
-                    ];
-
-                })
-                ->unique(function ($hora) {
-
-                    return $hora['inicio'] . '|' . $hora['fin'];
-
-                })
-                ->sortBy(function ($hora) {
-
-                    return $hora['inicio'];
-
-                })
-                ->values();
-
-            $diasSemana = [
-                'Lunes',
-                'Martes',
-                'Miércoles',
-                'Jueves',
-                'Viernes'
-            ];
-
-        @endphp
-
-
-        <div style="overflow-x:auto;">
-
-            <table class="weekly-table">
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            Hora
-                        </th>
-
-                        @foreach($diasSemana as $dia)
-
-                            <th>
-                                {{ $dia }}
-                            </th>
-
-                        @endforeach
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody>
-
-                    @foreach($horas as $hora)
-
-                        <tr>
-
-                            <td class="hour-cell">
-
-                                {{ \Carbon\Carbon::parse($hora['inicio'])->format('H:i') }}
-
-                                -
-
-                                {{ \Carbon\Carbon::parse($hora['fin'])->format('H:i') }}
-
-                            </td>
-
-
-                            @foreach($diasSemana as $dia)
-
-                                @php
-
-                                    $clases = $horarios->filter(function ($item) use ($dia, $hora) {
-
-                                        return $item->dia === $dia
-                                            && $item->hora_inicio === $hora['inicio']
-                                            && $item->hora_fin === $hora['fin'];
-
-                                    });
-
-                                @endphp
-
-
-                                <td>
-
-                                    @if($clases->isEmpty())
-
-                                        <div class="empty-cell">
-                                            —
-                                        </div>
-
-                                    @else
-
-                                        @foreach($clases as $clase)
-
-                                            <div class="class-card">
-
-                                                <strong>
-
-                                                    {{ $clase->asignacionMateria->materia->nombre ?? 'Sin materia' }}
-
-                                                </strong>
-
-
-                                                <span class="class-info">
-
-                                                    👨‍🏫
-
-                                                    {{ $clase->asignacionMateria->docente->nombres ?? 'Sin docente' }}
-
-                                                    {{ $clase->asignacionMateria->docente->apellidos ?? '' }}
-
-                                                </span>
-
-
-                                                <span class="class-info">
-
-                                                    👥
-
-                                                    {{ $clase->asignacionMateria->grupo->grado ?? '' }}°
-
-                                                    {{ $clase->asignacionMateria->grupo->nombre ?? 'Sin grupo' }}
-
-                                                </span>
-
-
-                                                <span class="class-info">
-
-                                                    🏫
-
-                                                    {{ $clase->aula->nombre ?? 'Sin aula' }}
-
-                                                </span>
-
-                                            </div>
-
-                                        @endforeach
-
-                                    @endif
-
-                                </td>
-
-                            @endforeach
-
-                        </tr>
-
-                    @endforeach
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    @endif
-
-</div>
-
-
-    {{-- FILTRO DE GRUPOS SEGÚN EL GRADO --}}
-
+    {{-- FILTRAR GRUPOS SEGÚN EL GRADO --}}
     <script>
-
         document.addEventListener('DOMContentLoaded', function () {
+            const listado = document.querySelector('.collapsible-panel');
+            const textoDesplegar = document.querySelector('.toggle-label');
+
+            if (listado && textoDesplegar) {
+                const actualizarTextoListado = function () {
+                    textoDesplegar.textContent = listado.open
+                        ? 'Ocultar listado'
+                        : 'Desplegar listado';
+                };
+
+                listado.addEventListener('toggle', actualizarTextoListado);
+                actualizarTextoListado();
+            }
 
             const gradoSelect = document.getElementById('grado');
             const grupoSelect = document.getElementById('grupo_id');
@@ -992,56 +799,31 @@
             }
 
             function actualizarGrupos() {
-
                 const gradoSeleccionado = gradoSelect.value;
-
                 const opciones = grupoSelect.querySelectorAll('option[data-grado]');
 
                 opciones.forEach(function (opcion) {
-
-                    if (
+                    const coincide =
                         gradoSeleccionado === '' ||
-                        opcion.dataset.grado === gradoSeleccionado
-                    ) {
+                        opcion.dataset.grado === gradoSeleccionado;
 
-                        opcion.style.display = '';
-
-                    } else {
-
-                        opcion.style.display = 'none';
-
-                    }
-
+                    opcion.hidden = !coincide;
                 });
 
-                /*
-                 * Si el grupo seleccionado no pertenece
-                 * al grado seleccionado, regresamos a
-                 * "todos los grupos".
-                 */
-
-                const opcionActual = grupoSelect.options[grupoSelect.selectedIndex];
+                const seleccionada = grupoSelect.options[grupoSelect.selectedIndex];
 
                 if (
-                    opcionActual &&
-                    opcionActual.dataset.grado &&
+                    seleccionada &&
+                    seleccionada.dataset.grado &&
                     gradoSeleccionado !== '' &&
-                    opcionActual.dataset.grado !== gradoSeleccionado
+                    seleccionada.dataset.grado !== gradoSeleccionado
                 ) {
-
                     grupoSelect.value = '';
-
                 }
-
             }
 
-
             gradoSelect.addEventListener('change', actualizarGrupos);
-
             actualizarGrupos();
-
         });
-
     </script>
-
 </x-app-layout>
